@@ -96,6 +96,7 @@ public class GaussianBlurFilter implements ImageOperation , java.io.Serializable
         Graphics2D g2D = underImage.createGraphics() ; 
         g2D.drawImage( input , 0 , 0 , null ) ;
         g2D.dispose() ; 
+        System.out.println(input.getHeight()) ; 
 
         // copy is then resized to accomodate border pixel loss due to filtering 
         int newWidth = input.getWidth() + radius*2 ; 
@@ -119,6 +120,8 @@ public class GaussianBlurFilter implements ImageOperation , java.io.Serializable
         ConvolveOp convOp = new ConvolveOp( kernel ) ; 
         BufferedImage output = new BufferedImage( input.getColorModel() , input.copyData(null) , input.isAlphaPremultiplied() , null ) ; 
         convOp.filter( mergedImage , output ) ; 
+        System.out.println(mergedImage.getHeight()) ; 
+        System.out.println(output.getHeight()) ; 
 
         return output ;  
 

@@ -1,5 +1,7 @@
 package cosc202.andie;
 
+import java.awt.Graphics2D;
+import java.awt.geom.AffineTransform;
 import java.awt.image.*;
 import java.util.*;
 
@@ -75,14 +77,38 @@ public class MeanFilter implements ImageOperation, java.io.Serializable {
      * @return The resulting (blurred)) image.
      */
     public BufferedImage apply(BufferedImage input) {
+        
         int size = (2*radius+1) * (2*radius+1);
         float [] array = new float[size];
         Arrays.fill(array, 1.0f/size);
 
+        // creating the a copy of the input image
+        BufferedImage underImage = new BufferedImage( input.getWidth() , input.getHeight() , input.getType() ) ; 
+        Graphics2D g2D = underImage.createGraphics() ; 
+        g2D.drawImage( input , 0 , 0 , null ) ;
+        g2D.dispose() ; 
+
+        // copy is then resized to accomodate border pixel loss due to filtering 
+        int newWidth = input.getWidth() + radius*2 ; 
+        int newHeight = input.getHeight() + radius*2 ; 
+        BufferedImage resizedImage = new BufferedImage(newWidth, newHeight, underImage.getType()) ;
+        AffineTransform transform = AffineTransform.getScaleInstance(
+                                    (double)newWidth / input.getWidth() ,
+                                    (double)newHeight / input.getHeight() ) ;
+        AffineTransformOp operation = new AffineTransformOp(transform, AffineTransformOp.TYPE_BILINEAR ) ;
+        resizedImage = operation.filter( underImage , resizedImage ) ;
+
+        // original image overlays the resized base image
+        BufferedImage mergedImage = new BufferedImage( resizedImage.getWidth() , resizedImage.getHeight() , resizedImage.getType() ) ; 
+        Graphics2D g2d = mergedImage.createGraphics() ;
+        g2d.drawImage( resizedImage , 0 , 0 , null ) ; 
+        g2d.drawImage( input , radius , radius , null ) ;
+        g2d.dispose() ;
+
         Kernel kernel = new Kernel(2*radius+1, 2*radius+1, array);
         ConvolveOp convOp = new ConvolveOp(kernel);
         BufferedImage output = new BufferedImage(input.getColorModel(), input.copyData(null), input.isAlphaPremultiplied(), null);
-        convOp.filter(input, output);
+        convOp.filter(mergedImage, output);
 
         return output;
     }
