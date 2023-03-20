@@ -83,6 +83,10 @@ public class GaussianBlurFilter implements ImageOperation , java.io.Serializable
             xOffset++ ; 
 
         } 
+
+        // reset values 
+        xOffset = -radius ; 
+        yOffset = radius ; 
         
         // dividing all values in the array by the sum, as to stop the filter from brightening the image while maintaining gaussian distribution
         for ( int i = 0 ; i < size ; i++ ) {
@@ -91,39 +95,34 @@ public class GaussianBlurFilter implements ImageOperation , java.io.Serializable
 
         }
 
-        // creating the a copy of the input image
-        BufferedImage underImage = new BufferedImage( input.getWidth() , input.getHeight() , input.getType() ) ; 
-        Graphics2D g2D = underImage.createGraphics() ; 
-        g2D.drawImage( input , 0 , 0 , null ) ;
-        g2D.dispose() ; 
-        System.out.println(input.getHeight()) ; 
-
-        // copy is then resized to accomodate border pixel loss due to filtering 
+        // larger resizing of input to be overlayed 
         int newWidth = input.getWidth() + radius*2 ; 
         int newHeight = input.getHeight() + radius*2 ; 
-        BufferedImage resizedImage = new BufferedImage(newWidth, newHeight, underImage.getType()) ;
+        BufferedImage resizedImage = new BufferedImage( newWidth , newHeight, input.getType() ) ;
         AffineTransform transform = AffineTransform.getScaleInstance(
                                     (double)newWidth / input.getWidth() ,
                                     (double)newHeight / input.getHeight() ) ;
-        AffineTransformOp operation = new AffineTransformOp(transform, AffineTransformOp.TYPE_BILINEAR ) ;
-        resizedImage = operation.filter( underImage , resizedImage ) ;
+        AffineTransformOp operation = new AffineTransformOp( transform , AffineTransformOp.TYPE_BILINEAR ) ;
+        resizedImage = operation.filter( input , resizedImage ) ;
 
-        // original image overlays the resized base image
-        BufferedImage mergedImage = new BufferedImage( resizedImage.getWidth() , resizedImage.getHeight() , resizedImage.getType() ) ; 
+        // original image overlays the resized image
+        BufferedImage mergedImage = new BufferedImage( input.getWidth() + radius*2 , input.getHeight() + radius*2 , input.getType() ) ; 
         Graphics2D g2d = mergedImage.createGraphics() ;
         g2d.drawImage( resizedImage , 0 , 0 , null ) ; 
         g2d.drawImage( input , radius , radius , null ) ;
         g2d.dispose() ;
 
-        // kernel used to filter image, black pixel border is lost when image is resized down to the original size 
+        // kernel used to filter image and convolution 
         Kernel kernel = new Kernel( 2*radius+1 , 2*radius+1 , array ) ; 
         ConvolveOp convOp = new ConvolveOp( kernel ) ; 
-        BufferedImage output = new BufferedImage( input.getColorModel() , input.copyData(null) , input.isAlphaPremultiplied() , null ) ; 
-        convOp.filter( mergedImage , output ) ; 
-        System.out.println(mergedImage.getHeight()) ; 
-        System.out.println(output.getHeight()) ; 
+        
+        // filtering of the image, and trimming of the black border 
+        BufferedImage filteredImage = new BufferedImage( input.getColorModel() , input.copyData(null) , input.isAlphaPremultiplied() , null ) ; 
+        filteredImage = convOp.filter( mergedImage , null ) ; 
+        filteredImage = filteredImage.getSubimage( radius , radius , input.getWidth() , input.getHeight() ) ; 
+        BufferedImage output = new BufferedImage( filteredImage.getColorModel() , filteredImage.copyData( filteredImage.getRaster().createCompatibleWritableRaster() ) , filteredImage.isAlphaPremultiplied() , null ) ;  
 
-        return output ;  
+        return output ; 
 
     }
 
