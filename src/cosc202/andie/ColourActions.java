@@ -110,11 +110,11 @@ public class ColourActions {
             
             SpinnerNumberModel radiusModel = new SpinnerNumberModel(1, 1, 10, 1);
             JSpinner radiusSpinner = new JSpinner(radiusModel);
-            int option1 = JOptionPane.showOptionDialog(null, radiusSpinner, "Enter desired contrast percentage", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+            int option1 = JOptionPane.showOptionDialog(null, radiusSpinner, "Enter desired Brightness percentage", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
            
             SpinnerNumberModel radiusModel1 = new SpinnerNumberModel(1, 1, 10, 1);
             JSpinner radiusSpinner1 = new JSpinner(radiusModel1);
-            int option2 = JOptionPane.showOptionDialog(null, radiusSpinner1, "Enter desired contrast percentage", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+            int option2 = JOptionPane.showOptionDialog(null, radiusSpinner1, "Enter desired Brightness percentage", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
 
             if (option1 == JOptionPane.CANCEL_OPTION) {
                 return;
