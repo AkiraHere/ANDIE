@@ -35,6 +35,7 @@ public class ColourActions {
     public ColourActions() {
         actions = new ArrayList<Action>();
         actions.add(new ConvertToGreyAction("Greyscale", null, "Convert to greyscale", Integer.valueOf(KeyEvent.VK_G)));
+        actions.add(new ContrastAdjusterAction("Contrast & Brightness", null, "Adjust Contrast and Brightness", Integer.valueOf(KeyEvent.VK_G)));
     }
 
     /**
@@ -94,6 +95,43 @@ public class ColourActions {
             target.repaint();
             target.getParent().revalidate();
         }
+
+    }
+
+    public class ContrastAdjusterAction extends ImageAction {
+
+        ContrastAdjusterAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
+            super(name, icon, desc, mnemonic);
+        }
+
+        public void actionPerformed(ActionEvent e) {
+            int contrastPercent = 0;
+            int brightPercent = 0;
+            
+            SpinnerNumberModel radiusModel = new SpinnerNumberModel(1, 1, 10, 1);
+            JSpinner radiusSpinner = new JSpinner(radiusModel);
+            int option1 = JOptionPane.showOptionDialog(null, radiusSpinner, "Enter desired contrast percentage", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+           
+            SpinnerNumberModel radiusModel1 = new SpinnerNumberModel(1, 1, 10, 1);
+            JSpinner radiusSpinner1 = new JSpinner(radiusModel1);
+            int option2 = JOptionPane.showOptionDialog(null, radiusSpinner1, "Enter desired contrast percentage", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+
+            if (option1 == JOptionPane.CANCEL_OPTION) {
+                return;
+            } else if (option1 == JOptionPane.OK_OPTION) {
+                contrastPercent = radiusModel.getNumber().intValue();
+            }
+            if (option2 == JOptionPane.CANCEL_OPTION) {
+                return;
+            } else if (option2 == JOptionPane.OK_OPTION) {
+                brightPercent = radiusModel1.getNumber().intValue();
+            }
+
+            target.getImage().apply(new ContrastAdjuster(contrastPercent, brightPercent));
+            target.repaint();
+            target.getParent().revalidate();
+        }
+
 
     }
 
