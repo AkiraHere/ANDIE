@@ -2,6 +2,8 @@ package cosc202.andie;
 
 import java.awt.image.*;
 import java.util.*;
+import java.awt.Graphics2D;
+import java.awt.geom.AffineTransform;
 /**
  * <p>
  * Image operation used to apply a median filter, a type of blurring effect, to an image.
@@ -62,33 +64,79 @@ public class MedianFilter implements ImageOperation, java.io.Serializable {
 
     public BufferedImage apply(BufferedImage input){
 
-        //Determine size of area based on radius datafield
-        int size = (2*radius+1) * (2*radius+1);
+        //Determine size of area based on radius datafield, default 3x3
+        int xDimension = (2*radius+1);
+        int yDimesion = (2*radius+1);
+        int size =  xDimension * yDimesion;
         float [] array = new float[size];
-        Arrays.fill(array, 1.0f/size);
 
-        //Loop through each pixel to retrieve corresponding ARGB values, but then what do we do?
+        //for storing each color property in a pixel
+        int [] alphaArray = new int[size];
+        int [] redArray = new int[size];
+        int [] greenArray = new int[size];
+        int [] blueArray = new int[size];
+
+        //Loop through each pixel in our window to retrieve corresponding ARGB values.
         for (int y = 0; y < input.getHeight(); ++y) {
             for (int x = 0; x < input.getWidth(); ++x) {
-                int argb = input.getRGB(x, y);
-                int a = (argb & 0xFF000000) >> 24;
-                int r = (argb & 0x00FF0000) >> 16;
-                int g = (argb & 0x0000FF00) >> 8;
-                int b = (argb & 0x000000FF);
 
-                //Code from Grey filter, used to assign then pack a grey color based on the ARGB pixel values.
-                //Instead of changing the color like below, need to find a way to sort them...
-                int grey = (int) Math.round(0.3*r + 0.6*g + 0.1*b); 
-                argb = (a << 24) | (grey << 16) | (grey << 8) | grey; //Will pack like this with sorted values?
+                //need to create loop for iterating through the window.
+                for(int j = 0; j < (radius*2 + 1); j++){     
+                    int argb = input.getRGB(x, y);  //needs to be x+radius? how to get each neighbor based on radius?        
+                    //store ARGB values in their own arrays
+                    for (int i = 0; i < array.length; i++){
+                        int a = (argb & 0xFF000000) >> 24;
+                        int r = (argb & 0x00FF0000) >> 16;
+                        int g = (argb & 0x0000FF00) >> 8;
+                        int b = (argb & 0x000000FF);
+                        alphaArray[i] = a;
+                        redArray[i] = r;
+                        greenArray[i] = g;
+                        blueArray[i] = b;    
+                    }
 
-                input.setRGB(x, y, argb);
+                    //sort the arrays
+                    Arrays.sort(alphaArray);
+                    Arrays.sort(redArray);
+                    Arrays.sort(greenArray);
+                    Arrays.sort(blueArray);           
+                    //pack colors based on median of the sorted array
+                    argb = (alphaArray[array.length/2] << 24) | (redArray[array.length/2] << 16) | (greenArray[array.length/2]<< 8) | blueArray[array.length/2]; 
+
+                    input.setRGB(x, y, argb);
+                }
             }
         }
 
-        //Something needed here, possibly use Kernal and ConvolveOp like in MeanFilter().
+        // Operations below copied from MeanFilter, considers radius
+        // larger resizing of input to be overlayed 
+        int newWidth = input.getWidth() + radius*2 ; 
+        int newHeight = input.getHeight() + radius*2 ; 
+        BufferedImage resizedImage = new BufferedImage( newWidth , newHeight, input.getType() ) ;
+        AffineTransform transform = AffineTransform.getScaleInstance(
+                                    (double)newWidth / input.getWidth() ,
+                                    (double)newHeight / input.getHeight() ) ;
+        AffineTransformOp operation = new AffineTransformOp( transform , AffineTransformOp.TYPE_BILINEAR ) ;
+        resizedImage = operation.filter( input , resizedImage ) ;
 
+        // original image overlays the resized image
+        BufferedImage mergedImage = new BufferedImage( input.getWidth() + radius*2 , input.getHeight() + radius*2 , input.getType() ) ; 
+        Graphics2D g2d = mergedImage.createGraphics() ;
+        g2d.drawImage( resizedImage , 0 , 0 , null ) ; 
+        g2d.drawImage( input , radius , radius , null ) ;
+        g2d.dispose() ;
 
-        return input;//Change to return newly buffered image when done
+        // kernel used to filter image and convolution 
+        Kernel kernel = new Kernel( 2*radius+1 , 2*radius+1 , array ) ; 
+        ConvolveOp convOp = new ConvolveOp( kernel ) ; 
+        
+        // filtering of the image, and trimming of the black border 
+        BufferedImage filteredImage = new BufferedImage( input.getColorModel() , input.copyData(null) , input.isAlphaPremultiplied() , null ) ; 
+        filteredImage = convOp.filter( mergedImage , null ) ; 
+        filteredImage = filteredImage.getSubimage( radius , radius , input.getWidth() , input.getHeight() ) ; 
+        BufferedImage output = new BufferedImage( filteredImage.getColorModel() , filteredImage.copyData( filteredImage.getRaster().createCompatibleWritableRaster() ) , filteredImage.isAlphaPremultiplied() , null ) ;  
+
+        return output;//Change to return newly buffered image when done
     }
 
 
