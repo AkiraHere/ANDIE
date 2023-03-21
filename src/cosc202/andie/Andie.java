@@ -85,7 +85,7 @@ public class Andie {
         
         frame.setJMenuBar(menuBar);
         frame.pack();
-        frame.setVisible(true);
+        frame.setVisible(true); 
     }
 
     /**
