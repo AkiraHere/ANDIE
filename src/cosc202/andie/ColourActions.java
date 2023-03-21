@@ -97,22 +97,39 @@ public class ColourActions {
         }
 
     }
-
+    /**
+     * Action to adjust image's contrast and brightness levels
+     */
     public class ContrastAdjusterAction extends ImageAction {
 
+         /**
+         * <p>
+         * Create a new convert-to-grey action.
+         * </p>
+         * 
+         * @param name The name of the action (ignored if null).
+         * @param icon An icon to use to represent the action (ignored if null).
+         * @param desc A brief description of the action  (ignored if null).
+         * @param mnemonic A mnemonic key to use as a shortcut  (ignored if null).
+         */       
         ContrastAdjusterAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
         }
 
+        /**
+         * <p>
+         * Method to display input boxes for contrast and brightness percentage levels
+         * </p>
+         */
         public void actionPerformed(ActionEvent e) {
             int contrastPercent = 0;
             int brightPercent = 0;
             
-            SpinnerNumberModel radiusModel = new SpinnerNumberModel(1, 1, 10, 1);
+            SpinnerNumberModel radiusModel = new SpinnerNumberModel(1, -100, 100, 1);
             JSpinner radiusSpinner = new JSpinner(radiusModel);
-            int option1 = JOptionPane.showOptionDialog(null, radiusSpinner, "Enter desired Brightness percentage", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+            int option1 = JOptionPane.showOptionDialog(null, radiusSpinner, "Enter desired Contrast percentage", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
            
-            SpinnerNumberModel radiusModel1 = new SpinnerNumberModel(1, 1, 10, 1);
+            SpinnerNumberModel radiusModel1 = new SpinnerNumberModel(1, -100, 100, 1);
             JSpinner radiusSpinner1 = new JSpinner(radiusModel1);
             int option2 = JOptionPane.showOptionDialog(null, radiusSpinner1, "Enter desired Brightness percentage", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
 
