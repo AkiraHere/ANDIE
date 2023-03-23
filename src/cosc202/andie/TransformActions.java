@@ -62,7 +62,9 @@ public class TransformActions {
         public void actionPerformed(ActionEvent e) {
             String[] options = {"90 degrees left", "90 degrees right", "180 degrees"};
             int selectedOption = JOptionPane.showOptionDialog(target, "Select rotation option", "Rotate Image",
-                    JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
+                    JOptionPane.DEFAULT_OPTION, 
+                    JOptionPane.PLAIN_MESSAGE, 
+                    null, options, options[0]);
     
             int degrees;
             if (selectedOption == 0) {
@@ -85,8 +87,25 @@ public class TransformActions {
         }
         @Override
         public void actionPerformed(ActionEvent e) {
+            Object[] options = {"Horizontal", "Vertical"};
+            int direction = JOptionPane.showOptionDialog(target,
+                    "Which direction would you like to flip the image?",
+                    "Flip Image",
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.QUESTION_MESSAGE,
+                    null,
+                    options,
+                    options[0]);
 
-            throw new UnsupportedOperationException("Unimplemented method 'actionPerformed'");
+
+    if (direction == 0) {
+        target.getImage().apply(new FlipImage(true));
+    } else {
+        target.getImage().apply(new FlipImage(false));
+    }
+
+            target.repaint();
+            target.getParent().revalidate();
         }
     }
 }
