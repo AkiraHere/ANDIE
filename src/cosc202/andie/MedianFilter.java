@@ -69,22 +69,24 @@ public class MedianFilter implements ImageOperation, java.io.Serializable {
         int yDimesion = (2*radius+1);
         int size =  xDimension * yDimesion;
         float [] array = new float[size];
+        int newWidth = input.getWidth() + radius*2 ; 
+        int newHeight = input.getHeight() + radius*2 ; 
+        BufferedImage output = new BufferedImage( newWidth , newHeight, input.getType() ) ;
 
-        //for storing each color property in a pixel
+        //Arrays for storing each color property in a pixel
         int [] alphaArray = new int[size];
         int [] redArray = new int[size];
         int [] greenArray = new int[size];
         int [] blueArray = new int[size];
 
-        //Loop through each pixel in our window to retrieve corresponding ARGB values.
+        //Loop through each pixel in the image to retrieve corresponding ARGB values.
         for (int y = 0; y < input.getHeight(); ++y) {
             for (int x = 0; x < input.getWidth(); ++x) {
-
-                //need to create loop for iterating through the window.
-                for(int j = 0; j < (radius*2 + 1); j++){     
-                    int argb = input.getRGB(x, y);  //needs to be x+radius? how to get each neighbor based on radius?        
-                    //store ARGB values in their own arrays
-                    for (int i = 0; i < array.length; i++){
+                //Begin looping through the window of neighboring pixels
+                for(int j = -radius; j < radius + 1; j++){     
+                    for (int i = -radius; i < radius + 1; i++){
+                        int argb = input.getRGB(x + j, y + i);       
+                        //store ARGB values in their own arrays
                         int a = (argb & 0xFF000000) >> 24;
                         int r = (argb & 0x00FF0000) >> 16;
                         int g = (argb & 0x0000FF00) >> 8;
@@ -92,37 +94,34 @@ public class MedianFilter implements ImageOperation, java.io.Serializable {
                         alphaArray[i] = a;
                         redArray[i] = r;
                         greenArray[i] = g;
-                        blueArray[i] = b;    
+                        blueArray[i] = b; 
                     }
-
                     //sort the arrays
                     Arrays.sort(alphaArray);
                     Arrays.sort(redArray);
                     Arrays.sort(greenArray);
                     Arrays.sort(blueArray);           
                     //pack colors based on median of the sorted array
-                    argb = (alphaArray[array.length/2] << 24) | (redArray[array.length/2] << 16) | (greenArray[array.length/2]<< 8) | blueArray[array.length/2]; 
-
-                    input.setRGB(x, y, argb);
+                    int argbOut = (alphaArray[array.length/2] << 24) | (redArray[array.length/2] << 16) | (greenArray[array.length/2]<< 8) | blueArray[array.length/2]; 
+                    //assign the filtered color to the output
+                    output.setRGB(x, y, argbOut);
                 }
             }
         }
 
-        // Operations below copied from MeanFilter, considers radius
+        // Operations below copied from MeanFilter
         // larger resizing of input to be overlayed 
-        int newWidth = input.getWidth() + radius*2 ; 
-        int newHeight = input.getHeight() + radius*2 ; 
-        BufferedImage resizedImage = new BufferedImage( newWidth , newHeight, input.getType() ) ;
+
         AffineTransform transform = AffineTransform.getScaleInstance(
                                     (double)newWidth / input.getWidth() ,
                                     (double)newHeight / input.getHeight() ) ;
         AffineTransformOp operation = new AffineTransformOp( transform , AffineTransformOp.TYPE_BILINEAR ) ;
-        resizedImage = operation.filter( input , resizedImage ) ;
+        output = operation.filter( input , output ) ;
 
         // original image overlays the resized image
         BufferedImage mergedImage = new BufferedImage( input.getWidth() + radius*2 , input.getHeight() + radius*2 , input.getType() ) ; 
         Graphics2D g2d = mergedImage.createGraphics() ;
-        g2d.drawImage( resizedImage , 0 , 0 , null ) ; 
+        g2d.drawImage( output , 0 , 0 , null ) ; 
         g2d.drawImage( input , radius , radius , null ) ;
         g2d.dispose() ;
 
@@ -134,7 +133,6 @@ public class MedianFilter implements ImageOperation, java.io.Serializable {
         BufferedImage filteredImage = new BufferedImage( input.getColorModel() , input.copyData(null) , input.isAlphaPremultiplied() , null ) ; 
         filteredImage = convOp.filter( mergedImage , null ) ; 
         filteredImage = filteredImage.getSubimage( radius , radius , input.getWidth() , input.getHeight() ) ; 
-        BufferedImage output = new BufferedImage( filteredImage.getColorModel() , filteredImage.copyData( filteredImage.getRaster().createCompatibleWritableRaster() ) , filteredImage.isAlphaPremultiplied() , null ) ;  
 
         return output;//Change to return newly buffered image when done
     }
