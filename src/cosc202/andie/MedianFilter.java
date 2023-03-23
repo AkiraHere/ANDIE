@@ -34,15 +34,15 @@ public class MedianFilter implements ImageOperation, java.io.Serializable {
     * 
     * @param radius The radius of the newly constructed MeanFilter
     */
-    MedianFilter(int radius){
+    public MedianFilter(int radius){
         this.radius = radius;
     }
 
 
     /**
-     * Default constructor for a median filter object, applies a default 
+     * Default constructor for a median filter object, applies a default radius of 1
      */
-    MedianFilter(){
+    public MedianFilter(){
         this.radius = 1;
     }
 
@@ -110,6 +110,8 @@ public class MedianFilter implements ImageOperation, java.io.Serializable {
         return output;//Change to return newly buffered image when done
     }
 
-
+    public int getRadius(){
+        return radius;
+    }
 
 }
