@@ -16,7 +16,7 @@ public class ImagePanelTest {
     void getZoomInitialValue(){
         ImagePanel testPanel = new ImagePanel();
         Assertions.assertEquals(100.0, testPanel.getZoom());
-        Assertions.assertEquals(-1, testPanel.getZoom());//this test should fail on purpose
+       // Assertions.assertEquals(-1, testPanel.getZoom());//this test should fail on purpose
     }
 
     //Tests zoom function
