@@ -5,22 +5,33 @@ import java.awt.image.BufferedImage;
 
 public class ResizeImage implements ImageOperation, java.io.Serializable {
 
-    private int resizePercent = 0;
-
+    private double resizePercent = 0;
+    /**
+     * Default Constructor
+     */
     public ResizeImage(){
 
     }
-
-    public ResizeImage(int resizePercent){
+    /**
+     * Constructor
+     */
+    public ResizeImage(double resizePercent){
         this.resizePercent = resizePercent;
     }
 
     public BufferedImage apply(BufferedImage input) {
         //Calculate dimensions for resized image
-        int scaledWidth = (int) (input.getWidth() * resizePercent);
-        int scaledHeight = (int) (input.getHeight() * resizePercent);
+        int scaledWidth = (int) ((input.getWidth() * (resizePercent/100)));
+        int scaledHeight = (int) ((input.getHeight() * (resizePercent/100)));
 
-        return input;
+        //Create new image with the new dimensions and draw new image
+        Image image = input.getScaledInstance(scaledWidth, scaledHeight, Image.SCALE_AREA_AVERAGING);
+        BufferedImage output = new BufferedImage(scaledWidth, scaledHeight, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2d = output.createGraphics();
+        g2d.drawImage(image, 0,0, null);
+        g2d.dispose();
+
+        return output;
     }
     
 }
