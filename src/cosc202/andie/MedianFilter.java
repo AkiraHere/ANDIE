@@ -2,8 +2,6 @@ package cosc202.andie;
 
 import java.awt.image.*;
 import java.util.*;
-import java.awt.Graphics2D;
-import java.awt.geom.AffineTransform;
 /**
  * <p>
  * Image operation used to apply a median filter, a type of blurring effect, to an image.
@@ -108,31 +106,6 @@ public class MedianFilter implements ImageOperation, java.io.Serializable {
                 }
             }
         }
-
-        // Operations below copied from MeanFilter
-        // larger resizing of input to be overlayed 
-
-        AffineTransform transform = AffineTransform.getScaleInstance(
-                                    (double)newWidth / input.getWidth() ,
-                                    (double)newHeight / input.getHeight() ) ;
-        AffineTransformOp operation = new AffineTransformOp( transform , AffineTransformOp.TYPE_BILINEAR ) ;
-        output = operation.filter( input , output ) ;
-
-        // original image overlays the resized image
-        BufferedImage mergedImage = new BufferedImage( input.getWidth() + radius*2 , input.getHeight() + radius*2 , input.getType() ) ; 
-        Graphics2D g2d = mergedImage.createGraphics() ;
-        g2d.drawImage( output , 0 , 0 , null ) ; 
-        g2d.drawImage( input , radius , radius , null ) ;
-        g2d.dispose() ;
-
-        // kernel used to filter image and convolution 
-        Kernel kernel = new Kernel( 2*radius+1 , 2*radius+1 , array ) ; 
-        ConvolveOp convOp = new ConvolveOp( kernel ) ; 
-        
-        // filtering of the image, and trimming of the black border 
-        BufferedImage filteredImage = new BufferedImage( input.getColorModel() , input.copyData(null) , input.isAlphaPremultiplied() , null ) ; 
-        filteredImage = convOp.filter( mergedImage , null ) ; 
-        filteredImage = filteredImage.getSubimage( radius , radius , input.getWidth() , input.getHeight() ) ; 
 
         return output;//Change to return newly buffered image when done
     }
