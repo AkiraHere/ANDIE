@@ -62,9 +62,9 @@ public class TransformActions {
          */
         public void actionPerformed(ActionEvent e) {
             int resizeFactor = 0;
-            SpinnerNumberModel radiusModel = new SpinnerNumberModel(1, 1, 1000, 1);
+            SpinnerNumberModel radiusModel = new SpinnerNumberModel(100, 1, 1000, 1);
             JSpinner radiusSpinner = new JSpinner(radiusModel);
-            int option = JOptionPane.showOptionDialog(null, radiusSpinner, "Enter resize scale factor (%)", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+            int option = JOptionPane.showOptionDialog(null, radiusSpinner, "Enter resize scale factor between 1 - 1000 (%)", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
             if (option == JOptionPane.CANCEL_OPTION) {
                 return;
             } else if (option == JOptionPane.OK_OPTION) {
