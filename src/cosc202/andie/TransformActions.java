@@ -41,13 +41,39 @@ public class TransformActions {
     }
     
     public class ResizeImageAction extends ImageAction{
+        /**
+         * <p>
+         * Create a new convert-to-grey action.
+         * </p>
+         * 
+         * @param name The name of the action (ignored if null).
+         * @param icon An icon to use to represent the action (ignored if null).
+         * @param desc A brief description of the action  (ignored if null).
+         * @param mnemonic A mnemonic key to use as a shortcut  (ignored if null).
+         */       
         ResizeImageAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
         }
-        @Override
-        public void actionPerformed(ActionEvent e) {
 
-            throw new UnsupportedOperationException("Unimplemented method 'actionPerformed'");
+        /**
+         * <p>
+         * Method to display an input box for a rescale percentage and applies it to resize method
+         * </p>
+         */
+        public void actionPerformed(ActionEvent e) {
+            int resizeFactor = 0;
+            SpinnerNumberModel radiusModel = new SpinnerNumberModel(1, 1, 1000, 1);
+            JSpinner radiusSpinner = new JSpinner(radiusModel);
+            int option = JOptionPane.showOptionDialog(null, radiusSpinner, "Enter resize scale factor (%)", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+            if (option == JOptionPane.CANCEL_OPTION) {
+                return;
+            } else if (option == JOptionPane.OK_OPTION) {
+                resizeFactor = radiusModel.getNumber().intValue();
+            }
+            
+            target.getImage().apply(new ResizeImage(resizeFactor));
+            target.repaint();
+            target.getParent().revalidate();
         }
     }
 
