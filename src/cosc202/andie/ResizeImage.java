@@ -19,6 +19,10 @@ public class ResizeImage implements ImageOperation, java.io.Serializable {
         this.resizePercent = resizePercent;
     }
 
+    /**
+     * @param input The image to be resized
+     * @return The resulting resized image.
+     */
     public BufferedImage apply(BufferedImage input) {
         //Calculate dimensions for resized image
         int scaledWidth = (int) ((input.getWidth() * (resizePercent/100)));
