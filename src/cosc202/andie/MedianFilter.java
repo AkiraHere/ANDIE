@@ -106,12 +106,16 @@ public class MedianFilter implements ImageOperation, java.io.Serializable {
                 }
             }
         }
-
         return output;//Change to return newly buffered image when done
     }
 
+    /**
+     * Method used to retrieve the value stored in the radius datafield.
+     * 
+     * @return the radius of this object
+     */
     public int getRadius(){
-        return radius;
+        return this.radius;
     }
 
 }
