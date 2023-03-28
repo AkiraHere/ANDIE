@@ -19,7 +19,7 @@ public class MedianFilterTest {
     @BeforeAll
     static void getImage(){
         try{
-            testingImage = ImageIO.read(new File("/andie/clocktower.jpg"));
+            testingImage = ImageIO.read(new File("andie/clocktower.jpg"));
         }catch (Exception e){
             System.out.println("Failed to find image");
         }
@@ -50,7 +50,7 @@ public class MedianFilterTest {
     void imageTest1(){
         MedianFilter filter = new MedianFilter();
         try{
-            BufferedImage manualImage = ImageIO.read(new File("/andie/clocktower.jpg"));
+            BufferedImage manualImage = ImageIO.read(new File("andie/clocktower.jpg"));
             BufferedImage testImage1 = filter.apply(manualImage);
             BufferedImage testImage2 = testFilter1.apply(testingImage);
             Assertions.assertEquals(testImage1.getRGB(1, 1),testImage2.getRGB(1, 1));
@@ -67,7 +67,7 @@ public class MedianFilterTest {
     void imageTest2(){
         MedianFilter filter = new MedianFilter(3);
         try{
-            BufferedImage manualImage = ImageIO.read(new File("/andie/clocktower.jpg"));
+            BufferedImage manualImage = ImageIO.read(new File("andie/clocktower.jpg"));
             BufferedImage testImage1 = filter.apply(manualImage);
             BufferedImage testImage2 = testFilter2.apply(testingImage);
             Assertions.assertEquals(testImage1.getRGB(1, 1),testImage2.getRGB(1, 1));
