@@ -1,13 +1,17 @@
 package test.cosc202.andie;
 
-import java.awt.image.BufferedImage;
-import javax.imageio.*;
-import java.io.*;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.fail;
+
+import java.awt.image.BufferedImage;
+import javax.imageio.*;
+import java.io.*;
+
+import cosc202.andie.Andie;
 import cosc202.andie.MedianFilter;
 
 public class MedianFilterTest {
@@ -19,9 +23,12 @@ public class MedianFilterTest {
     @BeforeAll
     static void getImage(){
         try{
-            testingImage = ImageIO.read(new File("andie/clocktower.jpg"));
-        }catch (Exception e){
+            testingImage = ImageIO.read(new File("J:/COSC202/andie/src/test/cosc202/andie/clocktower.jpg"));
+            //testingImage  = ImageIO.read(ClassLoader.getSystemResource("clocktower.jpg"));
+
+        }catch (IOException e){
             System.out.println("Failed to find image");
+            fail();
         }
     }
 
@@ -50,14 +57,15 @@ public class MedianFilterTest {
     void imageTest1(){
         MedianFilter filter = new MedianFilter();
         try{
-            BufferedImage manualImage = ImageIO.read(new File("andie/clocktower.jpg"));
+            BufferedImage manualImage = ImageIO.read(new File("J:/COSC202/andie/src/test/cosc202/andie/clocktower.jpg"));
             BufferedImage testImage1 = filter.apply(manualImage);
             BufferedImage testImage2 = testFilter1.apply(testingImage);
             Assertions.assertEquals(testImage1.getRGB(1, 1),testImage2.getRGB(1, 1));
             Assertions.assertEquals(testImage1.getRGB(30, 150),testImage2.getRGB(30, 150));
             Assertions.assertEquals(testImage1.getRGB(109, 800),testImage2.getRGB(109, 800));
-        }catch (Exception E){
+        }catch (IOException e){
             System.out.println("Failed to find image");
+            fail();
         }
     }
 
@@ -67,14 +75,15 @@ public class MedianFilterTest {
     void imageTest2(){
         MedianFilter filter = new MedianFilter(3);
         try{
-            BufferedImage manualImage = ImageIO.read(new File("andie/clocktower.jpg"));
+            BufferedImage manualImage = ImageIO.read(new File("J:/COSC202/andie/src/test/cosc202/andie/clocktower.jpg"));
             BufferedImage testImage1 = filter.apply(manualImage);
             BufferedImage testImage2 = testFilter2.apply(testingImage);
             Assertions.assertEquals(testImage1.getRGB(1, 1),testImage2.getRGB(1, 1));
             Assertions.assertEquals(testImage1.getRGB(30, 150),testImage2.getRGB(30, 150));
             Assertions.assertEquals(testImage1.getRGB(109, 800),testImage2.getRGB(109, 800));
-        }catch (Exception E){
+        }catch (IOException e){
             System.out.println("Failed to find image");
+            fail();
         }
     }
 
