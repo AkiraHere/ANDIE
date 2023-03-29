@@ -11,7 +11,6 @@ import java.awt.image.BufferedImage;
 import javax.imageio.*;
 import java.io.*;
 
-import cosc202.andie.Andie;
 import cosc202.andie.MedianFilter;
 
 public class MedianFilterTest {
@@ -23,7 +22,7 @@ public class MedianFilterTest {
     @BeforeAll
     static void getImage(){
         try{
-            testingImage = ImageIO.read(new File("J:/COSC202/andie/src/test/cosc202/andie/clocktower.jpg"));
+            testingImage = ImageIO.read(new File("C:/Users/lukew/OneDrive - University of Otago/Papers/COSC202/ANDIE/andie/src/test/cosc202/andie/clocktower.jpg"));
             //testingImage  = ImageIO.read(ClassLoader.getSystemResource("clocktower.jpg"));
 
         }catch (IOException e){
@@ -57,7 +56,7 @@ public class MedianFilterTest {
     void imageTest1(){
         MedianFilter filter = new MedianFilter();
         try{
-            BufferedImage manualImage = ImageIO.read(new File("J:/COSC202/andie/src/test/cosc202/andie/clocktower.jpg"));
+            BufferedImage manualImage = ImageIO.read(new File("C:/Users/lukew/OneDrive - University of Otago/Papers/COSC202/ANDIE/andie/src/test/cosc202/andie/clocktower.jpg"));
             BufferedImage testImage1 = filter.apply(manualImage);
             BufferedImage testImage2 = testFilter1.apply(testingImage);
             Assertions.assertEquals(testImage1.getRGB(1, 1),testImage2.getRGB(1, 1));
@@ -75,7 +74,7 @@ public class MedianFilterTest {
     void imageTest2(){
         MedianFilter filter = new MedianFilter(3);
         try{
-            BufferedImage manualImage = ImageIO.read(new File("J:/COSC202/andie/src/test/cosc202/andie/clocktower.jpg"));
+            BufferedImage manualImage = ImageIO.read(new File("C:/Users/lukew/OneDrive - University of Otago/Papers/COSC202/ANDIE/andie/src/test/cosc202/andie/clocktower.jpg"));
             BufferedImage testImage1 = filter.apply(manualImage);
             BufferedImage testImage2 = testFilter2.apply(testingImage);
             Assertions.assertEquals(testImage1.getRGB(1, 1),testImage2.getRGB(1, 1));
