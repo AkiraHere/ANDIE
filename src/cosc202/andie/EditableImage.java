@@ -191,7 +191,6 @@ class EditableImage {
         fileOut.close();
     }
 
-
     /**
      * <p>
      * Save an image to a speficied file.
@@ -211,6 +210,26 @@ class EditableImage {
         this.imageFilename = imageFilename;
         this.opsFilename = imageFilename + ".ops";
         save();
+    }
+
+    public void export( String imageFilename ) throws Exception {
+        
+        String fileName = imageFilename.substring( 1 + imageFilename.lastIndexOf( "/" ) ) ;
+        String extension = fileName.substring( 1 + fileName.lastIndexOf( "." ) ) ; 
+        
+        if ( "jpeg".equalsIgnoreCase( extension ) || "png".equalsIgnoreCase( extension ) || "gif".equalsIgnoreCase( extension ) && fileName.contains( "." ) ) {
+
+            String updatedImageFilename = imageFilename.substring( 0 , imageFilename.length() - extension.length() - 1 ) + "." + extension.toLowerCase() ; 
+            File outputFile = new File( updatedImageFilename ) ; 
+            ImageIO.write( current , extension.toLowerCase() , outputFile ) ; 
+
+        } else {
+
+            File outputFile = new File ( imageFilename + ".jpeg" ) ; 
+            ImageIO.write( current , "jpeg" , outputFile ) ;
+
+        } 
+ 
     }
 
     /**
