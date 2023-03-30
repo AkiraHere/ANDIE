@@ -1,11 +1,8 @@
 package test.cosc202.andie;
-
-
+import static org.junit.jupiter.api.Assertions.fail;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.fail;
 
 import java.awt.image.BufferedImage;
 import javax.imageio.*;

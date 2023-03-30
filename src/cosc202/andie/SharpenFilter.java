@@ -6,7 +6,7 @@ import java.awt.image.* ;
 
 public class SharpenFilter implements ImageOperation , java.io.Serializable {
 
-    SharpenFilter() {}
+    public SharpenFilter() {}
 
     public BufferedImage apply (BufferedImage input) {
 
