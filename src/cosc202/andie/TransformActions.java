@@ -84,7 +84,7 @@ public class TransformActions {
     
         @Override
         public void actionPerformed(ActionEvent e) {
-            String[] options = {"90 degrees left", "90 degrees right", "180 degrees"};
+            String[] options = {"90 degrees right", "90 degrees left", "180 degrees"};
             int selectedOption = JOptionPane.showOptionDialog(target, "Select rotation option", "Rotate Image",
                     JOptionPane.DEFAULT_OPTION, 
                     JOptionPane.PLAIN_MESSAGE, 
