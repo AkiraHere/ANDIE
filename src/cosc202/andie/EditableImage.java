@@ -219,7 +219,10 @@ class EditableImage {
         
         if ( "jpeg".equalsIgnoreCase( extension ) || "png".equalsIgnoreCase( extension ) || "gif".equalsIgnoreCase( extension ) && fileName.contains( "." ) ) {
 
-            String updatedImageFilename = imageFilename.substring( 0 , imageFilename.length() - extension.length() - 1 ) + "." + extension.toLowerCase() ; 
+            String localImageFilename = imageFilename ; 
+            String cutExtension = fileName.substring( fileName.indexOf( "." ) , fileName.lastIndexOf( "." ) ) ; 
+            localImageFilename = localImageFilename.replace( cutExtension , "" ) ;
+            String updatedImageFilename = localImageFilename.substring( 0 , localImageFilename.length() - extension.length() - 1 ) + "." + extension.toLowerCase() ; 
             File outputFile = new File( updatedImageFilename ) ; 
             ImageIO.write( current , extension.toLowerCase() , outputFile ) ; 
 
