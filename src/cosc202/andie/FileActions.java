@@ -2,8 +2,10 @@ package cosc202.andie;
 
 import java.util.*;
 import java.awt.event.*;
+import java.io.File;
 
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  * <p>
@@ -96,12 +98,20 @@ public class FileActions {
          */
         public void actionPerformed(ActionEvent e) {
             JFileChooser fileChooser = new JFileChooser();
+            FileNameExtensionFilter filter = new FileNameExtensionFilter("Image Files", "jpg", "jpeg", "png", "gif");
             int result = fileChooser.showOpenDialog(target);
 
             if (result == JFileChooser.APPROVE_OPTION) {
                 try {
-                    String imageFilepath = fileChooser.getSelectedFile().getCanonicalPath();
-                    target.getImage().open(imageFilepath);
+                    File selectedFile = fileChooser.getSelectedFile();
+                    if(!selectedFile.exists()){
+                        JOptionPane.showMessageDialog(null, "File Not Found", "Error", JOptionPane.ERROR_MESSAGE);
+                    } else if (!filter.accept(selectedFile)) {
+                        JOptionPane.showMessageDialog(null, "Invalid file selected.", "Error", JOptionPane.ERROR_MESSAGE);
+                    } else {
+                        String imageFilepath = fileChooser.getSelectedFile().getCanonicalPath();
+                        target.getImage().open(imageFilepath);
+                    }
                 } catch (Exception ex) {
                     System.exit(1);
                 }
