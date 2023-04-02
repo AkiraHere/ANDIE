@@ -4,6 +4,7 @@ import java.util.*;
 import java.io.*;
 import java.awt.image.*;
 import javax.imageio.*;
+import javax.swing.JOptionPane;
 
 /**
  * <p>
@@ -45,6 +46,8 @@ class EditableImage {
     private String imageFilename;
     /** The file where the operation sequence is stored. */
     private String opsFilename;
+    /** String of characters which cannot appear in a file name. */
+    private String unacceptableCharacters = "#%&{}\"<>*?/ $!\'\\:@+`|=" ; 
 
     /**
      * <p>
@@ -212,27 +215,78 @@ class EditableImage {
         save();
     }
 
+    /**
+     * <p>
+     * Exports an image with a specified name and to a specified location. 
+     * </p>
+     * 
+     * <p>
+     * Creates a new file with a user inputted name at a user inputted location. 
+     * Creates no .ops files, so user cannot undo changes made to the exported
+     * file. Exported files default to .jpeg files, although .gif and .png are 
+     * also supported. 
+     * </p>
+     * 
+     * @param imageFilename The file location to save the image to.
+     * @throws Exception If something goes wrong.
+     */
     public void export( String imageFilename ) throws Exception {
-        
-        String fileName = imageFilename.substring( 1 + imageFilename.lastIndexOf( "/" ) ) ;
-        String extension = fileName.substring( 1 + fileName.lastIndexOf( "." ) ) ; 
-        
-        if ( "jpeg".equalsIgnoreCase( extension ) || "png".equalsIgnoreCase( extension ) || "gif".equalsIgnoreCase( extension ) && fileName.contains( "." ) ) {
+    
+        // user inputted name of file 
+        String fileName = imageFilename.substring( 1 + imageFilename.lastIndexOf( "/" ) ) ; 
+        // pathway to file save location
+        String fileLocation = imageFilename.substring( 0 , imageFilename.lastIndexOf( "/" ) + 1 ) ; 
 
-            String localImageFilename = imageFilename ; 
-            String cutExtension = fileName.substring( fileName.indexOf( "." ) , fileName.lastIndexOf( "." ) ) ; 
-            localImageFilename = localImageFilename.replace( cutExtension , "" ) ;
-            String updatedImageFilename = localImageFilename.substring( 0 , localImageFilename.length() - extension.length() - 1 ) + "." + extension.toLowerCase() ; 
-            File outputFile = new File( updatedImageFilename ) ; 
-            ImageIO.write( current , extension.toLowerCase() , outputFile ) ; 
+        // deals with case where user inputted file name starts with a '.'
+        if ( fileName.charAt( 0 ) == '.' ) {
+
+            JOptionPane.showMessageDialog( null , "Unacceptable file naming - please try again." , "Warning" , JOptionPane.WARNING_MESSAGE );
+            return ;
+
+        }
+
+        // deals with case where user inputted file name contains an unacceptable character
+        for ( int i = 0 ; i < fileName.length() ; i++ ) {
+            
+            if ( fileName.contains( String.valueOf( unacceptableCharacters.charAt( i ) ) ) ) {
+
+                JOptionPane.showMessageDialog( null , "Unacceptable file naming - please try again." , "Warning" , JOptionPane.WARNING_MESSAGE );
+                return ; 
+
+            } 
+
+        }
+
+        // saves file if user inputted name contains no '.' and saved with default ".jpeg"
+        if ( ! fileName.contains( "." ) ) {
+
+            File outputFile = new File( imageFilename + ".jpeg" ) ; 
+            ImageIO.write( current , "jpeg" , outputFile ) ;
+            return ; 
+
+        } 
+
+        String extension = fileName.substring( 1 + fileName.lastIndexOf( "." ) ).toLowerCase() ; 
+
+        // deals with user inputted file extensions, as well as stray cases with '.'
+        if ( "jpeg".equals( extension ) || "png".equals( extension ) || "gif".equals( extension ) && fileName.contains( "." ) ) {
+
+            fileName = fileName.replace( "." , "" ) + "." + extension ; 
+            String newImageFilename = fileLocation + fileName ; 
+
+            File outputFile = new File( newImageFilename ) ; 
+            ImageIO.write( current , extension , outputFile ) ;  
 
         } else {
 
-            File outputFile = new File ( imageFilename + ".jpeg" ) ; 
-            ImageIO.write( current , "jpeg" , outputFile ) ;
+            fileName = fileName.replace( "." , "" ) + ".jpeg" ; 
+            String newImageFilename = fileLocation + fileName ; 
 
-        } 
- 
+            File outputFile = new File( newImageFilename ) ; 
+            ImageIO.write( current , "jpeg" , outputFile ) ; 
+
+        }
+    
     }
 
     /**

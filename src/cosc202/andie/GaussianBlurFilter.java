@@ -6,20 +6,31 @@ import java.awt.image.* ;
 import java.lang.Math ;
 
 /**
+ * <p>
  * ImageOperation to apply a gaussian blur filter. 
+ * </p>
  * 
+ * <p>
  * Blurs an image according to the gaussian distribution equation, is
  * implemented via convolution. Uses graphics to resolve pixel loss at
  * the borders of the filtered BufferedImage. 
+ * </p>
+ * 
+ * @author Samuel Goddard
+ * @version 1.0
  */
 public class GaussianBlurFilter implements ImageOperation , java.io.Serializable {
 
     /**
+     * <p>
      * Data fields
+     * </p>
      * 
-     * Radius of the kernel / filter to be applied - radius of 1 = 3x3 filter, radius of 3 = 5x5 filter, etc. 
-     * xOffset and yOffset are used to calculate gaussian values of pixels in the kernel. 
-     * sigma is utilised in the gaussian equation. 
+     * <p>
+     * radius - Radius of the kernel / filter to be applied - radius of 1 = 3x3 filter, radius of 3 = 5x5 filter, etc. 
+     * offsets - xOffset and yOffset are used to calculate gaussian values of pixels in the kernel. 
+     * sigma - sigma is utilised in the gaussian equation. 
+     * </p>
      */
     private int radius , xOffset , yOffset ; 
     private float sigma ; 
@@ -49,8 +60,11 @@ public class GaussianBlurFilter implements ImageOperation , java.io.Serializable
     }
 
     /**
-     * Applies the gaussian blurring filter to the image.
+     * <p>
+     * Applies the gaussian blur filter to the image.
+     * </p>
      * 
+     * <p>
      * Works via convolution, where a larger radius input will result in a
      * strong blurring. Graphics are used to resolve the issue of black pixels around 
      * the border of the filtered image. A scaled BufferedImage is created, with 
@@ -58,6 +72,7 @@ public class GaussianBlurFilter implements ImageOperation , java.io.Serializable
      * resembles the outside edge of the image, and the increased size means the 
      * black pixels can be discarded without affecting the original size and 
      * appearance of the image. 
+     * </p>
      * 
      * @param input the image to be filtered
      * @return the filtered image 
@@ -127,8 +142,10 @@ public class GaussianBlurFilter implements ImageOperation , java.io.Serializable
     }
 
     /**
+     * <p>
      * Simple method that calculates the gaussian values for the kernel using the 
      * gaussian distribution equation (approximation). 
+     * </p>
      * 
      * @return the gaussian value given the sigma value and x/y offset 
      */

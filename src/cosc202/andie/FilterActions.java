@@ -93,81 +93,172 @@ public class FilterActions {
          * @param e The event triggering this callback.
          */
         public void actionPerformed(ActionEvent e) {
+            
+            try { 
 
-            // Determine the radius - ask the user.
-            int radius = 1;
+                // Determine the radius - ask the user.
+                int radius = 1;
 
-            // Pop-up dialog box to ask for the radius value.
-            SpinnerNumberModel radiusModel = new SpinnerNumberModel(1, 1, 10, 1);
-            JSpinner radiusSpinner = new JSpinner(radiusModel);
-            int option = JOptionPane.showOptionDialog(null, radiusSpinner, "Enter filter radius", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+                // Pop-up dialog box to ask for the radius value.
+                SpinnerNumberModel radiusModel = new SpinnerNumberModel(1, 1, 10, 1);
+                JSpinner radiusSpinner = new JSpinner(radiusModel);
+                int option = JOptionPane.showOptionDialog(null, radiusSpinner, "Enter filter radius", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
 
-            // Check the return value from the dialog box.
-            if (option == JOptionPane.CANCEL_OPTION) {
-                return;
-            } else if (option == JOptionPane.OK_OPTION) {
-                radius = radiusModel.getNumber().intValue();
+                // Check the return value from the dialog box.
+                if (option == JOptionPane.CANCEL_OPTION) {
+                    return;
+                } else if (option == JOptionPane.OK_OPTION) {
+                    radius = radiusModel.getNumber().intValue();
+                }
+
+                // Create and apply the filter
+                target.getImage().apply(new MeanFilter(radius));
+                target.repaint();
+                target.getParent().revalidate();
+
+            // if no image has been opened, caught by NullPointerException and shows error message
+            } catch ( NullPointerException error ) {
+
+                JOptionPane.showMessageDialog( null , "No image has been opened" , "Error" , JOptionPane.WARNING_MESSAGE );
+                return ; 
+
             }
 
-            // Create and apply the filter
-            target.getImage().apply(new MeanFilter(radius));
-            target.repaint();
-            target.getParent().revalidate();
         }
 
     }
 
+    /**
+     * <p>
+     * Action to sharpen an image with a sharpen filter. 
+     * </p>
+     * 
+     * @see SharpenFilter
+     */
     public class SharpenFilterAction extends ImageAction {
 
+        /**
+         * <p>
+         * Creates a new SharpenFilterAction. 
+         * </p>
+         * 
+         * @param name the name of the action (ignored if null)
+         * @param icon an icon used to represent the action (igorned if null)
+         * @param desc a brief description of the action (ignored if null)
+         * @param mnemonic a mnemonic key used as a shortcut (ignored if null)
+         */
         SharpenFilterAction( String name , ImageIcon icon , String desc , Integer mnemonic ) {
 
             super( name , icon , desc , mnemonic ) ; 
 
         }
 
+        /**
+         * <p>
+         * Callback for when the sharpen filter action is triggered. 
+         * </p>
+         * 
+         * <p>
+         * This method is called whenever the SharpenFilterAction is triggered.
+         * No user input required, uses default 3x3 kernel size {@link SharpenFilter}
+         * try/catch block to show error message if filter is applied when no image is opened. 
+         * </p>
+         * 
+         * @param e The event triggering this callback 
+         */
         public void actionPerformed( ActionEvent e ) {
 
-            target.getImage().apply( new SharpenFilter() ) ; 
-            target.repaint() ; 
-            target.getParent().revalidate() ; 
+            try { 
+
+                target.getImage().apply( new SharpenFilter() ) ; 
+                target.repaint() ; 
+                target.getParent().revalidate() ; 
+
+            // if no image has been opened, caught by NullPointerException and shows error message
+            } catch ( NullPointerException error ) {
+
+                JOptionPane.showMessageDialog( null , "No image has been opened" , "Error" , JOptionPane.WARNING_MESSAGE );
+                return ; 
+
+            }
 
         }
 
     }
 
+    /**
+     * <p>
+     * Action to blur an image with a gaussian filter. 
+     * </p>
+     * 
+     * @see GaussianBlurFilter
+     */
     public class GaussianBlurFilterAction extends ImageAction {
 
+        /**
+         * <p> 
+         * Create a new GaussianBlurFilterAction. 
+         * </p>
+         * 
+         * @param name the name of the action (ignored if null)
+         * @param icon an icon used to represent the action (igorned if null)
+         * @param desc a brief description of the action (ignored if null)
+         * @param mnemonic a mnemonic key used as a shortcut (ignored if null)
+         */
         GaussianBlurFilterAction( String name , ImageIcon icon , String desc , Integer mnemonic ) {
 
             super( name , icon , desc , mnemonic ) ; 
 
-        }
+        } 
 
+        /**
+         * <p>
+         * Callback for when the gaussian filter action is triggered.
+         * </p>
+         * 
+         * <p>
+         * This method is called whenever the GaussianBlurFilterAction is triggered.
+         * It prompts the user for a filter radius, then applys an appropriately sized {@link GaussianBlurFilter}.
+         * try/catch block if filtered is applied when no image is opened. 
+         * </p>
+         * 
+         * @param e The event triggering this callback.
+         */
         public void actionPerformed( ActionEvent e ) { 
 
-            int radius = 1;
+            try {
 
-            // Pop-up dialog box to ask for the radius value.
-            SpinnerNumberModel radiusModel = new SpinnerNumberModel(1, 1, 10, 1);
-            JSpinner radiusSpinner = new JSpinner(radiusModel);
-            int option = JOptionPane.showOptionDialog(null, radiusSpinner, "Enter filter radius", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+                int radius = 1;
 
-            // Check the return value from the dialog box.
-            if (option == JOptionPane.CANCEL_OPTION) {
-                return;
-            } else if (option == JOptionPane.OK_OPTION) {
-                radius = radiusModel.getNumber().intValue();
-            }
+                // Pop-up dialog box to ask for the radius value.
+                SpinnerNumberModel radiusModel = new SpinnerNumberModel(1, 1, 10, 1);
+                JSpinner radiusSpinner = new JSpinner(radiusModel);
+                int option = JOptionPane.showOptionDialog(null, radiusSpinner, "Enter filter radius", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
 
-            // Create and apply the filter
-            target.getImage().apply(new GaussianBlurFilter(radius));
-            target.repaint();
-            target.getParent().revalidate();
+                // Check the return value from the dialog box.
+                if (option == JOptionPane.CANCEL_OPTION) {
+                    return;
+                } else if (option == JOptionPane.OK_OPTION) {
+                    radius = radiusModel.getNumber().intValue();
+                }
+
+                // Create and apply the filter
+                target.getImage().apply(new GaussianBlurFilter(radius));
+                target.repaint();
+                target.getParent().revalidate();
+
+            // if no image has been opened, caught by NullPointerException and shows error message
+            } catch ( NullPointerException error ) {
+
+                JOptionPane.showMessageDialog( null , "No image has been opened" , "Error" , JOptionPane.WARNING_MESSAGE );
+                return ; 
+
+            }  
+            
         }
+
     }
 
-
-    
     /**
      * <p>
      * Action to blur an image with a median filter.
@@ -176,7 +267,8 @@ public class FilterActions {
      * @see MedianFilter
      */
     public class MedianFilterAction extends ImageAction{
-         /**
+         
+        /**
          * <p>
          * Create a new MedianFilterAction.
          * </p>
@@ -192,36 +284,50 @@ public class FilterActions {
 
         /**
          * <p>
-         * Callback for when the convert-to-grey action is triggered.
+         * Callback for when the median filter is triggered.
          * </p>
          * 
          * <p>
          * This method is called whenever the MedianFilterAction is triggered.
          * It prompts the user for a filter radius, then applys an appropriately sized {@link MedianFilter}.
+         * try/catch block if filtered is applied when no image is opened.
          * </p>
          * 
          * @param e The event triggering this callback.
          */
-
         public void actionPerformed(ActionEvent e){
-            int radius = 1;
+            
+            try { 
 
-            // Pop-up dialog box to ask for the radius value.
-            SpinnerNumberModel radiusModel = new SpinnerNumberModel(1, 1, 10, 1);
-            JSpinner radiusSpinner = new JSpinner(radiusModel);
-            int option = JOptionPane.showOptionDialog(null, radiusSpinner, "Enter filter radius", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+                int radius = 1;
 
-            // Check the return value from the dialog box.
-            if (option == JOptionPane.CANCEL_OPTION) {
-                return;
-            } else if (option == JOptionPane.OK_OPTION) {
-                radius = radiusModel.getNumber().intValue();
+                // Pop-up dialog box to ask for the radius value.
+                SpinnerNumberModel radiusModel = new SpinnerNumberModel(1, 1, 10, 1);
+                JSpinner radiusSpinner = new JSpinner(radiusModel);
+                int option = JOptionPane.showOptionDialog(null, radiusSpinner, "Enter filter radius", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+
+                // Check the return value from the dialog box.
+                if (option == JOptionPane.CANCEL_OPTION) {
+                    return;
+                } else if (option == JOptionPane.OK_OPTION) {
+                    radius = radiusModel.getNumber().intValue();
+                }
+
+                // Create and apply the filter
+                target.getImage().apply(new GaussianBlurFilter(radius));
+                target.repaint();
+                target.getParent().revalidate();
+
+            // if no image has been opened, caught by NullPointerException and shows error message
+            } catch ( NullPointerException error ) {
+
+                JOptionPane.showMessageDialog( null , "No image has been opened" , "Error" , JOptionPane.WARNING_MESSAGE );
+                return ; 
+
             }
 
-            // Create and apply the filter
-            target.getImage().apply(new GaussianBlurFilter(radius));
-            target.repaint();
-            target.getParent().revalidate();
         }
+
     }
+
 }
