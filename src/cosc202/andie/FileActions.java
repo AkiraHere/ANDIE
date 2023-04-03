@@ -37,11 +37,11 @@ public class FileActions {
      */
     public FileActions() {
         actions = new ArrayList<Action>();
-        actions.add(new FileOpenAction("Open", null, "Open a file", Integer.valueOf(KeyEvent.VK_O)));
-        actions.add(new FileSaveAction("Save", null, "Save the file", Integer.valueOf(KeyEvent.VK_S)));
-        actions.add(new FileSaveAsAction("Save As", null, "Save a copy", Integer.valueOf(KeyEvent.VK_A)));
-        actions.add(new FileExportAction("Export", null, "Export a copy", Integer.valueOf(KeyEvent.VK_E))) ; 
-        actions.add(new FileExitAction("Exit", null, "Exit the program", Integer.valueOf(0)));
+        actions.add(new FileOpenAction(Andie.getI18N().getI18NString("open_name"), null, Andie.getI18N().getI18NString("open_description"), Integer.valueOf(KeyEvent.VK_O)));
+        actions.add(new FileSaveAction(Andie.getI18N().getI18NString("save_name"), null, Andie.getI18N().getI18NString("save_description"), Integer.valueOf(KeyEvent.VK_S)));
+        actions.add(new FileSaveAsAction(Andie.getI18N().getI18NString("save_as_name"), null, Andie.getI18N().getI18NString("save_as_description"), Integer.valueOf(KeyEvent.VK_A)));
+        actions.add(new FileExportAction(Andie.getI18N().getI18NString("export_name"), null, Andie.getI18N().getI18NString("export_description"), Integer.valueOf(KeyEvent.VK_E))) ; 
+        actions.add(new FileExitAction(Andie.getI18N().getI18NString("exit_name"), null, Andie.getI18N().getI18NString("exit_description"), Integer.valueOf(0)));
     }
 
     /**
@@ -52,7 +52,7 @@ public class FileActions {
      * @return The File menu UI element.
      */
     public JMenu createMenu() {
-        JMenu fileMenu = new JMenu("File");
+        JMenu fileMenu = new JMenu(Andie.getI18N().getI18NString("jmenu_file"));
 
         for(Action action: actions) {
             fileMenu.add(new JMenuItem(action));
@@ -98,16 +98,16 @@ public class FileActions {
          */
         public void actionPerformed(ActionEvent e) {
             JFileChooser fileChooser = new JFileChooser();
-            FileNameExtensionFilter filter = new FileNameExtensionFilter("Image Files", "jpg", "jpeg", "png", "gif");
+            FileNameExtensionFilter filter = new FileNameExtensionFilter(Andie.getI18N().getI18NString("image_files"), "jpg", "jpeg", "png", "gif");
             int result = fileChooser.showOpenDialog(target);
 
             if (result == JFileChooser.APPROVE_OPTION) {
                 try {
                     File selectedFile = fileChooser.getSelectedFile();
                     if(!selectedFile.exists()){
-                        JOptionPane.showMessageDialog(null, "File Not Found", "Error", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(null, Andie.getI18N().getI18NString("error_file_not_found"), Andie.getI18N().getI18NString("error_title"), JOptionPane.ERROR_MESSAGE);
                     } else if (!filter.accept(selectedFile)) {
-                        JOptionPane.showMessageDialog(null, "Invalid file selected.", "Error", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(null, Andie.getI18N().getI18NString("error_invalid_file"), Andie.getI18N().getI18NString("error_title"), JOptionPane.ERROR_MESSAGE);
                     } else {
                         String imageFilepath = fileChooser.getSelectedFile().getCanonicalPath();
                         target.getImage().open(imageFilepath);

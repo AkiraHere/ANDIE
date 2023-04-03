@@ -34,10 +34,10 @@ public class FilterActions {
      */
     public FilterActions() {
         actions = new ArrayList<Action>();
-        actions.add(new MeanFilterAction("Mean filter", null, "Apply a mean filter", Integer.valueOf(KeyEvent.VK_M)));
-        actions.add(new MedianFilterAction("Median filter", null, "Apply a median filter", Integer.valueOf(KeyEvent.VK_N)));
-        actions.add(new SharpenFilterAction( "Sharpen filter" , null , "Apply a sharpen filter" , Integer.valueOf(KeyEvent.VK_B))) ; 
-        actions.add(new GaussianBlurFilterAction( "Gaussian blur filter", null , "Apply a gaussian blur" , Integer.valueOf(KeyEvent.VK_G))) ; 
+        actions.add(new MeanFilterAction(Andie.getI18N().getI18NString("mean_name"), null, Andie.getI18N().getI18NString("mean_description"), Integer.valueOf(KeyEvent.VK_M)));
+        actions.add(new MedianFilterAction(Andie.getI18N().getI18NString("median_name"), null, Andie.getI18N().getI18NString("median_description"), Integer.valueOf(KeyEvent.VK_N)));
+        actions.add(new SharpenFilterAction( Andie.getI18N().getI18NString("sharpen_name") , null , Andie.getI18N().getI18NString("sharpen_description") , Integer.valueOf(KeyEvent.VK_B))) ; 
+        actions.add(new GaussianBlurFilterAction( Andie.getI18N().getI18NString("gaussian_name"), null , Andie.getI18N().getI18NString("gaussian_description") , Integer.valueOf(KeyEvent.VK_G))) ; 
     }
 
     /**
@@ -48,7 +48,7 @@ public class FilterActions {
      * @return The filter menu UI element.
      */
     public JMenu createMenu() {
-        JMenu fileMenu = new JMenu("Filter");
+        JMenu fileMenu = new JMenu(Andie.getI18N().getI18NString("jmenu_filter"));
 
         for(Action action: actions) {
             fileMenu.add(new JMenuItem(action));
@@ -102,7 +102,7 @@ public class FilterActions {
                 // Pop-up dialog box to ask for the radius value.
                 SpinnerNumberModel radiusModel = new SpinnerNumberModel(1, 1, 10, 1);
                 JSpinner radiusSpinner = new JSpinner(radiusModel);
-                int option = JOptionPane.showOptionDialog(null, radiusSpinner, "Enter filter radius", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+                int option = JOptionPane.showOptionDialog(null, radiusSpinner, Andie.getI18N().getI18NString("filter_radius"), JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
 
                 // Check the return value from the dialog box.
                 if (option == JOptionPane.CANCEL_OPTION) {
@@ -119,7 +119,7 @@ public class FilterActions {
             // if no image has been opened, caught by NullPointerException and shows error message
             } catch ( NullPointerException error ) {
 
-                JOptionPane.showMessageDialog( null , "No image has been opened" , "Error" , JOptionPane.WARNING_MESSAGE );
+                JOptionPane.showMessageDialog( null , Andie.getI18N().getI18NString("error_no_image_opened") , Andie.getI18N().getI18NString("error_title") , JOptionPane.WARNING_MESSAGE );
                 return ; 
 
             }
@@ -177,7 +177,7 @@ public class FilterActions {
             // if no image has been opened, caught by NullPointerException and shows error message
             } catch ( NullPointerException error ) {
 
-                JOptionPane.showMessageDialog( null , "No image has been opened" , "Error" , JOptionPane.WARNING_MESSAGE );
+                JOptionPane.showMessageDialog( null , Andie.getI18N().getI18NString("error_no_image_opened") , Andie.getI18N().getI18NString("error_title") , JOptionPane.WARNING_MESSAGE );
                 return ; 
 
             }
@@ -233,7 +233,7 @@ public class FilterActions {
                 // Pop-up dialog box to ask for the radius value.
                 SpinnerNumberModel radiusModel = new SpinnerNumberModel(1, 1, 10, 1);
                 JSpinner radiusSpinner = new JSpinner(radiusModel);
-                int option = JOptionPane.showOptionDialog(null, radiusSpinner, "Enter filter radius", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+                int option = JOptionPane.showOptionDialog(null, radiusSpinner, Andie.getI18N().getI18NString("filter_radius"), JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
 
                 // Check the return value from the dialog box.
                 if (option == JOptionPane.CANCEL_OPTION) {
@@ -250,7 +250,7 @@ public class FilterActions {
             // if no image has been opened, caught by NullPointerException and shows error message
             } catch ( NullPointerException error ) {
 
-                JOptionPane.showMessageDialog( null , "No image has been opened" , "Error" , JOptionPane.WARNING_MESSAGE );
+                JOptionPane.showMessageDialog( null , Andie.getI18N().getI18NString("error_no_image_opened") , Andie.getI18N().getI18NString("error_title") , JOptionPane.WARNING_MESSAGE );
                 return ; 
 
             }  
@@ -304,7 +304,7 @@ public class FilterActions {
                 // Pop-up dialog box to ask for the radius value.
                 SpinnerNumberModel radiusModel = new SpinnerNumberModel(1, 1, 10, 1);
                 JSpinner radiusSpinner = new JSpinner(radiusModel);
-                int option = JOptionPane.showOptionDialog(null, radiusSpinner, "Enter filter radius", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+                int option = JOptionPane.showOptionDialog(null, radiusSpinner, Andie.getI18N().getI18NString("filter_radius"), JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
 
                 // Check the return value from the dialog box.
                 if (option == JOptionPane.CANCEL_OPTION) {
@@ -321,7 +321,7 @@ public class FilterActions {
             // if no image has been opened, caught by NullPointerException and shows error message
             } catch ( NullPointerException error ) {
 
-                JOptionPane.showMessageDialog( null , "No image has been opened" , "Error" , JOptionPane.WARNING_MESSAGE );
+                JOptionPane.showMessageDialog( null , Andie.getI18N().getI18NString("error_no_image_opened") , Andie.getI18N().getI18NString("error_title") , JOptionPane.WARNING_MESSAGE );
                 return ; 
 
             }

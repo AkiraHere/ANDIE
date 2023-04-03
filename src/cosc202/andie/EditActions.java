@@ -34,8 +34,8 @@ public class EditActions {
      */
     public EditActions() {
         actions = new ArrayList<Action>();
-        actions.add(new UndoAction("Undo", null, "Undo", Integer.valueOf(KeyEvent.VK_Z)));
-        actions.add(new RedoAction("Redo", null, "Redo", Integer.valueOf(KeyEvent.VK_Y)));
+        actions.add(new UndoAction( Andie.getI18N().getI18NString("undo") , null, Andie.getI18N().getI18NString("undo") , Integer.valueOf(KeyEvent.VK_Z)));
+        actions.add(new RedoAction( Andie.getI18N().getI18NString("redo") , null, Andie.getI18N().getI18NString("redo") , Integer.valueOf(KeyEvent.VK_Y)));
     }
 
     /**
@@ -46,7 +46,7 @@ public class EditActions {
      * @return The edit menu UI element.
      */
     public JMenu createMenu() {
-        JMenu editMenu = new JMenu("Edit");
+        JMenu editMenu = new JMenu(Andie.getI18N().getI18NString("jmenu_edit"));
 
         for (Action action: actions) {
             editMenu.add(new JMenuItem(action));

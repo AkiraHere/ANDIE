@@ -1,6 +1,7 @@
 package cosc202.andie;
 
 import java.awt.*;
+
 import javax.swing.*;
 import javax.imageio.*;
 
@@ -22,6 +23,9 @@ import javax.imageio.*;
  * @version 1.0
  */
 public class Andie {
+
+    private static Internationalization internationalization ; 
+    private static JFrame frame ; 
 
     /**
      * <p>
@@ -47,8 +51,11 @@ public class Andie {
      * @throws Exception if something goes wrong.
      */
     private static void createAndShowGUI() throws Exception {
+        
+        internationalization = new Internationalization() ; 
+        
         // Set up the main GUI frame
-        JFrame frame = new JFrame("ANDIE");
+        frame = new JFrame( getI18N().getI18NString("title"));
 
         Image image = ImageIO.read(Andie.class.getClassLoader().getResource("icon.png"));
         frame.setIconImage(image);
@@ -86,10 +93,27 @@ public class Andie {
         // Actions that affect orientation of image
         TransformActions transformActions = new TransformActions();
         menuBar.add(transformActions.createMenu());
+
+        // Actions that affect language preference in ANDIE
+        InternationalizationActions internationalizationActions = new InternationalizationActions() ; 
+        menuBar.add( internationalizationActions.createMenu() ) ; 
         
         frame.setJMenuBar(menuBar);
         frame.pack();
         frame.setVisible(true); 
+
+    }
+
+    public static Internationalization getI18N() {
+
+        return internationalization ; 
+
+    }
+
+    public static void closeFrame() {
+
+        frame.dispose() ; 
+
     }
 
     /**

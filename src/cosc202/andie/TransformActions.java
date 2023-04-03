@@ -17,9 +17,9 @@ public class TransformActions {
      */
     public TransformActions() {
         actions = new ArrayList<Action>();
-        actions.add(new ResizeImageAction("Resize", null, "Resize Image", Integer.valueOf(KeyEvent.VK_PLUS)));
-        actions.add(new RotateImageAction("Rotate", null, "Rotate Image", Integer.valueOf(KeyEvent.VK_MINUS)));
-        actions.add(new FlipImageAction("Flip", null, "Flip Image", Integer.valueOf(KeyEvent.VK_1)));
+        actions.add(new ResizeImageAction(Andie.getI18N().getI18NString("resize_name"), null, Andie.getI18N().getI18NString("resize_description"), Integer.valueOf(KeyEvent.VK_PLUS)));
+        actions.add(new RotateImageAction(Andie.getI18N().getI18NString("rotate_name"), null, Andie.getI18N().getI18NString("rotate_description"), Integer.valueOf(KeyEvent.VK_MINUS)));
+        actions.add(new FlipImageAction(Andie.getI18N().getI18NString("flip_name"), null, Andie.getI18N().getI18NString("flip_description"), Integer.valueOf(KeyEvent.VK_1)));
     }
         /**
      * <p>
@@ -29,7 +29,7 @@ public class TransformActions {
      * @return The Transform menu UI element.
      */
     public JMenu createMenu() {
-        JMenu fileMenu = new JMenu("Transform");
+        JMenu fileMenu = new JMenu(Andie.getI18N().getI18NString("jmenu_transform"));
 
         for(Action action: actions) {
             fileMenu.add(new JMenuItem(action));
@@ -62,7 +62,7 @@ public class TransformActions {
             int resizeFactor = 0;
             SpinnerNumberModel radiusModel = new SpinnerNumberModel(100, 1, 1000, 1);
             JSpinner radiusSpinner = new JSpinner(radiusModel);
-            int option = JOptionPane.showOptionDialog(null, radiusSpinner, "Enter resize scale factor between 1 - 1000 (%)", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+            int option = JOptionPane.showOptionDialog(null, radiusSpinner, Andie.getI18N().getI18NString("resize_scale"), JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
             if (option == JOptionPane.CANCEL_OPTION) {
                 return;
             } else if (option == JOptionPane.OK_OPTION) {
@@ -84,8 +84,12 @@ public class TransformActions {
     
         @Override
         public void actionPerformed(ActionEvent e) {
-            String[] options = {"90 degrees right", "90 degrees left", "180 degrees"};
-            int selectedOption = JOptionPane.showOptionDialog(target, "Select rotation option", "Rotate Image",
+            String[] options = { 
+                    Andie.getI18N().getI18NString("degrees_right") , 
+                    Andie.getI18N().getI18NString("degrees_left") , 
+                    Andie.getI18N().getI18NString("degrees_flip")
+            };
+            int selectedOption = JOptionPane.showOptionDialog(target, Andie.getI18N().getI18NString("rotation_message"), Andie.getI18N().getI18NString("rotation_title"),
                     JOptionPane.DEFAULT_OPTION, 
                     JOptionPane.PLAIN_MESSAGE, 
                     null, options, options[0]);
@@ -111,10 +115,10 @@ public class TransformActions {
         }
         @Override
         public void actionPerformed(ActionEvent e) {
-            Object[] options = {"Horizontal", "Vertical"};
+            Object[] options = {Andie.getI18N().getI18NString("flip_horizontal"), Andie.getI18N().getI18NString("flip_vertical")};
             int direction = JOptionPane.showOptionDialog(target,
-                    "Which direction would you like to flip the image?",
-                    "Flip Image",
+                    Andie.getI18N().getI18NString("flip_message"),
+                    Andie.getI18N().getI18NString("flip_title"),
                     JOptionPane.YES_NO_OPTION,
                     JOptionPane.QUESTION_MESSAGE,
                     null,
