@@ -9,19 +9,18 @@ import javax.imageio.*;
 import java.io.*;
 import java.util.Random;
 
-import cosc202.andie.ConvertToGrey;
+import cosc202.andie.MeanFilter;
 
-public class ConvertToGreyTest {
+public class MeanFilterTest {
 
-    private ConvertToGrey testFilter = new ConvertToGrey(); 
+    private MeanFilter testFilter = new MeanFilter(); 
     private static BufferedImage testingImage;
-
 
     //Initializes our testing image
     @BeforeAll
     static void getImage(){
         try{
-            testingImage = ImageIO.read(ConvertToGreyTest.class.getResourceAsStream("clocktower.jpg"));
+            testingImage = ImageIO.read(MeanFilterTest.class.getResourceAsStream("clocktower.jpg"));
         }catch (IOException e){
             System.out.println("Failed to find image");
             fail();
@@ -38,31 +37,30 @@ public class ConvertToGreyTest {
         return r.nextInt(x);
     }
     
-    //Dummy Test, always succeeds
+    //Dummy test always passes
     @Test
     void initialDummyTest(){
     }
 
-    //Tests that the same filter is applied when looking at another instance
-    @Test 
-    void argbValueTest(){
-        ConvertToGrey filter = new ConvertToGrey();
+    //Tests that the image operation is the same output
+    @Test
+    void imageTest(){
+        MeanFilter filter = new MeanFilter();
         try{
-            BufferedImage manualImage = ImageIO.read(ConvertToGreyTest.class.getResourceAsStream("clocktower.jpg"));
+            BufferedImage manualImage = ImageIO.read(MeanFilterTest.class.getResourceAsStream("clocktower.jpg"));
             BufferedImage testImage1 = filter.apply(manualImage);
             BufferedImage testImage2 = testFilter.apply(testingImage);
-
+            
             int randomXCoord = randomInRange(testImage1.getWidth());
             int randomYCoord = randomInRange(testImage1.getHeight());
 
             Assertions.assertEquals(testImage1.getRGB(randomXCoord, randomYCoord),testImage2.getRGB(randomXCoord, randomYCoord));
             Assertions.assertEquals(testImage1.getRGB(0, 0),testImage2.getRGB(0, 0));
             Assertions.assertEquals(testImage1.getRGB(testImage1.getWidth()-1, testImage1.getHeight()-1),testImage2.getRGB(testImage2.getWidth()-1, testImage2.getHeight()-1));
-        }catch (IOException e){
+        } catch (IOException e){
             System.out.println("Failed to find image");
             fail();
         }
-    }
-
+    }  
 
 }

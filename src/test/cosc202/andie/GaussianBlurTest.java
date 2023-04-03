@@ -8,6 +8,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 import java.awt.image.BufferedImage;
 import javax.imageio.*;
 import java.io.*;
+import java.util.Random;
 
 import cosc202.andie.GaussianBlurFilter;
 
@@ -20,11 +21,21 @@ public class GaussianBlurTest {
     @BeforeAll
     static void initializeImage(){
         try{
-            testingImage = ImageIO.read(new File("C:/Users/lukew/OneDrive - University of Otago/Papers/COSC202/ANDIE/andie/src/test/cosc202/andie/clocktower.jpg"));
+            testingImage = ImageIO.read(GaussianBlurTest.class.getResourceAsStream("clocktower.jpg"));
         }catch (IOException e){
             System.out.println("Failed to find image");
             fail();
         }
+    }
+    
+    /**
+     * Method for generating a random number within the bounds of the height and width of the testing image.
+     * @param x the bound of the testing image, such as height or width.
+     * @return pseudo-random number within the specified range.
+     */
+    public int randomInRange(int x){
+        Random r = new Random();
+        return r.nextInt(x);
     }
 
     //Dummy Test - always a pass
@@ -37,13 +48,16 @@ public class GaussianBlurTest {
     void filterImageTest1(){
         GaussianBlurFilter filter = new GaussianBlurFilter();
         try{
-            BufferedImage manualImage = ImageIO.read(new File("C:/Users/lukew/OneDrive - University of Otago/Papers/COSC202/ANDIE/andie/src/test/cosc202/andie/clocktower.jpg"));
+            BufferedImage manualImage = ImageIO.read(GaussianBlurTest.class.getResourceAsStream("clocktower.jpg"));
             BufferedImage testImage1 = filter.apply(manualImage);
             BufferedImage testImage2 = testFilter.apply(testingImage);
 
-            Assertions.assertEquals(testImage1.getRGB(1, 1),testImage2.getRGB(1, 1));
-            Assertions.assertEquals(testImage1.getRGB(30, 150),testImage2.getRGB(30, 150));
-            Assertions.assertEquals(testImage1.getRGB(109, 800),testImage2.getRGB(109, 800));
+            int randomXCoord = randomInRange(testImage1.getWidth());
+            int randomYCoord = randomInRange(testImage1.getHeight());
+
+            Assertions.assertEquals(testImage1.getRGB(randomXCoord, randomYCoord),testImage2.getRGB(randomXCoord, randomYCoord));
+            Assertions.assertEquals(testImage1.getRGB(0, 0),testImage2.getRGB(0, 0));
+            Assertions.assertEquals(testImage1.getRGB(testImage1.getWidth()-1, testImage1.getHeight()-1),testImage2.getRGB(testImage2.getWidth()-1, testImage2.getHeight()-1));
 
         }catch (IOException e){
             System.out.println("Failed to find image");

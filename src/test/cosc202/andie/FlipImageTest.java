@@ -9,25 +9,25 @@ import javax.imageio.*;
 import java.io.*;
 import java.util.Random;
 
-import cosc202.andie.MedianFilter;
+import cosc202.andie.FlipImage;
 
-public class MedianFilterTest {
+public class FlipImageTest {
 
-    private final MedianFilter testFilter1 = new MedianFilter();
-    private final MedianFilter testFilter2 = new MedianFilter(3);
+    private FlipImage testHorizontalFilter = new FlipImage(true); 
+    private FlipImage testVerticalFilter = new FlipImage(false); 
     private static BufferedImage testingImage;
 
-    //Initialize the image before testing
+    //Initializes our testing image
     @BeforeAll
     static void getImage(){
         try{
-            testingImage = ImageIO.read(MedianFilterTest.class.getResourceAsStream("clocktower.jpg"));
+            testingImage = ImageIO.read(FlipImageTest.class.getResourceAsStream("clocktower.jpg"));
         }catch (IOException e){
             System.out.println("Failed to find image");
             fail();
         }
     }
-
+    
     /**
      * Method for generating a random number within the bounds of the height and width of the testing image.
      * @param x the bound of the testing image, such as height or width.
@@ -38,34 +38,19 @@ public class MedianFilterTest {
         return r.nextInt(x);
     }
 
-    //Dummy Test
+    //Dummy Test, always succeeds
     @Test
     void initialDummyTest(){
     }
 
-    //Tests Default radius is 1.
-    @Test
-    void getDefaultRadius(){
-        MedianFilter filter = new MedianFilter(1);
-        Assertions.assertEquals(filter.getRadius(), testFilter1.getRadius());
-        Assertions.assertTrue(1 == filter.getRadius());
-    }
-
-    //Tests that if we call constructor passing a value it will change the radius.
-    @Test
-    void applyRadius(){
-        MedianFilter filter = new MedianFilter(9);
-        Assertions.assertTrue(9 == filter.getRadius());
-    }
-
-    //Test that the correct image operation has been completed using default radius
-    @Test
-    void imageTest1(){
-        MedianFilter filter = new MedianFilter();
+    //Tests that the same filter is applied when looking at another instance of a horizontal flip
+    @Test 
+    void argbValueTestHorizontal(){
+        FlipImage filter = new FlipImage(true);
         try{
-            BufferedImage manualImage = ImageIO.read(MedianFilterTest.class.getResourceAsStream("clocktower.jpg"));
+            BufferedImage manualImage = ImageIO.read(FlipImageTest.class.getResourceAsStream("clocktower.jpg"));
             BufferedImage testImage1 = filter.apply(manualImage);
-            BufferedImage testImage2 = testFilter1.apply(testingImage);
+            BufferedImage testImage2 = testHorizontalFilter.apply(testingImage);
 
             int randomXCoord = randomInRange(testImage1.getWidth());
             int randomYCoord = randomInRange(testImage1.getHeight());
@@ -79,15 +64,14 @@ public class MedianFilterTest {
         }
     }
 
-    
-    //Test that the correct image operation has been completed using a larger radius, 3
-    @Test
-    void imageTest2(){
-        MedianFilter filter = new MedianFilter(3);
+    //Tests that the same filter is applied when looking at another instance of a vertical flip
+    @Test 
+    void argbValueTestVertical(){
+        FlipImage filter = new FlipImage(false);
         try{
-            BufferedImage manualImage = ImageIO.read(MedianFilterTest.class.getResourceAsStream("clocktower.jpg"));
+            BufferedImage manualImage = ImageIO.read(FlipImageTest.class.getResourceAsStream("clocktower.jpg"));
             BufferedImage testImage1 = filter.apply(manualImage);
-            BufferedImage testImage2 = testFilter2.apply(testingImage);
+            BufferedImage testImage2 = testVerticalFilter.apply(testingImage);
 
             int randomXCoord = randomInRange(testImage1.getWidth());
             int randomYCoord = randomInRange(testImage1.getHeight());
@@ -100,8 +84,4 @@ public class MedianFilterTest {
             fail();
         }
     }
-
-
-
-
 }
