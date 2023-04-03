@@ -13,14 +13,14 @@ public class InternationalizationActions {
     public InternationalizationActions() {
 
         actions = new ArrayList<Action>() ; 
-        actions.add( new EnglishNewZealand( Andie.getI18N().getI18NString("english_name") , null , Andie.getI18N().getI18NString("english_description") , Integer.valueOf( KeyEvent.VK_0 ) ) ) ; 
-        actions.add( new FrenchFrance( Andie.getI18N().getI18NString("french_name") , null , Andie.getI18N().getI18NString("french_description") , Integer.valueOf( KeyEvent.VK_1 ) ) ) ;
+        actions.add( new EnglishNewZealand( Andie.getLanguage("english_name") , null , Andie.getLanguage("english_description") , Integer.valueOf( KeyEvent.VK_0 ) ) ) ; 
+        actions.add( new FrenchFrance( Andie.getLanguage("french_name") , null , Andie.getLanguage("french_description") , Integer.valueOf( KeyEvent.VK_1 ) ) ) ;
 
     }
 
     public JMenu createMenu() {
 
-        JMenu languageMenu = new JMenu( Andie.getI18N().getI18NString("jmenu_language")) ; 
+        JMenu languageMenu = new JMenu( Andie.getLanguage("jmenu_language")) ; 
 
         for ( Action action : actions ) {
 
@@ -43,7 +43,7 @@ public class InternationalizationActions {
 
         public void actionPerformed( ActionEvent e ) {
             
-             Andie.getI18N().setLang( "en" , "NZ" ) ; 
+             Andie.setLanguage( "en" , "NZ" ) ; 
 
         } 
 
@@ -61,7 +61,7 @@ public class InternationalizationActions {
 
         public void actionPerformed( ActionEvent e ) {
             
-             Andie.getI18N().setLang( "fr" , "FR" ) ; 
+             Andie.setLanguage( "fr" , "FR" ) ; 
 
         } 
 

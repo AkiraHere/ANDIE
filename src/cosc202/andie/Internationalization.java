@@ -37,15 +37,15 @@ public class Internationalization {
         
         if ( language == currLanguage && country == currCountry ) {
 
-            JOptionPane.showMessageDialog( null , Andie.getI18N().getI18NString("error_same_language") , Andie.getI18N().getI18NString("title") , 0 ) ;
+            JOptionPane.showMessageDialog( null , Andie.getLanguage("error_same_language") , Andie.getLanguage("title") , 0 ) ;
             return ; 
 
         }
 
-        String[] options = { Andie.getI18N().getI18NString("continue") , Andie.getI18N().getI18NString("exit") } ; 
+        String[] options = { Andie.getLanguage("continue") , Andie.getLanguage("exit") } ; 
         int selectedOption = JOptionPane.showOptionDialog( null , 
-            Andie.getI18N().getI18NString("warning_message") , 
-            Andie.getI18N().getI18NString("warning_title") ,
+            Andie.getLanguage("warning_message") , 
+            Andie.getLanguage("warning_title") ,
             JOptionPane.DEFAULT_OPTION, 
             JOptionPane.PLAIN_MESSAGE, 
             null, options, options[0]);

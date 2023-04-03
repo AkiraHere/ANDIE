@@ -240,7 +240,7 @@ class EditableImage {
         // deals with case where user inputted file name starts with a '.'
         if ( fileName.charAt( 0 ) == '.' ) {
 
-            JOptionPane.showMessageDialog( null , Andie.getI18N().getI18NString("error_unacceptable_file_name") , Andie.getI18N().getI18NString( "error_warning" ) , JOptionPane.WARNING_MESSAGE );
+            JOptionPane.showMessageDialog( null , Andie.getLanguage("error_unacceptable_file_name") , Andie.getLanguage( "error_warning" ) , JOptionPane.WARNING_MESSAGE );
             return ;
 
         }
@@ -250,7 +250,7 @@ class EditableImage {
             
             if ( fileName.contains( String.valueOf( unacceptableCharacters.charAt( i ) ) ) ) {
 
-                JOptionPane.showMessageDialog( null , Andie.getI18N().getI18NString("error_unacceptable_file_name") , Andie.getI18N().getI18NString( "error_warning" ) , JOptionPane.WARNING_MESSAGE );
+                JOptionPane.showMessageDialog( null , Andie.getLanguage("error_unacceptable_file_name") , Andie.getLanguage( "error_warning" ) , JOptionPane.WARNING_MESSAGE );
                 return ; 
 
             } 

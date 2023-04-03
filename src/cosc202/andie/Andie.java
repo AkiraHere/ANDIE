@@ -55,7 +55,7 @@ public class Andie {
         internationalization = new Internationalization() ; 
         
         // Set up the main GUI frame
-        frame = new JFrame( getI18N().getI18NString("title"));
+        frame = new JFrame( getLanguage("title") ) ;
 
         Image image = ImageIO.read(Andie.class.getClassLoader().getResource("icon.png"));
         frame.setIconImage(image);
@@ -105,15 +105,19 @@ public class Andie {
     }
 
     public static Internationalization getI18N() {
-
         return internationalization ; 
+    }
 
+    public static void setLanguage( String language , String country ) {
+        internationalization.setLang( language , country ) ;
+    }
+
+    public static String getLanguage( String key ) {
+        return internationalization.getI18NString( key ) ; 
     }
 
     public static void closeFrame() {
-
         frame.dispose() ; 
-
     }
 
     /**

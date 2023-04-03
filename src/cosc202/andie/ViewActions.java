@@ -35,9 +35,9 @@ public class ViewActions {
      */
     public ViewActions() {
         actions = new ArrayList<Action>();
-        actions.add(new ZoomInAction(Andie.getI18N().getI18NString("zoom_in_name"), null, Andie.getI18N().getI18NString("zoom_in_description"), Integer.valueOf(KeyEvent.VK_PLUS)));
-        actions.add(new ZoomOutAction(Andie.getI18N().getI18NString("zoom_out_name"), null, Andie.getI18N().getI18NString("zoom_out_description"), Integer.valueOf(KeyEvent.VK_MINUS)));
-        actions.add(new ZoomFullAction(Andie.getI18N().getI18NString("zoom_full_name"), null, Andie.getI18N().getI18NString("zoom_full_description"), Integer.valueOf(KeyEvent.VK_1)));
+        actions.add(new ZoomInAction(Andie.getLanguage("zoom_in_name"), null, Andie.getLanguage("zoom_in_description"), Integer.valueOf(KeyEvent.VK_PLUS)));
+        actions.add(new ZoomOutAction(Andie.getLanguage("zoom_out_name"), null, Andie.getLanguage("zoom_out_description"), Integer.valueOf(KeyEvent.VK_MINUS)));
+        actions.add(new ZoomFullAction(Andie.getLanguage("zoom_full_name"), null, Andie.getLanguage("zoom_full_description"), Integer.valueOf(KeyEvent.VK_1)));
     }
 
     /**
@@ -48,7 +48,7 @@ public class ViewActions {
      * @return The view menu UI element.
      */
     public JMenu createMenu() {
-        JMenu viewMenu = new JMenu(Andie.getI18N().getI18NString("jmenu_view"));
+        JMenu viewMenu = new JMenu(Andie.getLanguage("jmenu_view"));
 
         for (Action action: actions) {
             viewMenu.add(new JMenuItem(action));

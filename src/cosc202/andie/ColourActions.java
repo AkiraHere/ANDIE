@@ -34,8 +34,8 @@ public class ColourActions {
      */
     public ColourActions() {
         actions = new ArrayList<Action>();
-        actions.add(new ConvertToGreyAction(Andie.getI18N().getI18NString("greyscale_name"), null, Andie.getI18N().getI18NString("greyscale_description") , Integer.valueOf(KeyEvent.VK_G)));
-        actions.add(new ContrastAdjusterAction(Andie.getI18N().getI18NString("contrast_and_brightness_name"), null, Andie.getI18N().getI18NString("contrast_and_brightness_description"), Integer.valueOf(KeyEvent.VK_G)));
+        actions.add(new ConvertToGreyAction(Andie.getLanguage("greyscale_name"), null, Andie.getLanguage("greyscale_description") , Integer.valueOf(KeyEvent.VK_G)));
+        actions.add(new ContrastAdjusterAction(Andie.getLanguage("contrast_and_brightness_name"), null, Andie.getLanguage("contrast_and_brightness_description"), Integer.valueOf(KeyEvent.VK_G)));
     }
 
     /**
@@ -46,7 +46,7 @@ public class ColourActions {
      * @return The colour menu UI element.
      */
     public JMenu createMenu() {
-        JMenu fileMenu = new JMenu( Andie.getI18N().getI18NString("jmenu_colour") );
+        JMenu fileMenu = new JMenu( Andie.getLanguage("jmenu_colour") );
 
         for(Action action: actions) {
             fileMenu.add(new JMenuItem(action));
@@ -127,11 +127,11 @@ public class ColourActions {
             
             SpinnerNumberModel radiusModel = new SpinnerNumberModel(1, -100, 100, 1);
             JSpinner radiusSpinner = new JSpinner(radiusModel);
-            int option1 = JOptionPane.showOptionDialog(null, radiusSpinner, Andie.getI18N().getI18NString("contrast_percentage") , JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+            int option1 = JOptionPane.showOptionDialog(null, radiusSpinner, Andie.getLanguage("contrast_percentage") , JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
            
             SpinnerNumberModel radiusModel1 = new SpinnerNumberModel(1, -100, 100, 1);
             JSpinner radiusSpinner1 = new JSpinner(radiusModel1);
-            int option2 = JOptionPane.showOptionDialog(null, radiusSpinner1, Andie.getI18N().getI18NString("brightness_percentage") , JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+            int option2 = JOptionPane.showOptionDialog(null, radiusSpinner1, Andie.getLanguage("brightness_percentage") , JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
 
             if (option1 == JOptionPane.CANCEL_OPTION) {
                 return;
