@@ -43,7 +43,7 @@ public class MeanFilter implements ImageOperation, java.io.Serializable {
      * 
      * @param radius The radius of the newly constructed MeanFilter
      */
-    MeanFilter(int radius) {
+    public MeanFilter(int radius) {
         this.radius = radius;    
     }
 
@@ -58,7 +58,7 @@ public class MeanFilter implements ImageOperation, java.io.Serializable {
      * 
      * @see MeanFilter(int)
      */
-    MeanFilter() {
+    public MeanFilter() {
         this(1);
     }
 
