@@ -160,7 +160,11 @@ public class FileActions {
          */
         public void actionPerformed(ActionEvent e) {
             try {
-                target.getImage().save();           
+                if(target.getImage().hasImage()){
+                    target.getImage().save();
+                }else{
+                    JOptionPane.showMessageDialog(null, Andie.getLanguage("error_no_image"), Andie.getLanguage("error_title"), JOptionPane.ERROR_MESSAGE);
+                }           
             } catch (Exception ex) {
                 System.exit(1);
             }
@@ -209,8 +213,12 @@ public class FileActions {
 
             if (result == JFileChooser.APPROVE_OPTION) {
                 try {
-                    String imageFilepath = fileChooser.getSelectedFile().getCanonicalPath();
-                    target.getImage().saveAs(imageFilepath);
+                    if(target.getImage().hasImage()){
+                        String imageFilepath = fileChooser.getSelectedFile().getCanonicalPath();
+                        target.getImage().saveAs(imageFilepath);
+                    }else{
+                        JOptionPane.showMessageDialog(null, Andie.getLanguage("error_no_image"), Andie.getLanguage("error_title"), JOptionPane.ERROR_MESSAGE);
+                    }   
                 } catch (Exception ex) {
                     System.exit(1);
                 }
@@ -263,8 +271,12 @@ public class FileActions {
 
             if (result == JFileChooser.APPROVE_OPTION) {
                 try {
-                    String imageFilepath = fileChooser.getSelectedFile().getCanonicalPath();
-                    target.getImage().export(imageFilepath);
+                    if(target.getImage().hasImage()){
+                        String imageFilepath = fileChooser.getSelectedFile().getCanonicalPath();
+                        target.getImage().export(imageFilepath);
+                    }else{
+                        JOptionPane.showMessageDialog(null, Andie.getLanguage("error_no_image"), Andie.getLanguage("error_title"), JOptionPane.ERROR_MESSAGE);
+                    }    
                 } catch (Exception ex) {
                     System.exit(1);
                 }
