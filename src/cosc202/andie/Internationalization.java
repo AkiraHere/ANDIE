@@ -55,9 +55,12 @@ public class Internationalization {
             prefs.put( "language" , language ) ; 
             prefs.put( "country" , country ) ; 
             try {
+                // Andie.getFrame().invalidate();
+                // Andie.getFrame().validate();
+                // Andie.getFrame().repaint();
                 Andie.closeFrame() ; 
                 Andie.main( new String[]{} ) ; 
-            } catch (Exception e) {
+             } catch (Exception e) {
                 e.printStackTrace();
             } 
 

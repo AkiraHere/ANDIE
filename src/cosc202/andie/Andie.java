@@ -120,6 +120,11 @@ public class Andie {
         frame.dispose() ; 
     }
 
+    public static JFrame getFrame(){
+        return frame;
+    }
+
+
     /**
      * <p>
      * Main entry point to the ANDIE program.
