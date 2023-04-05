@@ -13,6 +13,10 @@ import java.util.*;
  * The result is a blurred image with sharper differences between contrasting colours? <<<FACT CHECK THIS
  * </p>
  * 
+ * <p> 
+ * <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a>
+ * </p>
+ * 
  * @author Luke Webb
  * @version 0.1;
  * 
