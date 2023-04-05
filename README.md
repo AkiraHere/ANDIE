@@ -1,11 +1,11 @@
-## ANDIE - A Non-Destructive Image Editor
+# ANDIE - A Non-Destructive Image Editor
 
 Welcome to ANDIE! 
 
 As the title above suggests, ANDIE is an image editor that allows for reversable changes. 
 This means that you can make changes to the size, colour or apply filters to an image of your choice, while also being able to undo those changes.
 To get started with ANDIE, launch the Andie.java file.
-Once running, navigate to the menu item 'File > Open' to search for the image that you wish to edit.
+Once running, navigate to the menu item *'File > Open'* to search for the image that you wish to edit.
 
 For a more in depth guide on how to use ANDIE, see the User Guide PDF document.
 
@@ -13,24 +13,24 @@ For a more in depth guide on how to use ANDIE, see the User Guide PDF document.
 Licenced under the creative commons license
 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a>
 
-##Contributions
+## Contributions
 
-##Sam (godsa744)
+### Sam (godsa744)
     - Sharpen Filter
     - Gaussian Blur Filter
     - Image Export
     - Multilingual Support (Enlgish and French)
 
-##Tan (robta083)
+### Tan (robta083)
     - Image Rotations
     - Image Flip
 
-##Nick (garni988)
+### Nick (garni988)
     - Brightness Adjustment
     - Contrast Adjustment
     - Image resize
 
-##Luke (weblu938)
+### Luke (weblu938)
     - Median Filter
     - Unit Testing
     - GUI Testing 
@@ -40,7 +40,7 @@ All contributors responsible for:
     - Other Error avoidance/prevention
     - Exception Handling
 
-##Testing
+## Testing
 The ANDIE GUI was tested by all contributors. 
 As features were developed, contributors tested functionality via interaction with the GUI.
 Once features were satisfactory, contributors pushed their feature to the repository.
