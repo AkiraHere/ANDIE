@@ -350,4 +350,10 @@ class EditableImage {
         }
     }
 
+    public String getFilename() {
+
+        return imageFilename ; 
+
+    }
+
 }

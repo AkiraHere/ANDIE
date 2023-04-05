@@ -10,12 +10,13 @@ public class Internationalization {
 
     private ResourceBundle bundle ; 
     private Preferences prefs ; 
+    private Locale.Builder locale ; 
 
     public Internationalization() {
 
         prefs = Preferences.userNodeForPackage( Internationalization.class ) ; 
 
-        Locale.Builder locale = new Locale.Builder() ; 
+        locale = new Locale.Builder() ; 
         locale.setLanguage( prefs.get( "language" , "en" ) ) ; 
         locale.setRegion( prefs.get( "country" , "NZ" ) ) ; 
         Locale.setDefault( locale.build() ) ; 
@@ -35,7 +36,7 @@ public class Internationalization {
         String currLanguage = Locale.getDefault().getLanguage() ; 
         String currCountry = Locale.getDefault().getCountry() ; 
         
-        if ( language == currLanguage && country == currCountry ) {
+        if ( language.equals(currLanguage) && country.equals(currCountry) ) {
 
             JOptionPane.showMessageDialog( null , Andie.getLanguage("error_same_language") , Andie.getLanguage("title") , 0 ) ;
             return ; 
@@ -54,13 +55,20 @@ public class Internationalization {
 
             prefs.put( "language" , language ) ; 
             prefs.put( "country" , country ) ; 
+            
             try {
-                // Andie.getFrame().invalidate();
-                // Andie.getFrame().validate();
-                // Andie.getFrame().repaint();
-                Andie.closeFrame() ; 
-                Andie.main( new String[]{} ) ; 
-             } catch (Exception e) {
+                if ( FileActions.FileSaveAction.target.getImage().hasImage() ) {
+                    FileActions.FileSaveAction.target.getImage().save() ; 
+                    String Filename = FileActions.FileOpenAction.target.getImage().getFilename() ; 
+                    Andie.closeFrame() ;
+                    String[] args = { Filename } ; 
+                    Andie.main( args ) ; 
+                } else {
+                    Andie.closeFrame() ; 
+                    Andie.main( new String[]{} ) ; 
+                } 
+            }
+            catch (Exception e) {
                 e.printStackTrace();
             } 
 

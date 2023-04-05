@@ -25,7 +25,7 @@ import javax.imageio.*;
 public class Andie {
 
     private static Internationalization internationalization ; 
-    private static JFrame frame ; 
+    private static JFrame frame ;
 
     /**
      * <p>
@@ -121,7 +121,11 @@ public class Andie {
     }
 
     public static JFrame getFrame(){
-        return frame;
+        return frame;  
+    }
+
+    public void openImage( String Filename ) throws Exception {
+        FileActions.FileOpenAction.target.getImage().open( Filename ) ; 
     }
 
 
@@ -142,8 +146,13 @@ public class Andie {
     public static void main(String[] args) throws Exception {
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-                try {
+                try { 
                     createAndShowGUI();
+                    if ( args.length == 1 ) {
+                        FileActions.FileOpenAction.target.getImage().open( args[0] ) ; 
+                        FileActions.FileOpenAction.target.repaint() ; 
+                        FileActions.FileOpenAction.target.getParent().revalidate() ;  
+                    }
                 } catch (Exception ex) {
                     ex.printStackTrace();
                     System.exit(1);
