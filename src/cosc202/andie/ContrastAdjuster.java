@@ -2,6 +2,25 @@ package cosc202.andie;
 
 import java.awt.image.*;
 
+/**
+ * <p>
+ *  Operations for adjusting Colour and Brightness
+ * </p>
+ * 
+ * <p>
+ *  Contrast and Brightness adjustment are modified by performing a calculation on the 
+ *  ARGB values of each pixel in the image. This class takes, as input, brightness and contrast
+ *  percentages in order to perfrom said calculation before returning a new BufferedImage.
+ * </p>
+ * 
+ * <p> 
+ * <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a>
+ * </p>
+ * 
+ * @author Nick Garner
+ * @version 1.0
+ */
+
 public class ContrastAdjuster implements ImageOperation, java.io.Serializable{
 
     private double contrastPercent;
@@ -13,7 +32,8 @@ public class ContrastAdjuster implements ImageOperation, java.io.Serializable{
 
     }
     /**
-     * Constructor
+     * Constructor for the Colour Adjustster object.
+     * 
      * @param contrastPercent = percentage that user inputs for desired change
      * @param brightPercent = percentage that user inputs for desired change
      */
@@ -23,6 +43,8 @@ public class ContrastAdjuster implements ImageOperation, java.io.Serializable{
     }
 
     /**
+     * 
+     * 
      * @param input The image to be converted to adjusted
      * @return The resulting adjusted image.
      */

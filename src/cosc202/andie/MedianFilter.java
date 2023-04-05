@@ -27,7 +27,7 @@ public class MedianFilter implements ImageOperation, java.io.Serializable {
 
     /** 
     * <p>
-    * The size of the filter is the 'radius' of the convolution kernel used.
+    * Contstructor for a median filter object.
     * A size of 1 is a 3x3 filter, 2 is 5x5, and so on.
     * Larger filters give a stronger blurring effect.
     * </p>
@@ -53,7 +53,7 @@ public class MedianFilter implements ImageOperation, java.io.Serializable {
      * 
      * <p>
      * The median filter will differ from the mean filter, by taking the median instead of a mean to apply
-     * the filter.
+     * the blurring effect.
      * </p>
      * 
      * @param input The image input subject to the median filter.

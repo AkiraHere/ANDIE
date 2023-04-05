@@ -2,14 +2,45 @@ package cosc202.andie;
 
 import java.awt.image.BufferedImage;
 
+/**
+ * <p>
+ * Operation that allows for an image to be flipped.
+ * </p>
+ * 
+ * <p>
+ * Flip image is achieved by iterating through the pixel values of the input image, then 
+ * simply reversing the order for the output image. Depending on the boolean flag "flipHorizontal"
+ * we can monitor wheter this flip should occur on the horizontal or vertical plane.
+ * </p>
+ * 
+ * 
+ * <p> 
+ * <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a>
+ * </p>
+ * 
+ * @author Tan Robertson
+ * @version 1.0
+ */
+
 public class FlipImage implements ImageOperation, java.io.Serializable {
 
     private final boolean flipHorizontal;
 
+    /**
+     * Constructor for the FlipImage object.
+     * 
+     * @param flipHorizontal Flag for deciding when the image is to be flipped on the horizontal plane.
+     */
     public FlipImage(boolean flipHorizontal) {
         this.flipHorizontal = flipHorizontal;
     }
 
+    /**
+     * Method used to create the flipped image effect.
+     * 
+     * @param inputIMG The image to be flipped
+     * @return The output image, flipped on either the horizontal or vertical plane.
+     */
     @Override
     public BufferedImage apply(BufferedImage inputImg) {
     int width = inputImg.getWidth();

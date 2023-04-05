@@ -2,7 +2,23 @@ package cosc202.andie;
 import java.util.*;
 import java.awt.event.*;
 import javax.swing.*;
-
+/**
+ * <p>
+ * Actions provided by the Transform menu.
+ * </p>
+ * 
+ * <p>
+ * The transform menu provides options for manipulating the size, rotation and plane of
+ * an image.
+ * </p>
+ * 
+ * <p> 
+ * <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a>
+ * </p>
+ * 
+ * @author Nick Garner, Tan Robertson
+ * @version 1.0
+ */
 public class TransformActions {
  
     /**
@@ -21,7 +37,7 @@ public class TransformActions {
         actions.add(new RotateImageAction(Andie.getLanguage("rotate_name"), null, Andie.getLanguage("rotate_description"), Integer.valueOf(KeyEvent.VK_MINUS)));
         actions.add(new FlipImageAction(Andie.getLanguage("flip_name"), null, Andie.getLanguage("flip_description"), Integer.valueOf(KeyEvent.VK_1)));
     }
-        /**
+    /**
      * <p>
      * Create a menu contianing the list of Transform actions.
      * </p>
@@ -41,7 +57,7 @@ public class TransformActions {
     public class ResizeImageAction extends ImageAction{
         /**
          * <p>
-         * Create a new convert-to-grey action.
+         * Create a new Resize image action.
          * </p>
          * 
          * @param name The name of the action (ignored if null).
@@ -75,13 +91,27 @@ public class TransformActions {
         }
     }
 
-    
+      
     public class RotateImageAction extends ImageAction {
-
+        /**
+         * <p>
+         * Create a new Rotate image action.
+         * </p>
+         * 
+         * @param name The name of the action (ignored if null).
+         * @param icon An icon to use to represent the action (ignored if null).
+         * @param desc A brief description of the action  (ignored if null).
+         * @param mnemonic A mnemonic key to use as a shortcut  (ignored if null).
+         */ 
         RotateImageAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
         }
-    
+        
+        /**
+         * <p>
+         * Method to display a pop-up box that allows for choice of rotation.
+         * </p>
+         */
         @Override
         public void actionPerformed(ActionEvent e) {
             String[] options = { 
@@ -110,9 +140,24 @@ public class TransformActions {
     }
 
     public class FlipImageAction extends ImageAction{
+        /**
+         * <p>
+         * Create a new flip image action.
+         * </p>
+         * 
+         * @param name The name of the action (ignored if null).
+         * @param icon An icon to use to represent the action (ignored if null).
+         * @param desc A brief description of the action  (ignored if null).
+         * @param mnemonic A mnemonic key to use as a shortcut  (ignored if null).
+         */ 
         FlipImageAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
         }
+        /**
+         * <p>
+         * Method to display a pop-up box that allows for choice of flip.
+         * </p>
+         */
         @Override
         public void actionPerformed(ActionEvent e) {
             Object[] options = {Andie.getLanguage("flip_horizontal"), Andie.getLanguage("flip_vertical")};

@@ -2,7 +2,24 @@ package cosc202.andie;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
-
+/**
+ * <p>
+ * Operation that allows for resizing of an image.
+ * </p>
+ * 
+ * <p>
+ * Allows for resizing opertions of an input image. Takes as input a double, which is interpreted
+ * as a percentage. This percentage is used to scale the size of the image evenly using the
+ * Image class and getScaledInstace() method.
+ * </p>
+ * 
+ * <p> 
+ * <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a>
+ * </p>
+ * 
+ * @author Nick Garner
+ * @version 1.0
+ */
 public class ResizeImage implements ImageOperation, java.io.Serializable {
 
     private double resizePercent = 0;
