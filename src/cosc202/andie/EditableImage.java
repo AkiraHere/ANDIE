@@ -350,6 +350,13 @@ class EditableImage {
         }
     }
 
+    /**
+     * <p>
+     * Returns the current image filename for use in the main method to reopen the working image. 
+     * </p>
+     * 
+     * @return image filename 
+     */
     public String getFilename() {
 
         return imageFilename ; 

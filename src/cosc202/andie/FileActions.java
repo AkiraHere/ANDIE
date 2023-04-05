@@ -98,6 +98,9 @@ public class FileActions {
          */
         public void actionPerformed(ActionEvent e) {
             JFileChooser fileChooser = new JFileChooser();
+            fileChooser.setDialogTitle( Andie.getLanguage("open_name") ) ; 
+            fileChooser.setLocale(Andie.getInternationalization().getLocale()) ; 
+            fileChooser.setApproveButtonText( Andie.getLanguage( "approve_button" ) ) ;
             FileNameExtensionFilter filter = new FileNameExtensionFilter(Andie.getLanguage("image_files"), "jpg", "jpeg", "png", "gif");
             int result = fileChooser.showOpenDialog(target);
 
@@ -209,6 +212,8 @@ public class FileActions {
          */
         public void actionPerformed(ActionEvent e) {
             JFileChooser fileChooser = new JFileChooser();
+            fileChooser.setDialogTitle( Andie.getLanguage("save_as_name"));
+            fileChooser.setLocale(Andie.getInternationalization().getLocale()) ;
             int result = fileChooser.showSaveDialog(target);
 
             if (result == JFileChooser.APPROVE_OPTION) {
@@ -265,7 +270,8 @@ public class FileActions {
         public void actionPerformed( ActionEvent e ) {
 
             JFileChooser fileChooser = new JFileChooser() ; 
-            fileChooser.setDialogTitle( "Export" ) ;
+            fileChooser.setDialogTitle( Andie.getLanguage("export_name"));
+            fileChooser.setLocale(Andie.getInternationalization().getLocale()) ;
             // JOptionPane.showMessageDialog( null , ".jpeg is default, although .png or .gif can also be inputted" , "Notice" , JOptionPane.WARNING_MESSAGE );
             int result = fileChooser.showSaveDialog( target ) ; 
 

@@ -52,8 +52,19 @@ public class Andie {
      */
     private static void createAndShowGUI() throws Exception {
         
+        // changes default label names in jfilechooser after internationalization
         internationalization = new Internationalization() ; 
-        
+        UIManager.put( "FileChooser.cancelButtonText" , Andie.getLanguage( "cancel_button") ) ;
+        UIManager.put( "FileChooser.saveButtonText" , Andie.getLanguage( "approve_button" ) ) ; 
+        UIManager.put( "FileChooser.filesOfTypeLabelText" , Andie.getLanguage( "file_type" ) ) ;
+        UIManager.put( "FileChooser.acceptAllFileFilterText" , Andie.getLanguage( "all_files" ) ) ;
+        UIManager.put( "FileChooser.newFolderButtonText" , Andie.getLanguage( "new_folder" ) ) ;
+        UIManager.put( "FileChooser.saveDialogFileNameLabelText" , Andie.getLanguage( "save_text" ) ) ; 
+        UIManager.put( "FileChooser.byDateText" , Andie.getLanguage( "date_modified" ) ) ;
+        UIManager.put( "FileChooser.byNameText" , Andie.getLanguage( "name_text" ) ) ;
+        // UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
+        // UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
+
         // Set up the main GUI frame
         frame = new JFrame( getLanguage("title") ) ;
 
@@ -104,30 +115,62 @@ public class Andie {
 
     }
 
-    public static Internationalization getI18N() {
-        return internationalization ; 
-    }
-
+    /**
+     * <p>
+     * Sets the language given a specified language and country through the 
+     * internationalization instance. 
+     * </p>
+     * 
+     * @param language updated language of Andie's GUI
+     * @param country region of the language
+     */
     public static void setLanguage( String language , String country ) {
         internationalization.setLang( language , country ) ;
     }
 
+    /**
+     * <p>
+     * Returns the translated phrase given a key through the 
+     * internationalization instance. 
+     * </p>
+     * 
+     * @param key the key related to the phrase to be translated 
+     * @return the translated phrase 
+     */
     public static String getLanguage( String key ) {
         return internationalization.getI18NString( key ) ; 
     }
 
+    /**
+     * <p>
+     * Disposes of the current instance of Andie's GUI. 
+     * </p>
+     */
     public static void closeFrame() {
         frame.dispose() ; 
     }
 
+    /**
+     * <p>
+     * Returns the current frame of Andie's GUI. 
+     * </p>
+     * 
+     * @return the current frame of Andie's GUI
+     */
     public static JFrame getFrame(){
         return frame;  
     }
 
-    public void openImage( String Filename ) throws Exception {
-        FileActions.FileOpenAction.target.getImage().open( Filename ) ; 
+    /**
+     * <p>
+     * Retuns the internationalization instance. 
+     * </p>
+     * 
+     * @return instance of internationalization
+     */
+    public static Internationalization getInternationalization() {
+        return internationalization ;
     }
-
 
     /**
      * <p>
@@ -148,10 +191,14 @@ public class Andie {
             public void run() {
                 try { 
                     createAndShowGUI();
-                    if ( args.length == 1 ) {
+                    // given a language change, checks if image needs to be reopened
+                    if ( args.length == 3 ) {
                         FileActions.FileOpenAction.target.getImage().open( args[0] ) ; 
                         FileActions.FileOpenAction.target.repaint() ; 
-                        FileActions.FileOpenAction.target.getParent().revalidate() ;  
+                        FileActions.FileOpenAction.target.getParent().revalidate() ; 
+                        int width = Integer.parseInt( args[1] ) ; 
+                        int height = Integer.parseInt( args[2] ) ; 
+                        frame.setSize( width , height ) ; 
                     }
                 } catch (Exception ex) {
                     ex.printStackTrace();
