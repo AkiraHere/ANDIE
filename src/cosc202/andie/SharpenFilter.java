@@ -7,7 +7,7 @@ import java.awt.image.* ;
 /**
  * <p>
  * Image operation to apply a sharpen filter. 
- * </p>
+ * <p/>
  * 
  * <p>
  * Sharpens an image using a predefined kernel, creating sharper lines
@@ -20,9 +20,7 @@ import java.awt.image.* ;
  */
 public class SharpenFilter implements ImageOperation , java.io.Serializable {
 
-    /**
-     * Default Constructor
-     */
+    // default constructor
     public SharpenFilter() {}
 
     /**

@@ -24,9 +24,6 @@ import java.awt.image.BufferedImage;
 
 public class FlipImage implements ImageOperation, java.io.Serializable {
 
-    /**
-     * @fields the flag that determines whether we flip an image horizontally or not.
-     */
     private final boolean flipHorizontal;
 
     /**

@@ -22,9 +22,7 @@ import javax.swing.* ;
  */
 public class InternationalizationActions {
 
-    /**
-     * @fields The actions available to the user in the language menu
-    */
+    // data fields
     protected ArrayList<Action> actions ; 
 
     /**
