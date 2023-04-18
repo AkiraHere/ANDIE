@@ -23,7 +23,7 @@ import java.awt.image.BufferedImage;
 public class ResizeImage implements ImageOperation, java.io.Serializable {
 
     /**
-     * @fields percentage by which we will resize an image.
+     * percentage by which we will resize an image.
      */
     private double resizePercent = 0;
     
