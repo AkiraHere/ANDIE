@@ -23,12 +23,8 @@ import java.awt.image.*;
 
 public class ContrastAdjuster implements ImageOperation, java.io.Serializable{
 
-    /**
-     * @fields the contrast and brightness to adjust the image by.
-     */
     private double contrastPercent;
     private double brightPercent;
-    
     /**
      * Default Constructor
      */

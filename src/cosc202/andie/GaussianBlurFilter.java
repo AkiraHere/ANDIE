@@ -23,7 +23,7 @@ public class GaussianBlurFilter implements ImageOperation , java.io.Serializable
 
     /**
      * <p>
-     * @fields Data fields
+     * Data fields
      * </p>
      * 
      * <p>
@@ -36,9 +36,7 @@ public class GaussianBlurFilter implements ImageOperation , java.io.Serializable
     private float sigma ; 
 
     /** 
-     * Constructor, assigning values using the input radius.
-     * 
-     * @param radius the radius of the kernal for the blur to be applied. 
+     * Constructor, assigning values using the input radius. 
      */
     public GaussianBlurFilter( int radius ) {
 

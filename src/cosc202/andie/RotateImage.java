@@ -22,10 +22,6 @@ import java.awt.image.BufferedImage;
  * @version 1.0
  */
 public  class RotateImage implements ImageOperation, java.io.Serializable {
-
-    /**
-     * @fields the degree of rotation that will rotate teh image.
-     */
     private int degrees;
 
     /**
