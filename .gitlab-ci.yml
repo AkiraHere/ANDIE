@@ -21,24 +21,6 @@ stages:         # List of stages for jobs, and their order of execution
   - test
   - deploy
 
-pages: #publish Javadoc website
-  tags:
-    - docker
-  image: eclipse-temurin:17
-  stage: build
-  script:
-    - javadoc -d docs src/cosc202/andie/*.java
-    - mkdir public
-    - echo 'test' > public/test.txt
-    - mv docs public/
-    - ls -R public | head
-    - echo 'first ten public/ files listed'
-  artifacts:
-    paths:
-    - public
-  only:
-  - main
-
 build-job:       # This job runs in the build stage, which runs first.
   stage: build
   script:
@@ -65,3 +47,21 @@ deploy-job:      # This job runs in the deploy stage.
   script:
     - echo "Deploying application..."
     - echo "Application successfully deployed."
+
+pages: #publish Javadoc website
+  tags:
+    - docker
+  image: eclipse-temurin:17
+  stage: build
+  script:
+    - javadoc -d docs src/cosc202/andie/*.java
+    - mkdir public
+    - echo 'test' > public/test.txt
+    - mv docs public/
+    - ls -R public | head
+    - echo 'first ten public/ files listed'
+  artifacts:
+    paths:
+    - public
+  only:
+  - main
