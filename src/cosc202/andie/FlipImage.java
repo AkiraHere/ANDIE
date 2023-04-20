@@ -41,7 +41,7 @@ public class FlipImage implements ImageOperation, java.io.Serializable {
     /**
      * Method used to create the flipped image effect.
      * 
-     * @param inputIMG The image to be flipped
+     * @param inputImg The image to be flipped
      * @return The output image, flipped on either the horizontal or vertical plane.
      */
     @Override
