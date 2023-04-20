@@ -38,6 +38,7 @@ unit-test-job:
     - javac -d bin -classpath
      bin:lib/junit-platform-console-standalone-1.9.2.jar
      src/test/cosc202/andie/*.java
+    - cp ./src/test/cosc202/andie/clocktower.jpg ./bin/test/cosc202/andie/
     - java -jar lib/junit-platform-console-standalone-1.9.2.jar -classpath
      bin --select-package test.cosc202.andie
 
