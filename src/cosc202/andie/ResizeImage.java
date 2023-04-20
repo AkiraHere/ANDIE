@@ -22,6 +22,9 @@ import java.awt.image.BufferedImage;
  */
 public class ResizeImage implements ImageOperation, java.io.Serializable {
 
+    /**
+     * percentage by which we will resize an image.
+     */
     private double resizePercent = 0;
     /**
      * Default Constructor

@@ -22,7 +22,9 @@ import javax.swing.* ;
  */
 public class InternationalizationActions {
 
-    // data fields
+    /**
+     * The actions available to the user in the language menu
+    */
     protected ArrayList<Action> actions ; 
 
     /**
@@ -35,7 +37,7 @@ public class InternationalizationActions {
         actions = new ArrayList<Action>() ; 
         actions.add( new EnglishNewZealand( Andie.getLanguage("english_name") , null , Andie.getLanguage("english_description") , Integer.valueOf( KeyEvent.VK_0 ) ) ) ; 
         actions.add( new FrenchFrance( Andie.getLanguage("french_name") , null , Andie.getLanguage("french_description") , Integer.valueOf( KeyEvent.VK_1 ) ) ) ;
-        actions.add( new MāoriNewZealand( Andie.getLanguage("māori_name") , null , Andie.getLanguage( "māori_description") , Integer.valueOf( KeyEvent.VK_2 ) ) ) ; 
+        actions.add( new MaoriNewZealand( Andie.getLanguage("maori_name") , null , Andie.getLanguage( "maori_description") , Integer.valueOf( KeyEvent.VK_2 ) ) ) ; 
 
     }
 
@@ -145,16 +147,16 @@ public class InternationalizationActions {
 
     /**
      * <p>
-     * Action to change language to new zealand māori. 
+     * Action to change language to new zealand maori. 
      * </p>
      * 
      * @see Internationalization
      */
-    public class MāoriNewZealand extends AbstractAction {
+    public class MaoriNewZealand extends AbstractAction {
 
         /**
          * <p>
-         * Creates an action to change language to new zealand māori.  
+         * Creates an action to change language to new zealand maori.  
          * </p>
          * 
          * @param name The name of the action (ignored if null).
@@ -162,7 +164,7 @@ public class InternationalizationActions {
          * @param desc A brief description of the action  (ignored if null).
          * @param mnemonic A mnemonic key to use as a shortcut  (ignored if null).
          */
-        MāoriNewZealand( String name , ImageIcon icon , String desc , Integer mnemonic ) {
+        MaoriNewZealand( String name , ImageIcon icon , String desc , Integer mnemonic ) {
 
             super( name , icon ) ; 
             putValue( SHORT_DESCRIPTION , desc ) ; 
@@ -172,7 +174,7 @@ public class InternationalizationActions {
 
         /**
          * <p>
-         * Callback for when new zealand māori language is chosen.
+         * Callback for when new zealand maori language is chosen.
          * </p>
          * 
          * @param e The event triggering this callback. 
