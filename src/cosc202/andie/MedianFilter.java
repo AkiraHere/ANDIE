@@ -10,7 +10,7 @@ import java.util.*;
  * <p>
  * Using this operations results in similar effects of other types of blurs, only instead of taking an average
  * of all neighboring pixels to create the blur effect, we take those neighboring pixels and sort them.
- * The result is a blurred image with sharper differences between contrasting colours? <<<FACT CHECK THIS
+ * The result is a blurred image with sharper differences between contrasting colours?
  * </p>
  * 
  * <p> 
@@ -61,7 +61,7 @@ public class MedianFilter implements ImageOperation, java.io.Serializable {
      * </p>
      * 
      * @param input The image input subject to the median filter.
-     * @retun The outcome of applying the median filter.
+     * @return The outcome of applying the median filter.
     */
 
     public BufferedImage apply(BufferedImage input){
