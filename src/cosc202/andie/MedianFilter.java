@@ -10,7 +10,7 @@ import java.util.*;
  * <p>
  * Using this operations results in similar effects of other types of blurs, only instead of taking an average
  * of all neighboring pixels to create the blur effect, we take those neighboring pixels and sort them.
- * The result is a blurred image with sharper differences between contrasting colours? 
+ * The result is a blurred image with sharper differences between contrasting colours?
  * </p>
  * 
  * <p> 

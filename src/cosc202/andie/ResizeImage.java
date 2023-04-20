@@ -26,7 +26,6 @@ public class ResizeImage implements ImageOperation, java.io.Serializable {
      * percentage by which we will resize an image.
      */
     private double resizePercent = 0;
-    
     /**
      * Default Constructor
      */
@@ -35,8 +34,6 @@ public class ResizeImage implements ImageOperation, java.io.Serializable {
     }
     /**
      * Constructor
-     * 
-     * @param resizePercent the percentage value to resize the image by.
      */
     public ResizeImage(double resizePercent){
         this.resizePercent = resizePercent;

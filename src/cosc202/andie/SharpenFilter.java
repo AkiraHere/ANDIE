@@ -20,9 +20,7 @@ import java.awt.image.* ;
  */
 public class SharpenFilter implements ImageOperation , java.io.Serializable {
 
-    /**
-     * Default Constructor
-     */
+    // default constructor
     public SharpenFilter() {}
 
     /**

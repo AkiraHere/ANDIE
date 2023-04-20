@@ -28,7 +28,6 @@ public class ContrastAdjuster implements ImageOperation, java.io.Serializable{
      */
     private double contrastPercent;
     private double brightPercent;
-    
     /**
      * Default Constructor
      */
