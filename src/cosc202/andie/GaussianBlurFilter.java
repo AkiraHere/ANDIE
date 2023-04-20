@@ -23,7 +23,7 @@ public class GaussianBlurFilter implements ImageOperation , java.io.Serializable
 
     /**
      * <p>
-     * @fields Data fields
+     * Data fields
      * </p>
      * 
      * <p>
