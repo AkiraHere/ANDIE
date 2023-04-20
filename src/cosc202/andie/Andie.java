@@ -62,8 +62,8 @@ public class Andie {
         UIManager.put( "FileChooser.saveDialogFileNameLabelText" , Andie.getLanguage( "save_text" ) ) ; 
         UIManager.put( "FileChooser.byDateText" , Andie.getLanguage( "date_modified" ) ) ;
         UIManager.put( "FileChooser.byNameText" , Andie.getLanguage( "name_text" ) ) ;
-        // UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
-        // UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
+        UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
+        //UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
 
         // Set up the main GUI frame
         frame = new JFrame( getLanguage("title") ) ;
