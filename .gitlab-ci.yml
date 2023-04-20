@@ -29,7 +29,7 @@ build-job:       # This job runs in the build stage, which runs first.
 
 unit-test-job:
   tags:
-    -docker
+    - docker
   image: eclipse-temurin:17
   stage: test
   script:
@@ -72,4 +72,3 @@ pages: #publish Javadoc website
     - public
   only:
   - main
-
