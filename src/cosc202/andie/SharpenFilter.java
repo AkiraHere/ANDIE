@@ -7,7 +7,7 @@ import java.awt.image.* ;
 /**
  * <p>
  * Image operation to apply a sharpen filter. 
- * <p/>
+ * </p>
  * 
  * <p>
  * Sharpens an image using a predefined kernel, creating sharper lines
