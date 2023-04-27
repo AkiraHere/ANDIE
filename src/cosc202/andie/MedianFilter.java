@@ -71,8 +71,8 @@ public class MedianFilter implements ImageOperation, java.io.Serializable {
         int yDimesion = (2*radius+1);
         int size =  xDimension * yDimesion;
         float [] array = new float[size];
-        int newWidth = input.getWidth() + radius*2 ; 
-        int newHeight = input.getHeight() + radius*2 ; 
+        int newWidth = input.getWidth(); 
+        int newHeight = input.getHeight(); 
         BufferedImage output = new BufferedImage( newWidth , newHeight, input.getType() ) ;
 
         //Arrays for storing each color property in a pixel
@@ -89,11 +89,11 @@ public class MedianFilter implements ImageOperation, java.io.Serializable {
                 for(int j = -radius; j < radius ; j++){     
                     for (int i = -radius; i < radius ; i++){
                         int argb; 
-                        if((j + x < 0 || j + x < input.getWidth()) && (i + y < 0 || i + y < input.getHeight())){
+                        if((j + x < 0 || j + x > input.getWidth()-1) && (i + y < 0 || i + y > input.getHeight()-1)){
                             argb = input.getRGB(x, y);
-                        }else if(j + x < 0 || j + x < input.getWidth()){
+                        }else if(j + x < 0 || j + x > input.getWidth()-1){
                             argb = input.getRGB(x, y + i);
-                        }else if(i + y < 0 || i + y < input.getHeight()){
+                        }else if(i + y < 0 || i + y > input.getHeight()-1){
                             argb = input.getRGB(x + j, y);
                         }else{
                             argb = input.getRGB(x + j, y + i); 
