@@ -58,7 +58,6 @@ public class MedianFilterTest {
         Assertions.assertTrue(9 == filter.getRadius());
     }
 
-    /* TEMP COMMENT FOR PIPELINE TESTING
 
     //Test that the correct image operation has been completed using default radius
     @Test
@@ -102,8 +101,5 @@ public class MedianFilterTest {
             fail();
         }
     }
-
-
-   */
 
 }

@@ -84,16 +84,17 @@ public class MedianFilter implements ImageOperation, java.io.Serializable {
         //Loop through each pixel in the image to retrieve corresponding ARGB values.
         for (int y = 0; y < input.getHeight(); ++y) {
             for (int x = 0; x < input.getWidth(); ++x) {
+                int arrCount = 0;
                 //Begin looping through the window of neighboring pixels
-                for(int j = -radius; j < radius + 1; j++){     
-                    for (int i = -radius; i < radius + 1; i++){
+                for(int j = -radius; j < radius ; j++){     
+                    for (int i = -radius; i < radius ; i++){
                         int argb; 
-                        if(j < 0 && i < 0){
-                            argb = input.getRGB(x, y); 
-                        }else if(j < 0){
-                            argb = input.getRGB(x, y + i); 
-                        }else if(i < 0){
-                            argb = input.getRGB(x + j, y); 
+                        if((j + x < 0 || j + x < input.getWidth()) && (i + y < 0 || i + y < input.getHeight())){
+                            argb = input.getRGB(x, y);
+                        }else if(j + x < 0 || j + x < input.getWidth()){
+                            argb = input.getRGB(x, y + i);
+                        }else if(i + y < 0 || i + y < input.getHeight()){
+                            argb = input.getRGB(x + j, y);
                         }else{
                             argb = input.getRGB(x + j, y + i); 
                         }      
@@ -102,10 +103,11 @@ public class MedianFilter implements ImageOperation, java.io.Serializable {
                         int r = (argb & 0x00FF0000) >> 16;
                         int g = (argb & 0x0000FF00) >> 8;
                         int b = (argb & 0x000000FF);
-                        alphaArray[i] = a;
-                        redArray[i] = r;
-                        greenArray[i] = g;
-                        blueArray[i] = b; 
+                        alphaArray[arrCount] = a;
+                        redArray[arrCount] = r;
+                        greenArray[arrCount] = g;
+                        blueArray[arrCount] = b; 
+                        arrCount++;
                     }
                     //sort the arrays
                     Arrays.sort(alphaArray);
