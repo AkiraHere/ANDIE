@@ -70,33 +70,33 @@ public class MedianFilter implements ImageOperation, java.io.Serializable {
         int xDimension = (2*radius+1);
         int yDimesion = (2*radius+1);
         int size =  xDimension * yDimesion;
-        float [] array = new float[size];
         int newWidth = input.getWidth(); 
         int newHeight = input.getHeight(); 
         BufferedImage output = new BufferedImage( newWidth , newHeight, input.getType() ) ;
 
-        //Arrays for storing each color property in a pixel
-        int [] alphaArray = new int[size];
-        int [] redArray = new int[size];
-        int [] greenArray = new int[size];
-        int [] blueArray = new int[size];
-
         //Loop through each pixel in the image to retrieve corresponding ARGB values.
-        for (int y = 0; y < input.getHeight(); ++y) {
-            for (int x = 0; x < input.getWidth(); ++x) {
+        for (int y = 0; y < input.getHeight(); y++) {
+            for (int x = 0; x < input.getWidth(); x++) {
+                //Arrays for storing each color property in a pixel
+                int [] alphaArray = new int[size];
+                int [] redArray = new int[size];
+                int [] greenArray = new int[size];
+                int [] blueArray = new int[size];
                 int arrCount = 0;
                 //Begin looping through the window of neighboring pixels
                 for(int j = -radius; j < radius ; j++){     
                     for (int i = -radius; i < radius ; i++){
+                        int xPos = x + j;
+                        int yPos = y + i;
                         int argb; 
-                        if((j + x < 0 || j + x > input.getWidth()-1) && (i + y < 0 || i + y > input.getHeight()-1)){
+                        if((xPos < 0 || xPos >= input.getWidth()) && (yPos < 0 || yPos >= input.getHeight())){
                             argb = input.getRGB(x, y);
-                        }else if(j + x < 0 || j + x > input.getWidth()-1){
-                            argb = input.getRGB(x, y + i);
-                        }else if(i + y < 0 || i + y > input.getHeight()-1){
-                            argb = input.getRGB(x + j, y);
+                        }else if(xPos < 0 || xPos >= input.getWidth()){
+                            argb = input.getRGB(x, yPos);
+                        }else if(yPos < 0 || yPos >= input.getHeight()){
+                            argb = input.getRGB(xPos, y);
                         }else{
-                            argb = input.getRGB(x + j, y + i); 
+                            argb = input.getRGB(xPos, yPos); 
                         }      
                         //store ARGB values in their own arrays
                         int a = (argb & 0xFF000000) >> 24;
@@ -109,16 +109,16 @@ public class MedianFilter implements ImageOperation, java.io.Serializable {
                         blueArray[arrCount] = b; 
                         arrCount++;
                     }
-                    //sort the arrays
-                    Arrays.sort(alphaArray);
-                    Arrays.sort(redArray);
-                    Arrays.sort(greenArray);
-                    Arrays.sort(blueArray);           
-                    //pack colors based on median of the sorted array
-                    int argbOut = (alphaArray[array.length/2] << 24) | (redArray[array.length/2] << 16) | (greenArray[array.length/2]<< 8) | blueArray[array.length/2]; 
-                    //assign the filtered color to the output
-                    output.setRGB(x, y, argbOut);
                 }
+                //sort the arrays
+                Arrays.sort(alphaArray);
+                Arrays.sort(redArray);
+                Arrays.sort(greenArray);
+                Arrays.sort(blueArray);           
+                //pack colors based on median of the sorted array
+                int argbOut = (alphaArray[alphaArray.length/2] << 24) | (redArray[redArray.length/2] << 16) | (greenArray[greenArray.length/2]<< 8) | blueArray[blueArray.length/2]; 
+                //assign the filtered color to the output
+                output.setRGB(x, y, argbOut);
             }
         }
         return output;//Change to return newly buffered image when done

@@ -314,7 +314,7 @@ public class FilterActions {
                 }
 
                 // Create and apply the filter
-                target.getImage().apply(new GaussianBlurFilter(radius));
+                target.getImage().apply(new MedianFilter(radius));
                 target.repaint();
                 target.getParent().revalidate();
 
