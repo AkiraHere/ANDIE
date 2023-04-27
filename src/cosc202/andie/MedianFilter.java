@@ -87,7 +87,16 @@ public class MedianFilter implements ImageOperation, java.io.Serializable {
                 //Begin looping through the window of neighboring pixels
                 for(int j = -radius; j < radius + 1; j++){     
                     for (int i = -radius; i < radius + 1; i++){
-                        int argb = input.getRGB(x + j, y + i);       
+                        int argb; 
+                        if(j < 0 && i < 0){
+                            argb = input.getRGB(x, y); 
+                        }else if(j < 0){
+                            argb = input.getRGB(x, y + i); 
+                        }else if(i < 0){
+                            argb = input.getRGB(x + j, y); 
+                        }else{
+                            argb = input.getRGB(x + j, y + i); 
+                        }      
                         //store ARGB values in their own arrays
                         int a = (argb & 0xFF000000) >> 24;
                         int r = (argb & 0x00FF0000) >> 16;
