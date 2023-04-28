@@ -37,6 +37,8 @@ public class GaussianBlurFilter implements ImageOperation , java.io.Serializable
 
     /** 
      * Constructor, assigning values using the input radius. 
+     * 
+     * @param radius the radius of the filter to be implemented
      */
     public GaussianBlurFilter( int radius ) {
 

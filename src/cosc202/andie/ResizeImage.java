@@ -34,6 +34,8 @@ public class ResizeImage implements ImageOperation, java.io.Serializable {
     }
     /**
      * Constructor
+     * 
+     * @param resizePercent the percentage change in the size of the image
      */
     public ResizeImage(double resizePercent){
         this.resizePercent = resizePercent;

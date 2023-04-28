@@ -10,8 +10,8 @@ import javax.swing.event.MouseInputAdapter;
  * </p>
  * 
  * <p>
- * The actual implementation of the mouse listener to be added to the {@link JPanel} which 
- * contains the {@link BufferedImage} ANDIE is currently working on. Responds to a variety of
+ * The actual implementation of the mouse listener to be added to the JPanel which 
+ * contains the BufferedImage ANDIE is currently working on. Responds to a variety of
  * mouse actions, to be used with processes such as cropping and drawing. 
  * </p>
  * 

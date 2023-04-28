@@ -39,7 +39,7 @@ public class Internationalization {
      * Sets up the basics of internationalization. Preferences are created, locale is built
      * and and ResourceBundle is created. ResourceBundle links the MessageBundles to the current 
      * preferences, facilitated by the locale and locale builder. 
-     * <p>
+     * </p>
      */
     public Internationalization() {
 

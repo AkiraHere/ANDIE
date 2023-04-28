@@ -54,6 +54,9 @@ public class TransformActions {
         return fileMenu;
     }
     
+    /*
+     * Resizes the image. 
+     */
     public class ResizeImageAction extends ImageAction{
         /**
          * <p>
@@ -91,7 +94,9 @@ public class TransformActions {
         }
     }
 
-      
+    /**
+     * Rotates the image.
+     */
     public class RotateImageAction extends ImageAction {
         /**
          * <p>
@@ -139,6 +144,9 @@ public class TransformActions {
         }
     }
 
+    /*
+     * Flips the image.
+     */
     public class FlipImageAction extends ImageAction{
         /**
          * <p>
