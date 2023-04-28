@@ -1,6 +1,7 @@
 package cosc202.andie;
 
 import java.awt.*;
+
 import javax.swing.*;
 
 /**
@@ -45,12 +46,20 @@ public class ImagePanel extends JPanel {
      * </p>
      * 
      * <p>
-     * Newly created ImagePanels have a default zoom level of 100%
+     * Newly created ImagePanels have a default zoom level of 100%. Also implements a mouse listener
+     * using {@link MyMouseListener} for cropping and drawing actions. 
      * </p>
      */
     public ImagePanel() {
+        
         image = new EditableImage();
         scale = 1.0;
+
+        // implementation of the MouseListener 
+        MyMouseListener myListener = new MyMouseListener() ; 
+        addMouseListener( myListener ) ; 
+        addMouseMotionListener( myListener ) ; 
+
     }
 
     /**

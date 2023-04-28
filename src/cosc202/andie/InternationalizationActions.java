@@ -37,7 +37,7 @@ public class InternationalizationActions {
         actions = new ArrayList<Action>() ; 
         actions.add( new EnglishNewZealand( Andie.getLanguage("english_name") , null , Andie.getLanguage("english_description") , Integer.valueOf( KeyEvent.VK_0 ) ) ) ; 
         actions.add( new FrenchFrance( Andie.getLanguage("french_name") , null , Andie.getLanguage("french_description") , Integer.valueOf( KeyEvent.VK_1 ) ) ) ;
-        actions.add( new MaoriNewZealand( Andie.getLanguage("maori_name") , null , Andie.getLanguage( "maori_description") , Integer.valueOf( KeyEvent.VK_2 ) ) ) ; 
+        actions.add( new MaoriNewZealand( Andie.getLanguage("māori_name") , null , Andie.getLanguage( "māori_description") , Integer.valueOf( KeyEvent.VK_2 ) ) ) ; 
 
     }
 
