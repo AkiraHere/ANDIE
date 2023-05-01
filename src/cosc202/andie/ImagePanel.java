@@ -37,6 +37,11 @@ public class ImagePanel extends JPanel {
     public boolean cropActive = false ;  
     public boolean mouseDragged = false ; 
 
+    int currentMouseX = 0 ; 
+    int currentMouseY = 0 ; 
+    int currentMouseWidth = 0 ; 
+    int currentMouseHeight = 0 ; 
+
     /**
      * <p>
      * The zoom-level of the current view.
@@ -70,9 +75,9 @@ public class ImagePanel extends JPanel {
 
                 if ( cropActive == true ) {
 
-                    int x = e.getX() ;
-                    int y = e.getY() ; 
-                    currentRect = new Rectangle( x , y , 0 , 0 ) ; 
+                    currentMouseX = e.getX() ;
+                    currentMouseY = e.getY() ; 
+                    currentRect = new Rectangle( currentMouseX , currentMouseY , 0 , 0 ) ; 
                     updateDrawableRect( getWidth() , getHeight() ) ;
 
                 }
@@ -101,12 +106,22 @@ public class ImagePanel extends JPanel {
 
             }
 
+            public void mouseExited( MouseEvent e ) {
+
+                if ( cropActive == true ) {
+
+                    cropActive = false ; 
+
+                }
+
+            }
+
             void updateSize( MouseEvent e ) {
 
-                int x = e.getX() ;
-                int y = e.getY() ;
-                currentRect.setSize( x - currentRect.x ,
-                                     y - currentRect.y ) ;
+                currentMouseX = e.getX() ;
+                currentMouseY = e.getY() ;
+                currentRect.setSize( currentMouseX - currentRect.x ,
+                                     currentMouseY - currentRect.y ) ;
 
                 updateDrawableRect( getWidth() , getHeight() ) ;
                 Rectangle totalRepaint = rectToDraw.union( previousRectDrawn ) ;
@@ -270,11 +285,29 @@ public class ImagePanel extends JPanel {
             RescaleOp op = new RescaleOp(.4f, 0, null); 
             BufferedImage output = op.filter( temp , null);
             g2.drawImage(output, null, 0, 0); 
-        
-            if (currentRect != null) {
-                BufferedImage cropped = null ; 
-                cropped = image.getCurrentImage().getSubimage( currentRect.x , currentRect.y , currentRect.width + 1 , currentRect.height + 1 ) ;
-                g2.drawImage( cropped , null , currentRect.x , currentRect.y ) ; 
+            
+            if (currentRect != null ) {
+
+                int x = currentRect.x ; 
+                int y = currentRect.y ; 
+                
+                int width = currentRect.width ; 
+                int height = currentRect.height ; 
+
+                if ( width < 0 ) {
+                    width = Math.abs( width ) ; 
+                    x = x - width ;
+                }
+                if ( height < 0 ) {
+                    height = Math.abs( height ) ; 
+                    y = y - height ; 
+                }
+                
+                if ( width != 0 && height != 0 && currentMouseX < image.getCurrentImage().getWidth() - 1 && currentMouseY < image.getCurrentImage().getHeight() - 1 ) {
+                    BufferedImage cropped = null ; 
+                    cropped = image.getCurrentImage().getSubimage( x , y , width , height ) ;
+                    g2.drawImage( cropped , null , x , y ) ; 
+                }
                 //Draw a rectangle on top of the image.
                 float alpha = (float) 0.0 ;
                 Color color = new Color(1, 0, 0, alpha); //Red 
