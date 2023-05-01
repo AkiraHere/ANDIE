@@ -1,8 +1,10 @@
 package cosc202.andie;
 
 import java.awt.*;
+import java.awt.event.MouseEvent;
 
 import javax.swing.*;
+import javax.swing.event.MouseInputAdapter;
 
 /**
  * <p>
@@ -26,7 +28,11 @@ public class ImagePanel extends JPanel {
     /**
      * The image to display in the ImagePanel.
      */
-    private EditableImage image;
+    private EditableImage image;  
+    public Rectangle currentRect = null ; 
+    public Rectangle rectToDraw = null ; 
+    public Rectangle previousRectDrawn = new Rectangle() ;
+    public boolean cropActive = false ;  
 
     /**
      * <p>
@@ -55,12 +61,117 @@ public class ImagePanel extends JPanel {
         image = new EditableImage();
         scale = 1.0;
 
-        // implementation of the MouseListener 
+        class MyMouseListener extends MouseInputAdapter {
+
+            public void mousePressed( MouseEvent e ) {
+
+                if ( cropActive == true ) {
+
+                    int x = e.getX() ;
+                    int y = e.getY() ; 
+                    currentRect = new Rectangle( x , y , 0 , 0 ) ; 
+                    updateDrawableRect( getWidth() , getHeight() ) ;
+                    repaint() ; 
+
+                }
+                
+            }
+
+            public void mouseDragged( MouseEvent e ) {
+
+                if ( cropActive == true ) {
+
+                    updateSize( e ) ; 
+
+                }
+
+            }
+
+            public void mouseReleased( MouseEvent e ) {
+
+                if ( cropActive == true ) {
+
+                    updateSize( e ) ; 
+
+                }
+
+            }
+
+            void updateSize( MouseEvent e ) {
+
+                int x = e.getX() ;
+                int y = e.getY() ;
+                currentRect.setSize( x - currentRect.x ,
+                                     y - currentRect.y ) ;
+
+                updateDrawableRect( getWidth() , getHeight() ) ;
+                Rectangle totalRepaint = rectToDraw.union( previousRectDrawn ) ;
+                repaint( totalRepaint.x , totalRepaint.y ,
+                         totalRepaint.width , totalRepaint.height ) ;
+
+            }
+  
+        }
+
         MyMouseListener myListener = new MyMouseListener() ; 
         addMouseListener( myListener ) ; 
         addMouseMotionListener( myListener ) ; 
 
     }
+
+    private void updateDrawableRect( int compWidth, int compHeight ) {
+        int x = currentRect.x;
+        int y = currentRect.y;
+        int width = currentRect.width;
+        int height = currentRect.height;
+ 
+        //Make the width and height positive, if necessary.
+        if (width < 0) {
+            width = 0 - width;
+            x = x - width + 1; 
+            if (x < 0) {
+                width += x; 
+                x = 0;
+            }
+        }
+        if (height < 0) {
+            height = 0 - height;
+            y = y - height + 1; 
+            if (y < 0) {
+                height += y; 
+                y = 0;
+            }
+        }
+ 
+        //The rectangle shouldn't extend past the drawing area.
+        if ((x + width) > compWidth) {
+            width = compWidth - x;
+        }
+        if ((y + height) > compHeight) {
+            height = compHeight - y;
+        }
+       
+        //Update rectToDraw after saving old value.
+        if (rectToDraw != null) {
+            previousRectDrawn.setBounds(
+                        rectToDraw.x, rectToDraw.y, 
+                        rectToDraw.width, rectToDraw.height);
+            rectToDraw.setBounds(x, y, width, height);
+        } else {
+            rectToDraw = new Rectangle(x, y, width, height);
+        }
+    }
+
+    public void cropActive( boolean status ) {
+        this.cropActive = status ; 
+    }
+
+    private void clearPreviousDrawing(Graphics g) {
+        g.setColor(getBackground());
+        g.fillRect(0, 0, getWidth(), getHeight());
+    }
+
+
 
     /**
      * <p>
@@ -108,7 +219,6 @@ public class ImagePanel extends JPanel {
         scale = zoomPercent / 100;
     }
 
-
     /**
      * <p>
      * Gets the preferred size of this component for UI layout.
@@ -140,11 +250,20 @@ public class ImagePanel extends JPanel {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
+        clearPreviousDrawing(g);
+        Graphics2D g2  = (Graphics2D) g.create();
         if (image.hasImage()) {
-            Graphics2D g2  = (Graphics2D) g.create();
+            // Graphics2D g2  = (Graphics2D) g.create();
             g2.scale(scale, scale);
             g2.drawImage(image.getCurrentImage(), null, 0, 0);
             g2.dispose();
+        }
+        if (currentRect != null) {
+            //Draw a rectangle on top of the image.
+            g2.setXORMode(Color.red); //Color of line varies
+                                       //depending on image colors
+            g2.drawRect(rectToDraw.x + 1 , rectToDraw.y + 1 , 
+                       rectToDraw.width - 2 , rectToDraw.height - 2 );
         }
     }
 }
