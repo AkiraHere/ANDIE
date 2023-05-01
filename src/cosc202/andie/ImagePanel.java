@@ -166,10 +166,10 @@ public class ImagePanel extends JPanel {
         this.cropActive = status ; 
     }
 
-    private void clearPreviousDrawing(Graphics g) {
-        g.setColor(getBackground());
-        g.fillRect(0, 0, getWidth(), getHeight());
-    }
+    // private void clearPreviousDrawing(Graphics g) {
+    //     g.setColor(getBackground());
+    //     g.fillRect(0, 0, getWidth(), getHeight());
+    // }
 
 
 
@@ -250,7 +250,7 @@ public class ImagePanel extends JPanel {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        clearPreviousDrawing(g);
+        // clearPreviousDrawing(g);
         Graphics2D g2  = (Graphics2D) g.create();
         if (image.hasImage()) {
             // Graphics2D g2  = (Graphics2D) g.create();
@@ -260,9 +260,9 @@ public class ImagePanel extends JPanel {
         }
         if (currentRect != null) {
             //Draw a rectangle on top of the image.
-            g2.setXORMode(Color.red); //Color of line varies
+            g.setXORMode(Color.red); //Color of line varies
                                        //depending on image colors
-            g2.drawRect(rectToDraw.x + 1 , rectToDraw.y + 1 , 
+            g.drawRect(rectToDraw.x + 1 , rectToDraw.y + 1 , 
                        rectToDraw.width - 2 , rectToDraw.height - 2 );
         }
     }
