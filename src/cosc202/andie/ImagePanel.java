@@ -2,6 +2,8 @@ package cosc202.andie;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
+import java.awt.image.RescaleOp;
 
 import javax.swing.*;
 import javax.swing.event.MouseInputAdapter;
@@ -33,6 +35,7 @@ public class ImagePanel extends JPanel {
     public Rectangle rectToDraw = null ; 
     public Rectangle previousRectDrawn = new Rectangle() ;
     public boolean cropActive = false ;  
+    public boolean mouseDragged = false ; 
 
     /**
      * <p>
@@ -44,7 +47,7 @@ public class ImagePanel extends JPanel {
      * Note that the scale is internally represented as a multiplier, but externally as a percentage.
      * </p>
      */
-    private double scale;
+    private double scale ;
 
     /**
      * <p>
@@ -71,7 +74,6 @@ public class ImagePanel extends JPanel {
                     int y = e.getY() ; 
                     currentRect = new Rectangle( x , y , 0 , 0 ) ; 
                     updateDrawableRect( getWidth() , getHeight() ) ;
-                    repaint() ; 
 
                 }
                 
@@ -82,6 +84,7 @@ public class ImagePanel extends JPanel {
                 if ( cropActive == true ) {
 
                     updateSize( e ) ; 
+                    mouseDragged = true ; 
 
                 }
 
@@ -92,6 +95,7 @@ public class ImagePanel extends JPanel {
                 if ( cropActive == true ) {
 
                     updateSize( e ) ; 
+                    mouseDragged = false  ;
 
                 }
 
@@ -163,12 +167,15 @@ public class ImagePanel extends JPanel {
     }
 
     public void cropActive( boolean status ) {
+        currentRect = null ; 
         this.cropActive = status ; 
+        repaint() ; 
     }
 
     private void clearPreviousDrawing(Graphics g) {
         g.setColor(getBackground());
         g.fillRect(0, 0, getWidth(), getHeight());
+        repaint() ; 
     }
 
 
@@ -251,19 +258,33 @@ public class ImagePanel extends JPanel {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         clearPreviousDrawing(g);
-        Graphics2D g2  = (Graphics2D) g.create();
+        Graphics2D g2  = (Graphics2D) g.create() ;
         if (image.hasImage()) {
             // Graphics2D g2  = (Graphics2D) g.create();
             g2.scale(scale, scale);
             g2.drawImage(image.getCurrentImage(), null, 0, 0);
-            g2.dispose();
         }
-        if (currentRect != null) {
-            //Draw a rectangle on top of the image.
-            g.setXORMode(Color.red); //Color of line varies
+        if (cropActive == true) {
+            
+            BufferedImage temp = image.getCurrentImage() ; 
+            RescaleOp op = new RescaleOp(.4f, 0, null); 
+            BufferedImage output = op.filter( temp , null);
+            g2.drawImage(output, null, 0, 0); 
+        
+            if (currentRect != null) {
+                BufferedImage cropped = null ; 
+                cropped = image.getCurrentImage().getSubimage( currentRect.x , currentRect.y , currentRect.width + 1 , currentRect.height + 1 ) ;
+                g2.drawImage( cropped , null , currentRect.x , currentRect.y ) ; 
+                //Draw a rectangle on top of the image.
+                float alpha = (float) 0.0 ;
+                Color color = new Color(1, 0, 0, alpha); //Red 
+                g2.setPaint(color); 
+                g2.setXORMode(color); //Color of line varies
                                        //depending on image colors
-            g.drawRect(rectToDraw.x + 1 , rectToDraw.y + 1 , 
-                       rectToDraw.width - 2 , rectToDraw.height - 2 );
-        }
+                g2.drawRect(rectToDraw.x + 1 , rectToDraw.y + 1 , 
+                       rectToDraw.width - 2 , rectToDraw.height - 2 ) ;
+            }
+        } 
+        g2.dispose();
     }
 }

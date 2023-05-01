@@ -14,6 +14,7 @@ public class MouseActions {
        
         actions = new ArrayList<Action>();
         actions.add( new CropAction( "Crop" , null , "Crops Image" , Integer.valueOf( KeyEvent.VK_O ) ) ) ;
+        actions.add( new StopAction( "Stop" , null , "Stops Crop Image" , Integer.valueOf( KeyEvent.VK_O ) ) ) ;
 
     }
 
@@ -42,6 +43,22 @@ public class MouseActions {
         public void actionPerformed( ActionEvent e ) {
 
             target.cropActive( true ) ; 
+
+        }
+
+    }
+
+    public class StopAction extends ImageAction {
+
+        StopAction( String name , ImageIcon icon , String desc , Integer mnemonic ) {
+
+            super( name , icon , desc , mnemonic ) ;
+
+        }
+
+        public void actionPerformed( ActionEvent e ) {
+
+            target.cropActive( false ) ; 
 
         }
 
