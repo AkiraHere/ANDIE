@@ -99,7 +99,7 @@ public class ColourActions {
 
     }
     /**
-     * Action to adjust image's contrast and brightness levels
+     * Action to adjust image's contrast levels
      */
     public class ContrastAdjusterAction extends ImageAction {
 
@@ -143,7 +143,7 @@ public class ColourActions {
         }
     }
         /**
-     * Action to adjust image's contrast and brightness levels
+     * Action to adjust image's brightness levels
      */
     public class BrightnessAdjusterAction extends ImageAction {
 

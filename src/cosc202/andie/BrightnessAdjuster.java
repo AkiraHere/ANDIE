@@ -4,13 +4,13 @@ import java.awt.image.*;
 
 /**
  * <p>
- *  Operations for adjusting Colour and Brightness
+ *  Operations for adjusting Brightness
  * </p>
  * 
  * <p>
- *  Contrast and Brightness adjustment are modified by performing a calculation on the 
- *  ARGB values of each pixel in the image. This class takes, as input, brightness and contrast
- *  percentages in order to perfrom said calculation before returning a new BufferedImage.
+ *  Brightness adjustment is modified by performing a calculation on the 
+ *  ARGB values of each pixel in the image. This class takes, as input, a brightness
+ *  percentage in order to perfrom said calculation before returning a new BufferedImage.
  * </p>
  * 
  * <p> 
@@ -24,7 +24,7 @@ import java.awt.image.*;
 public class BrightnessAdjuster implements ImageOperation, java.io.Serializable{
 
     /**
-     * the contrast and brightness to adjust the image by.
+     * the brightness to adjust the image by.
      */
     private double contrastPercent;
     private double brightPercent;
@@ -37,7 +37,6 @@ public class BrightnessAdjuster implements ImageOperation, java.io.Serializable{
     /**
      * Constructor for the Colour Adjustster object.
      * 
-     * @param contrastPercent = percentage that user inputs for desired change
      * @param brightPercent = percentage that user inputs for desired change
      */
     public BrightnessAdjuster(double brightPercent){
