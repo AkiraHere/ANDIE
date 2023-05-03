@@ -106,8 +106,8 @@ public class Andie {
         menuBar.add(transformActions.createMenu());
 
         // Actions that revolve around the mouse 
-        MouseActions mouseActions = new MouseActions(); 
-        menuBar.add(mouseActions.createMenu());
+        // MouseActions mouseActions = new MouseActions(); 
+        // menuBar.add(mouseActions.createMenu());
 
         // Actions that affect language preference in ANDIE
         InternationalizationActions internationalizationActions = new InternationalizationActions() ; 

@@ -35,7 +35,8 @@ public class ColourActions {
     public ColourActions() {
         actions = new ArrayList<Action>();
         actions.add(new ConvertToGreyAction(Andie.getLanguage("greyscale_name"), null, Andie.getLanguage("greyscale_description") , Integer.valueOf(KeyEvent.VK_G)));
-        actions.add(new ContrastAdjusterAction(Andie.getLanguage("contrast_and_brightness_name"), null, Andie.getLanguage("contrast_and_brightness_description"), Integer.valueOf(KeyEvent.VK_G)));
+        actions.add(new ContrastAdjusterAction(Andie.getLanguage("contrast_name"), null, Andie.getLanguage("contrast_description"), Integer.valueOf(KeyEvent.VK_G)));
+        actions.add(new BrightnessAdjusterAction(Andie.getLanguage("brightness_name"), null, Andie.getLanguage("brightness_description"), Integer.valueOf(KeyEvent.VK_G)));
     }
 
     /**
@@ -123,33 +124,68 @@ public class ColourActions {
          */
         public void actionPerformed(ActionEvent e) {
             int contrastPercent = 0;
-            int brightPercent = 0;
+
             
             SpinnerNumberModel radiusModel = new SpinnerNumberModel(1, -100, 100, 1);
             JSpinner radiusSpinner = new JSpinner(radiusModel);
             int option1 = JOptionPane.showOptionDialog(null, radiusSpinner, Andie.getLanguage("contrast_percentage") , JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
            
-            SpinnerNumberModel radiusModel1 = new SpinnerNumberModel(1, -100, 100, 1);
-            JSpinner radiusSpinner1 = new JSpinner(radiusModel1);
-            int option2 = JOptionPane.showOptionDialog(null, radiusSpinner1, Andie.getLanguage("brightness_percentage") , JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
 
             if (option1 == JOptionPane.CANCEL_OPTION) {
                 return;
             } else if (option1 == JOptionPane.OK_OPTION) {
                 contrastPercent = radiusModel.getNumber().intValue();
             }
-            if (option2 == JOptionPane.CANCEL_OPTION) {
-                return;
-            } else if (option2 == JOptionPane.OK_OPTION) {
-                brightPercent = radiusModel1.getNumber().intValue();
-            }
 
-            target.getImage().apply(new ContrastAdjuster(contrastPercent, brightPercent));
+            target.getImage().apply(new ContrastAdjuster(contrastPercent));
             target.repaint();
             target.getParent().revalidate();
         }
+    }
+        /**
+     * Action to adjust image's contrast and brightness levels
+     */
+    public class BrightnessAdjusterAction extends ImageAction {
+
+        /**
+        * <p>
+        * Create a new convert-to-grey action.
+        * </p>
+        * 
+        * @param name The name of the action (ignored if null).
+        * @param icon An icon to use to represent the action (ignored if null).
+        * @param desc A brief description of the action  (ignored if null).
+        * @param mnemonic A mnemonic key to use as a shortcut  (ignored if null).
+        */       
+       BrightnessAdjusterAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
+           super(name, icon, desc, mnemonic);
+       }
+       /**
+        * <p>
+        * Method to display input boxes for contrast and brightness percentage levels
+        * </p>
+        */
+       public void actionPerformed(ActionEvent e) {
+           int brightPercent = 0;
+           
+           SpinnerNumberModel radiusModel = new SpinnerNumberModel(1, -100, 100, 1);
+           JSpinner radiusSpinner = new JSpinner(radiusModel);
+           int option = JOptionPane.showOptionDialog(null, radiusSpinner, Andie.getLanguage("brightness_percentage") , JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+          
+
+           if (option == JOptionPane.CANCEL_OPTION) {
+               return;
+           } else if (option == JOptionPane.OK_OPTION) {
+               brightPercent = radiusModel.getNumber().intValue();
+           }
+
+           target.getImage().apply(new BrightnessAdjuster(brightPercent));
+           target.repaint();
+           target.getParent().revalidate();
+       }
+       
+
 
 
     }
-
 }

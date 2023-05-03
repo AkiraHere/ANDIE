@@ -21,7 +21,7 @@ import java.awt.image.*;
  * @version 1.0
  */
 
-public class ContrastAdjuster implements ImageOperation, java.io.Serializable{
+public class BrightnessAdjuster implements ImageOperation, java.io.Serializable{
 
     /**
      * the contrast and brightness to adjust the image by.
@@ -31,7 +31,7 @@ public class ContrastAdjuster implements ImageOperation, java.io.Serializable{
     /**
      * Default Constructor
      */
-    public ContrastAdjuster(){
+    public BrightnessAdjuster(){
 
     }
     /**
@@ -40,9 +40,9 @@ public class ContrastAdjuster implements ImageOperation, java.io.Serializable{
      * @param contrastPercent = percentage that user inputs for desired change
      * @param brightPercent = percentage that user inputs for desired change
      */
-    public ContrastAdjuster(double contrastPercent){
-        this.contrastPercent = contrastPercent;
-        this.brightPercent = 0;
+    public BrightnessAdjuster(double brightPercent){
+        this.contrastPercent = 0;
+        this.brightPercent = brightPercent;
     }
 
     /**
