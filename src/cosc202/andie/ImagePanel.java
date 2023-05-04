@@ -61,7 +61,7 @@ public class ImagePanel extends JPanel {
      * 
      * <p>
      * Newly created ImagePanels have a default zoom level of 100%. Also implements a mouse listener
-     * using {@link MyMouseListener} for cropping and drawing actions. 
+     * using {@link MouseInputAdapter} for cropping and drawing actions. 
      * </p>
      */
     public ImagePanel() {
