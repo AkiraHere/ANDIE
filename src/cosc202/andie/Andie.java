@@ -1,6 +1,8 @@
 package cosc202.andie;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
 
 import javax.swing.*;
 import javax.imageio.*;
@@ -65,8 +67,41 @@ public class Andie {
         //UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
         //UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
 
+        
+        // Add in a toolbar
+        JToolBar toolbar = new JToolBar();
+        toolbar.setFloatable(false);
+        toolbar.setPreferredSize(new Dimension(0, 35));
+
+        // Using Icons for the button image and scaling to appropriate size
+        BufferedImage saveImage = ImageIO.read(new File("Save_Icon.png"));
+        BufferedImage undoImage = ImageIO.read(new File("Undo_Icon.png"));
+        BufferedImage redoImage = ImageIO.read(new File("Redo_Icon.png"));
+        Image saveIcon = saveImage.getScaledInstance(15, 15, Image.SCALE_SMOOTH);
+        Image undoIcon = undoImage.getScaledInstance(15, 15, Image.SCALE_SMOOTH);
+        Image redoIcon = redoImage.getScaledInstance(15, 15, Image.SCALE_SMOOTH);
+
+        // Creating JButtons and hiding borders
+        toolbar.setLayout(new FlowLayout(FlowLayout.LEFT));
+        JButton saveButton = new JButton(new ImageIcon(saveIcon));
+        JButton undoButton = new JButton(new ImageIcon(undoIcon));
+        JButton redoButton = new JButton(new ImageIcon(redoIcon));
+
+        saveButton.setBorderPainted(false);
+        undoButton.setBorderPainted(false);
+        redoButton.setBorderPainted(false);
+
+        // Adding buttons to toolbar
+        toolbar.add(saveButton);
+        toolbar.add(undoButton);
+        toolbar.add(redoButton);
+
+        
+
+
         // Set up the main GUI frame
         frame = new JFrame( getLanguage("title") ) ;
+        frame.add(toolbar, BorderLayout.NORTH);
 
         Image image = ImageIO.read(Andie.class.getClassLoader().getResource("icon.png"));
         frame.setIconImage(image);
@@ -80,6 +115,7 @@ public class Andie {
         
         // Add in menus for various types of action the user may perform.
         JMenuBar menuBar = new JMenuBar();
+
 
         // File menus are pretty standard, so things that usually go in File menus go here.
         FileActions fileActions = new FileActions();
