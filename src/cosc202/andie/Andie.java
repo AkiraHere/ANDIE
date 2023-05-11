@@ -85,7 +85,7 @@ public class Andie {
         toolbar.setFloatable(false);
         toolbar.setPreferredSize(new Dimension(0, 35));
 
-        // Using Icons for the button image and scaling to appropriate size
+        // Using Icons for the button image
         BufferedImage saveImage = ImageIO.read(Andie.class.getResourceAsStream("./Save_Icon.png"));
         BufferedImage undoImage = ImageIO.read(Andie.class.getResourceAsStream("Undo_Icon.png"));
         BufferedImage redoImage = ImageIO.read(Andie.class.getResourceAsStream("Redo_Icon.png"));
@@ -94,6 +94,8 @@ public class Andie {
         BufferedImage cropImage = ImageIO.read(Andie.class.getResourceAsStream("Crop_Icon.png"));
         BufferedImage contrastImage = ImageIO.read(Andie.class.getResourceAsStream("Contrast_Icon.png"));
         BufferedImage brightnessImage = ImageIO.read(Andie.class.getResourceAsStream("Brightness_Icon.png"));
+
+        // Scaling images to appropriate size
         Image saveIcon = saveImage.getScaledInstance(15, 15, Image.SCALE_SMOOTH);
         Image undoIcon = undoImage.getScaledInstance(15, 15, Image.SCALE_SMOOTH);
         Image redoIcon = redoImage.getScaledInstance(15, 15, Image.SCALE_SMOOTH);
@@ -103,7 +105,7 @@ public class Andie {
         Image contrastIcon = contrastImage.getScaledInstance(15, 15, Image.SCALE_SMOOTH);
         Image brightnessIcon = brightnessImage.getScaledInstance(15, 15, Image.SCALE_SMOOTH);
 
-        // Creating JButtons, add tooltips and hide borders
+        // Creating JButtons
         toolbar.setLayout(new FlowLayout(FlowLayout.LEFT));
         JButton saveButton = new JButton(new ImageIcon(saveIcon));
         JButton undoButton = new JButton(new ImageIcon(undoIcon));
@@ -114,6 +116,7 @@ public class Andie {
         JButton contrastButton = new JButton(new ImageIcon(contrastIcon));
         JButton brightnessButton = new JButton(new ImageIcon(brightnessIcon));
 
+        // Adding tooltips to buttons
         saveButton.setToolTipText(Andie.getLanguage("save_description"));
         undoButton.setToolTipText(Andie.getLanguage("undo"));
         redoButton.setToolTipText(Andie.getLanguage("redo"));
@@ -123,6 +126,7 @@ public class Andie {
         contrastButton.setToolTipText(Andie.getLanguage("contrast_description"));
         brightnessButton.setToolTipText(Andie.getLanguage("brightness_description"));
 
+        // Hiding borders 
         saveButton.setBorderPainted(false);
         undoButton.setBorderPainted(false);
         redoButton.setBorderPainted(false);
