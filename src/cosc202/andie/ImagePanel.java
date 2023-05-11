@@ -190,7 +190,7 @@ public class ImagePanel extends JPanel {
     private void clearPreviousDrawing(Graphics g) {
         g.setColor(getBackground());
         g.fillRect(0, 0, getWidth(), getHeight());
-        repaint() ; 
+        repaint(); 
     }
 
 

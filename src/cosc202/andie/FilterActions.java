@@ -3,6 +3,7 @@ package cosc202.andie;
 import java.util.*;
 import java.awt.event.*;
 import javax.swing.*;
+import javax.swing.text.DefaultStyledDocument.ElementSpec;
 
 /**
  * <p>
@@ -313,6 +314,8 @@ public class FilterActions {
                     return;
                 } else if (option == JOptionPane.OK_OPTION) {
                     radius = radiusModel.getNumber().intValue();
+                }else{
+                    radius = 1;
                 }
 
                 // Create and apply the filter
@@ -335,7 +338,7 @@ public class FilterActions {
 
      /**
      * <p>
-     * Action to blur an image with a Emboss filter.
+     * Action to filter an image with an Embossing effect.
      * </p>
      * 
      * @see EmbossFilter

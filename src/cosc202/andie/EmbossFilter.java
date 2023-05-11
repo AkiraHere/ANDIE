@@ -5,7 +5,7 @@ import java.awt.image.BufferedImage;
 
 public class EmbossFilter implements ImageOperation, java.io.Serializable{
     private int option;
-    private static final int MID_COLOR = 128;
+    private static final int MID_COLOR = 127;
 
 
     /**
@@ -14,7 +14,7 @@ public class EmbossFilter implements ImageOperation, java.io.Serializable{
      * @param option the integer value between 0-7 that determines the kernel.
      */
     public EmbossFilter(int option){
-        if(option < 0 || option > 7){
+        if(option < 0 || option > 7){ // if somehow an option outside of the range is selected.
             this.option = 0;
         }else{
             this.option = option;
@@ -64,7 +64,7 @@ public class EmbossFilter implements ImageOperation, java.io.Serializable{
                     }
                 }
 
-                int avg = (sumR + sumG + sumB) / 3; //removed sumA from this calculation
+                int avg = (int)((sumA + sumR + sumG + sumB) / 4.0); 
                 int embossVal = MID_COLOR - avg;
 
                 Color embossColor;
