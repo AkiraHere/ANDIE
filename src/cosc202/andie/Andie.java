@@ -103,7 +103,7 @@ public class Andie {
         Image contrastIcon = contrastImage.getScaledInstance(15, 15, Image.SCALE_SMOOTH);
         Image brightnessIcon = brightnessImage.getScaledInstance(15, 15, Image.SCALE_SMOOTH);
 
-        // Creating JButtons and hiding borders
+        // Creating JButtons, add tooltips and hide borders
         toolbar.setLayout(new FlowLayout(FlowLayout.LEFT));
         JButton saveButton = new JButton(new ImageIcon(saveIcon));
         JButton undoButton = new JButton(new ImageIcon(undoIcon));
@@ -113,6 +113,15 @@ public class Andie {
         JButton cropButton = new JButton(new ImageIcon(cropIcon));
         JButton contrastButton = new JButton(new ImageIcon(contrastIcon));
         JButton brightnessButton = new JButton(new ImageIcon(brightnessIcon));
+
+        saveButton.setToolTipText(Andie.getLanguage("save_description"));
+        undoButton.setToolTipText(Andie.getLanguage("undo"));
+        redoButton.setToolTipText(Andie.getLanguage("redo"));
+        zoomInButton.setToolTipText(Andie.getLanguage("zoom_in_description"));
+        zoomOutButton.setToolTipText(Andie.getLanguage("zoom_out_description"));
+        cropButton.setToolTipText(Andie.getLanguage("crop"));
+        contrastButton.setToolTipText(Andie.getLanguage("contrast_description"));
+        brightnessButton.setToolTipText(Andie.getLanguage("brightness_description"));
 
         saveButton.setBorderPainted(false);
         undoButton.setBorderPainted(false);
