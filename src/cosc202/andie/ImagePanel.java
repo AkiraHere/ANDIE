@@ -42,6 +42,11 @@ public class ImagePanel extends JPanel {
     int currentMouseWidth = 0 ; 
     int currentMouseHeight = 0 ; 
 
+    int outOfBoundsX = 0 ; 
+    int outOfBoundsY = 0 ; 
+    int outOfBoundsWidth = 0 ; 
+    int outOfBoundsHeight = 0 ;
+
     /**
      * <p>
      * The zoom-level of the current view.
@@ -302,20 +307,35 @@ public class ImagePanel extends JPanel {
                     height = Math.abs( height ) ; 
                     y = y - height ; 
                 }
-                
-                if ( width != 0 && height != 0 && currentMouseX < image.getCurrentImage().getWidth() - 1 && currentMouseY < image.getCurrentImage().getHeight() - 1 ) {
+
+                if( width > image.getCurrentImage().getWidth() - x  ) {
+                    outOfBoundsWidth = image.getCurrentImage().getWidth() - x ; 
+                }
+                if( height > image.getCurrentImage().getHeight() - y ) {
+                    outOfBoundsHeight = image.getCurrentImage().getHeight() - y ; 
+                }    
+
+                if ( width != 0 && height != 0 && currentMouseX < image.getCurrentImage().getWidth() && currentMouseY < image.getCurrentImage().getHeight() ) {
+                    outOfBoundsX = x ; 
+                    outOfBoundsY = y ; 
+                    outOfBoundsWidth = width ; 
+                    outOfBoundsHeight = height ;
                     BufferedImage cropped = null ; 
                     cropped = image.getCurrentImage().getSubimage( x , y , width , height ) ;
                     g2.drawImage( cropped , null , x , y ) ; 
+                } else if ( width != 0 && height != 0 ) {
+                    BufferedImage cropped = null ;
+                    cropped = image.getCurrentImage().getSubimage( outOfBoundsX , outOfBoundsY , outOfBoundsWidth , outOfBoundsHeight ) ; 
+                    g2.drawImage( cropped , null , outOfBoundsX , outOfBoundsY ) ;  
                 }
-                //Draw a rectangle on top of the image.
-                float alpha = (float) 0.0 ;
-                Color color = new Color(1, 0, 0, alpha); //Red 
-                g2.setPaint(color); 
-                g2.setXORMode(color); //Color of line varies
-                                       //depending on image colors
-                g2.drawRect(rectToDraw.x + 1 , rectToDraw.y + 1 , 
-                       rectToDraw.width - 2 , rectToDraw.height - 2 ) ;
+                // //Draw a rectangle on top of the image.
+                // float alpha = (float) 0.0 ;
+                // Color color = new Color(1, 0, 0, alpha); //Red 
+                // g2.setPaint(color); 
+                // g2.setXORMode(color); //Color of line varies
+                //                        //depending on image colors
+                // g2.drawRect(rectToDraw.x + 1 , rectToDraw.y + 1 , 
+                //        rectToDraw.width - 2 , rectToDraw.height - 2 ) ;
             }
         } 
         g2.dispose();
