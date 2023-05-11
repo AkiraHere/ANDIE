@@ -8,9 +8,14 @@ import java.io.File;
 
 import javax.swing.*;
 
+import cosc202.andie.ColourActions.BrightnessAdjusterAction;
+import cosc202.andie.ColourActions.ContrastAdjusterAction;
 import cosc202.andie.EditActions.RedoAction;
 import cosc202.andie.EditActions.UndoAction;
 import cosc202.andie.FileActions.FileSaveAsAction;
+import cosc202.andie.MouseActions.CropAction;
+import cosc202.andie.ViewActions.ZoomInAction;
+import cosc202.andie.ViewActions.ZoomOutAction;
 
 import javax.imageio.*;
 
@@ -81,23 +86,43 @@ public class Andie {
         toolbar.setPreferredSize(new Dimension(0, 35));
 
         // Using Icons for the button image and scaling to appropriate size
-        BufferedImage saveImage = ImageIO.read(new File("Save_Icon.png"));
-        BufferedImage undoImage = ImageIO.read(new File("Undo_Icon.png"));
-        BufferedImage redoImage = ImageIO.read(new File("Redo_Icon.png"));
+        BufferedImage saveImage = ImageIO.read(Andie.class.getResourceAsStream("./Save_Icon.png"));
+        BufferedImage undoImage = ImageIO.read(Andie.class.getResourceAsStream("Undo_Icon.png"));
+        BufferedImage redoImage = ImageIO.read(Andie.class.getResourceAsStream("Redo_Icon.png"));
+        BufferedImage zoomInImage = ImageIO.read(Andie.class.getResourceAsStream("ZoomIn_Icon.png"));
+        BufferedImage zoomOutImage = ImageIO.read(Andie.class.getResourceAsStream("ZoomOut_Icon.png"));
+        BufferedImage cropImage = ImageIO.read(Andie.class.getResourceAsStream("Crop_Icon.png"));
+        BufferedImage contrastImage = ImageIO.read(Andie.class.getResourceAsStream("Contrast_Icon.png"));
+        BufferedImage brightnessImage = ImageIO.read(Andie.class.getResourceAsStream("Brightness_Icon.png"));
         Image saveIcon = saveImage.getScaledInstance(15, 15, Image.SCALE_SMOOTH);
         Image undoIcon = undoImage.getScaledInstance(15, 15, Image.SCALE_SMOOTH);
         Image redoIcon = redoImage.getScaledInstance(15, 15, Image.SCALE_SMOOTH);
+        Image zoomInIcon = zoomInImage.getScaledInstance(15, 15, Image.SCALE_SMOOTH);
+        Image zoomOutIcon = zoomOutImage.getScaledInstance(15, 15, Image.SCALE_SMOOTH);
+        Image cropIcon = cropImage.getScaledInstance(15, 15, Image.SCALE_SMOOTH);
+        Image contrastIcon = contrastImage.getScaledInstance(15, 15, Image.SCALE_SMOOTH);
+        Image brightnessIcon = brightnessImage.getScaledInstance(15, 15, Image.SCALE_SMOOTH);
 
         // Creating JButtons and hiding borders
         toolbar.setLayout(new FlowLayout(FlowLayout.LEFT));
         JButton saveButton = new JButton(new ImageIcon(saveIcon));
         JButton undoButton = new JButton(new ImageIcon(undoIcon));
         JButton redoButton = new JButton(new ImageIcon(redoIcon));
+        JButton zoomInButton = new JButton(new ImageIcon(zoomInIcon));
+        JButton zoomOutButton = new JButton(new ImageIcon(zoomOutIcon));
+        JButton cropButton = new JButton(new ImageIcon(cropIcon));
+        JButton contrastButton = new JButton(new ImageIcon(contrastIcon));
+        JButton brightnessButton = new JButton(new ImageIcon(brightnessIcon));
 
         saveButton.setBorderPainted(false);
         undoButton.setBorderPainted(false);
         redoButton.setBorderPainted(false);
-
+        zoomInButton.setBorderPainted(false);
+        zoomOutButton.setBorderPainted(false);
+        cropButton.setBorderPainted(false);
+        contrastButton.setBorderPainted(false);
+        brightnessButton.setBorderPainted(false);
+        
         // Using ActionListener to make buttons call their repsected classes/methods
         saveButton.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e) {
@@ -120,11 +145,52 @@ public class Andie {
                 redo.actionPerformed(e);
             }
         });
+        zoomInButton.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e) {
+                ViewActions view = new ViewActions();
+                ZoomInAction zoomIn = view.new ZoomInAction(null, null, null, null);
+                zoomIn.actionPerformed(e);
+            }
+        });
+        zoomOutButton.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e) {
+                ViewActions view = new ViewActions();
+                ZoomOutAction zoomOut = view.new ZoomOutAction(null, null, null, null);
+                zoomOut.actionPerformed(e);
+            }
+        });
+        cropButton.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e) {
+                MouseActions mouse = new MouseActions();
+                CropAction crop = mouse.new CropAction(null, null, null, null);
+                crop.actionPerformed(e);
+            }
+        });
+        contrastButton.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e) {
+                ColourActions colour = new ColourActions();
+                ContrastAdjusterAction contrast = colour.new ContrastAdjusterAction(null, null, null, null);
+                contrast.actionPerformed(e);
+            }
+        });
+        brightnessButton.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e) {
+                ColourActions colour = new ColourActions();
+                BrightnessAdjusterAction brightness = colour.new BrightnessAdjusterAction(null, null, null, null);
+                brightness.actionPerformed(e);
+            }
+        });
         
         // Adding buttons to toolbar
         toolbar.add(saveButton);
         toolbar.add(undoButton);
         toolbar.add(redoButton);
+        toolbar.add(zoomInButton);
+        toolbar.add(zoomOutButton);
+        toolbar.add(cropButton);
+        toolbar.add(contrastButton);
+        toolbar.add(brightnessButton);
+
 
         // Set up the main GUI frame
         frame = new JFrame( getLanguage("title") ) ;
