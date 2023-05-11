@@ -1,10 +1,17 @@
 package cosc202.andie;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 
 import javax.swing.*;
+
+import cosc202.andie.EditActions.RedoAction;
+import cosc202.andie.EditActions.UndoAction;
+import cosc202.andie.FileActions.FileSaveAsAction;
+
 import javax.imageio.*;
 
 /**
@@ -91,13 +98,33 @@ public class Andie {
         undoButton.setBorderPainted(false);
         redoButton.setBorderPainted(false);
 
+        // Using ActionListener to make buttons call their repsected classes/methods
+        saveButton.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e) {
+                FileActions save = new FileActions();
+                FileSaveAsAction saveAs = save.new FileSaveAsAction(null, null, null, null);
+                saveAs.actionPerformed(e);
+            }
+        });
+        undoButton.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e) {
+                EditActions edit = new EditActions();
+                UndoAction undo = edit.new UndoAction(null, null, null, null);
+                undo.actionPerformed(e);
+            }
+        });
+        redoButton.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e) {
+                EditActions edit = new EditActions();
+                RedoAction redo = edit.new RedoAction(null, null, null, null);
+                redo.actionPerformed(e);
+            }
+        });
+        
         // Adding buttons to toolbar
         toolbar.add(saveButton);
         toolbar.add(undoButton);
         toolbar.add(redoButton);
-
-        
-
 
         // Set up the main GUI frame
         frame = new JFrame( getLanguage("title") ) ;
