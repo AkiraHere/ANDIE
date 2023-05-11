@@ -37,7 +37,9 @@ public class FilterActions {
         actions.add(new MeanFilterAction(Andie.getLanguage("mean_name"), null, Andie.getLanguage("mean_description"), Integer.valueOf(KeyEvent.VK_M)));
         actions.add(new MedianFilterAction(Andie.getLanguage("median_name"), null, Andie.getLanguage("median_description"), Integer.valueOf(KeyEvent.VK_N)));
         actions.add(new SharpenFilterAction( Andie.getLanguage("sharpen_name") , null , Andie.getLanguage("sharpen_description") , Integer.valueOf(KeyEvent.VK_B))) ; 
-        actions.add(new GaussianBlurFilterAction( Andie.getLanguage("gaussian_name"), null , Andie.getLanguage("gaussian_description") , Integer.valueOf(KeyEvent.VK_G))) ; 
+        actions.add(new GaussianBlurFilterAction( Andie.getLanguage("gaussian_name"), null , Andie.getLanguage("gaussian_description") , Integer.valueOf(KeyEvent.VK_G))) ;
+        
+        actions.add(new EmbossFilterAction( Andie.getLanguage("emboss_name"), null , Andie.getLanguage("emboss_description") , Integer.valueOf(KeyEvent.VK_E))) ; 
     }
 
     /**
@@ -329,5 +331,89 @@ public class FilterActions {
         }
 
     }
+
+
+     /**
+     * <p>
+     * Action to blur an image with a Emboss filter.
+     * </p>
+     * 
+     * @see EmbossFilter
+     */
+    public class EmbossFilterAction extends ImageAction{
+         
+        /**
+         * <p>
+         * Create a new EmbossFilterAction.
+         * </p>
+         * 
+         * @param name The name of the action (ignored if null).
+         * @param icon An icon to use to represent the action (ignored if null).
+         * @param desc A brief description of the action  (ignored if null).
+         * @param mnemonic A mnemonic key to use as a shortcut  (ignored if null).
+         */
+        EmbossFilterAction(String name, ImageIcon icon, String desc, Integer mnemonic){
+            super(name, icon, desc, mnemonic);
+        }
+
+        /**
+         * <p>
+         * Callback for when the Emboss filter is triggered.
+         * </p>
+         * 
+         * <p>
+         * This method is called whenever the EmbossFilterAction is triggered.
+         * It prompts the user for an option that represents the direction of the emboss effect.
+         * try/catch block if filtered is applied when no image is opened.
+         * </p>
+         * 
+         * @param e The event triggering this callback.
+         */
+        public void actionPerformed(ActionEvent e){
+            
+            try { 
+
+                int embossOption = 0;
+                Object[] options = {"N", "NE", "E", "SE", "S", "SW", "W", "NW"};
+                // Pop-up dialog box to ask for the radius value.
+                    // BELOW WAS THE OLD SPINNER METHOD
+                    // SpinnerNumberModel radiusModel = new SpinnerNumberModel(0, 0, 7, 1);
+                    // JSpinner radiusSpinner = new JSpinner(radiusModel);
+                    // int option = JOptionPane.showOptionDialog(null, radiusSpinner, Andie.getLanguage("emboss_option"), JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+                    int option = JOptionPane.showOptionDialog(target,
+                    Andie.getLanguage("emboss_option"),
+                    Andie.getLanguage("emboss_name"),
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.QUESTION_MESSAGE,
+                    null,
+                    options,
+                    -1);
+                // Check the return value from the dialog box.
+                if(option == -1){
+                    return;
+                }
+                if (option == JOptionPane.CANCEL_OPTION) {
+                    return;
+                } else if (option == JOptionPane.OK_OPTION) {
+                    embossOption = option;
+                }
+
+                // Create and apply the filter
+                target.getImage().apply(new EmbossFilter(embossOption));
+                target.repaint();
+                target.getParent().revalidate();
+
+            // if no image has been opened, caught by NullPointerException and shows error message
+            } catch ( NullPointerException error ) {
+
+                JOptionPane.showMessageDialog( null , Andie.getLanguage("error_no_image_opened") , Andie.getLanguage("error_title") , JOptionPane.WARNING_MESSAGE );
+                return ; 
+
+            }
+
+        }
+
+    }
+
 
 }

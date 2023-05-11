@@ -176,9 +176,11 @@ public class TransformActions {
                     JOptionPane.QUESTION_MESSAGE,
                     null,
                     options,
-                    options[0]);
+                    -1);
 
-
+    if (direction == -1) {
+        return;
+    } 
     if (direction == 0) {
         target.getImage().apply(new FlipImage(true));
     } else {

@@ -64,15 +64,21 @@ public class EmbossFilter implements ImageOperation, java.io.Serializable{
                     }
                 }
 
-                int avg = (sumA + sumR + sumG + sumB) / 4;
+                int avg = (sumR + sumG + sumB) / 3; //removed sumA from this calculation
                 int embossVal = MID_COLOR - avg;
 
                 Color embossColor;
                 if (embossVal < 0) {
                     int darkerVal = MID_COLOR - Math.abs(embossVal);
+                    if(darkerVal < 0){
+                        darkerVal = 0;
+                    }
                     embossColor = new Color(darkerVal, darkerVal, darkerVal);
                 } else {
-                    int brighterVal = MID_COLOR + embossVal;
+                    int brighterVal = MID_COLOR + Math.abs(embossVal);
+                    if(brighterVal > 255){
+                        brighterVal = 255;
+                    }
                     embossColor = new Color(brighterVal, brighterVal, brighterVal);
                 }
 
