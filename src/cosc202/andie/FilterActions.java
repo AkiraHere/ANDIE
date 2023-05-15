@@ -39,8 +39,8 @@ public class FilterActions {
         actions.add(new MedianFilterAction(Andie.getLanguage("median_name"), null, Andie.getLanguage("median_description"), Integer.valueOf(KeyEvent.VK_N)));
         actions.add(new SharpenFilterAction( Andie.getLanguage("sharpen_name") , null , Andie.getLanguage("sharpen_description") , Integer.valueOf(KeyEvent.VK_B))) ; 
         actions.add(new GaussianBlurFilterAction( Andie.getLanguage("gaussian_name"), null , Andie.getLanguage("gaussian_description") , Integer.valueOf(KeyEvent.VK_G))) ;
-        
         actions.add(new EmbossFilterAction( Andie.getLanguage("emboss_name"), null , Andie.getLanguage("emboss_description") , Integer.valueOf(KeyEvent.VK_E))) ; 
+        actions.add(new SobelFilterAction( Andie.getLanguage("sobel_name"), null , Andie.getLanguage("sobel_description") , Integer.valueOf(KeyEvent.VK_S))) ;
     }
 
     /**
@@ -403,6 +403,85 @@ public class FilterActions {
 
                 // Create and apply the filter
                 target.getImage().apply(new EmbossFilter(embossOption));
+                target.repaint();
+                target.getParent().revalidate();
+
+            // if no image has been opened, caught by NullPointerException and shows error message
+            } catch ( NullPointerException error ) {
+
+                JOptionPane.showMessageDialog( null , Andie.getLanguage("error_no_image_opened") , Andie.getLanguage("error_title") , JOptionPane.WARNING_MESSAGE );
+                return ; 
+
+            }
+
+        }
+
+    }
+
+
+     /**
+     * <p>
+     * Action to filter an image with an edge detection effect, Sobel Filter.
+     * </p>
+     * 
+     * @see SobelFilter
+     */
+    public class SobelFilterAction extends ImageAction{
+         
+        /**
+         * <p>
+         * Create a new EmbossFilterAction.
+         * </p>
+         * 
+         * @param name The name of the action (ignored if null).
+         * @param icon An icon to use to represent the action (ignored if null).
+         * @param desc A brief description of the action  (ignored if null).
+         * @param mnemonic A mnemonic key to use as a shortcut  (ignored if null).
+         */
+        SobelFilterAction(String name, ImageIcon icon, String desc, Integer mnemonic){
+            super(name, icon, desc, mnemonic);
+        }
+
+        /**
+         * <p>
+         * Callback for when the Emboss filter is triggered.
+         * </p>
+         * 
+         * <p>
+         * This method is called whenever the EmbossFilterAction is triggered.
+         * It prompts the user for an option that represents the direction of the emboss effect.
+         * try/catch block if filtered is applied when no image is opened.
+         * </p>
+         * 
+         * @param e The event triggering this callback.
+         */
+        public void actionPerformed(ActionEvent e){
+            
+            try { 
+
+                int sobelOption = 0;
+                Object[] options = {Andie.getLanguage("flip_horizontal"), Andie.getLanguage("flip_vertical")};
+                // Pop-up dialog box to ask for the radius value.
+                    int option = JOptionPane.showOptionDialog(target,
+                    Andie.getLanguage("sobel_option"),
+                    Andie.getLanguage("sobel_name"),
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.QUESTION_MESSAGE,
+                    null,
+                    options,
+                    -1);
+                // Check the return value from the dialog box.
+                if(option == -1){
+                    return;
+                }
+                if (option == JOptionPane.CANCEL_OPTION) {
+                    return;
+                } else if (option == JOptionPane.OK_OPTION) {
+                    sobelOption = option;
+                }
+
+                // Create and apply the filter
+                target.getImage().apply(new SobelFilter(sobelOption));
                 target.repaint();
                 target.getParent().revalidate();
 
