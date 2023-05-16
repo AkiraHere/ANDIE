@@ -86,14 +86,14 @@ public class Andie {
         toolbar.setPreferredSize(new Dimension(0, 35));
 
         // Using Icons for the button image
-        BufferedImage saveImage = ImageIO.read(Andie.class.getResourceAsStream("./Save_Icon.png"));
-        BufferedImage undoImage = ImageIO.read(Andie.class.getResourceAsStream("Undo_Icon.png"));
-        BufferedImage redoImage = ImageIO.read(Andie.class.getResourceAsStream("Redo_Icon.png"));
-        BufferedImage zoomInImage = ImageIO.read(Andie.class.getResourceAsStream("ZoomIn_Icon.png"));
-        BufferedImage zoomOutImage = ImageIO.read(Andie.class.getResourceAsStream("ZoomOut_Icon.png"));
-        BufferedImage cropImage = ImageIO.read(Andie.class.getResourceAsStream("Crop_Icon.png"));
-        BufferedImage contrastImage = ImageIO.read(Andie.class.getResourceAsStream("Contrast_Icon.png"));
-        BufferedImage brightnessImage = ImageIO.read(Andie.class.getResourceAsStream("Brightness_Icon.png"));
+        BufferedImage saveImage = ImageIO.read(Andie.class.getResourceAsStream("./icons/Save_Icon.png"));
+        BufferedImage undoImage = ImageIO.read(Andie.class.getResourceAsStream("./icons/Undo_Icon.png"));
+        BufferedImage redoImage = ImageIO.read(Andie.class.getResourceAsStream("./icons/Redo_Icon.png"));
+        BufferedImage zoomInImage = ImageIO.read(Andie.class.getResourceAsStream("./icons/ZoomIn_Icon.png"));
+        BufferedImage zoomOutImage = ImageIO.read(Andie.class.getResourceAsStream("./icons/ZoomOut_Icon.png"));
+        BufferedImage cropImage = ImageIO.read(Andie.class.getResourceAsStream("./icons/Crop_Icon.png"));
+        BufferedImage contrastImage = ImageIO.read(Andie.class.getResourceAsStream("./icons/Contrast_Icon.png"));
+        BufferedImage brightnessImage = ImageIO.read(Andie.class.getResourceAsStream("./icons/Brightness_Icon.png"));
 
         // Scaling images to appropriate size
         Image saveIcon = saveImage.getScaledInstance(15, 15, Image.SCALE_SMOOTH);
