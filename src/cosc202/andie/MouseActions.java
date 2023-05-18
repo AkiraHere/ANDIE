@@ -60,12 +60,20 @@ public class MouseActions implements KeyListener {
 
             super( name , icon , desc , mnemonic ) ;
 
+
         }
 
         public void actionPerformed( ActionEvent e ) {
 
-            target.cropActive( true ) ; 
+            // if ( target.getImage().hasImage() == true ) {}
 
+                target.cropActive( true ) ; 
+
+        // }   else {
+
+
+        //     }
+            
         }
 
     }
