@@ -19,7 +19,7 @@ import javax.swing.*;
  * @author Nick Garner, Tan Robertson
  * @version 1.0
  */
-public class TransformActions {
+public class TransformActions implements KeyListener {
  
     /**
      * A list of actions for the Transform menu.
@@ -33,10 +33,31 @@ public class TransformActions {
      */
     public TransformActions() {
         actions = new ArrayList<Action>();
-        actions.add(new ResizeImageAction(Andie.getLanguage("resize_name"), null, Andie.getLanguage("resize_description"), Integer.valueOf(KeyEvent.VK_PLUS)));
-        actions.add(new RotateImageAction(Andie.getLanguage("rotate_name"), null, Andie.getLanguage("rotate_description"), Integer.valueOf(KeyEvent.VK_MINUS)));
-        actions.add(new FlipImageAction(Andie.getLanguage("flip_name"), null, Andie.getLanguage("flip_description"), Integer.valueOf(KeyEvent.VK_1)));
+        actions.add(new ResizeImageAction(Andie.getLanguage("resize_name"), null, Andie.getLanguage("resize_description"), Integer.valueOf(KeyEvent.VK_T)));
+        actions.add(new RotateImageAction(Andie.getLanguage("rotate_name"), null, Andie.getLanguage("rotate_description"), Integer.valueOf(KeyEvent.VK_R)));
+        actions.add(new FlipImageAction(Andie.getLanguage("flip_name"), null, Andie.getLanguage("flip_description"), Integer.valueOf(KeyEvent.VK_F)));
     }
+
+    @Override
+    public void keyTyped(KeyEvent e) {}
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        int keyCode = e.getKeyCode();
+
+        if(e.isControlDown()) {
+            for (Action action : actions) {
+                Integer actionKeyCode = (Integer) action.getValue(Action.MNEMONIC_KEY);
+                if (actionKeyCode != null && actionKeyCode == keyCode) {
+                    action.actionPerformed(null);
+                    break;
+                }
+            }
+        }
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {}
     /**
      * <p>
      * Create a menu contianing the list of Transform actions.

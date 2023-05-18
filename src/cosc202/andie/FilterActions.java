@@ -3,7 +3,6 @@ package cosc202.andie;
 import java.util.*;
 import java.awt.event.*;
 import javax.swing.*;
-import javax.swing.text.DefaultStyledDocument.ElementSpec;
 
 /**
  * <p>
@@ -23,7 +22,7 @@ import javax.swing.text.DefaultStyledDocument.ElementSpec;
  * @author Steven Mills
  * @version 1.0
  */
-public class FilterActions {
+public class FilterActions implements KeyListener {
     
     /** A list of actions for the Filter menu. */
     protected ArrayList<Action> actions;
@@ -37,11 +36,31 @@ public class FilterActions {
         actions = new ArrayList<Action>();
         actions.add(new MeanFilterAction(Andie.getLanguage("mean_name"), null, Andie.getLanguage("mean_description"), Integer.valueOf(KeyEvent.VK_M)));
         actions.add(new MedianFilterAction(Andie.getLanguage("median_name"), null, Andie.getLanguage("median_description"), Integer.valueOf(KeyEvent.VK_N)));
-        actions.add(new SharpenFilterAction( Andie.getLanguage("sharpen_name") , null , Andie.getLanguage("sharpen_description") , Integer.valueOf(KeyEvent.VK_B))) ; 
-        actions.add(new GaussianBlurFilterAction( Andie.getLanguage("gaussian_name"), null , Andie.getLanguage("gaussian_description") , Integer.valueOf(KeyEvent.VK_G))) ;
-        actions.add(new EmbossFilterAction( Andie.getLanguage("emboss_name"), null , Andie.getLanguage("emboss_description") , Integer.valueOf(KeyEvent.VK_E))) ; 
-        actions.add(new SobelFilterAction( Andie.getLanguage("sobel_name"), null , Andie.getLanguage("sobel_description") , Integer.valueOf(KeyEvent.VK_S))) ;
+        actions.add(new SharpenFilterAction( Andie.getLanguage("sharpen_name") , null , Andie.getLanguage("sharpen_description") , Integer.valueOf(KeyEvent.VK_K))) ; 
+        actions.add(new GaussianBlurFilterAction( Andie.getLanguage("gaussian_name"), null , Andie.getLanguage("gaussian_description") , Integer.valueOf(KeyEvent.VK_I))) ;
+        actions.add(new EmbossFilterAction( Andie.getLanguage("emboss_name"), null , Andie.getLanguage("emboss_description") , Integer.valueOf(KeyEvent.VK_Q))) ; 
+        actions.add(new SobelFilterAction( Andie.getLanguage("sobel_name"), null , Andie.getLanguage("sobel_description") , Integer.valueOf(KeyEvent.VK_J))) ;
     }
+    @Override
+    public void keyTyped(KeyEvent e) {}
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        int keyCode = e.getKeyCode();
+
+        if(e.isControlDown()) {
+            for (Action action : actions) {
+                Integer actionKeyCode = (Integer) action.getValue(Action.MNEMONIC_KEY);
+                if (actionKeyCode != null && actionKeyCode == keyCode) {
+                    action.actionPerformed(null);
+                    break;
+                }
+            }
+        }
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {}
 
     /**
      * <p>

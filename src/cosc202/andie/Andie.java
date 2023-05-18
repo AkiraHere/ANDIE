@@ -4,8 +4,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
-import java.io.File;
-
 import javax.swing.*;
 
 import cosc202.andie.ColourActions.BrightnessAdjusterAction;
@@ -212,6 +210,7 @@ public class Andie {
         Image image = ImageIO.read(Andie.class.getClassLoader().getResource("icon.png"));
         frame.setIconImage(image);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setFocusable(true);
 
         // The main content area is an ImagePanel
         ImagePanel imagePanel = new ImagePanel();
@@ -222,33 +221,40 @@ public class Andie {
         // Add in menus for various types of action the user may perform.
         JMenuBar menuBar = new JMenuBar();
 
-
         // File menus are pretty standard, so things that usually go in File menus go here.
         FileActions fileActions = new FileActions();
+        frame.addKeyListener(fileActions);
         menuBar.add(fileActions.createMenu());
+
 
         // Likewise Edit menus are very common, so should be clear what might go here.
         EditActions editActions = new EditActions();
+        frame.addKeyListener(editActions);
         menuBar.add(editActions.createMenu());
 
         // View actions control how the image is displayed, but do not alter its actual content
         ViewActions viewActions = new ViewActions();
+        frame.addKeyListener(viewActions);
         menuBar.add(viewActions.createMenu());
 
         // Filters apply a per-pixel operation to the image, generally based on a local window
         FilterActions filterActions = new FilterActions();
+        frame.addKeyListener(filterActions);
         menuBar.add(filterActions.createMenu());
 
         // Actions that affect the representation of colour in the image
         ColourActions colourActions = new ColourActions();
+        frame.addKeyListener(colourActions);
         menuBar.add(colourActions.createMenu());
 
         // Actions that affect orientation of image
         TransformActions transformActions = new TransformActions();
+        frame.addKeyListener(transformActions);
         menuBar.add(transformActions.createMenu());
 
         // Actions that revolve around the mouse 
         MouseActions mouseActions = new MouseActions(); 
+        frame.addKeyListener(mouseActions);
         menuBar.add(mouseActions.createMenu());
 
         // Actions that affect language preference in ANDIE

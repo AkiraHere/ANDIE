@@ -22,7 +22,7 @@ import javax.swing.*;
  * @author Steven Mills
  * @version 1.0
  */
-public class EditActions {
+public class EditActions implements KeyListener{
     
     /** A list of actions for the Edit menu. */
     protected ArrayList<Action> actions;
@@ -37,6 +37,27 @@ public class EditActions {
         actions.add(new UndoAction( Andie.getLanguage("undo") , null, Andie.getLanguage("undo") , Integer.valueOf(KeyEvent.VK_Z)));
         actions.add(new RedoAction( Andie.getLanguage("redo") , null, Andie.getLanguage("redo") , Integer.valueOf(KeyEvent.VK_Y)));
     }
+
+    @Override
+    public void keyTyped(KeyEvent e) {}
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        int keyCode = e.getKeyCode();
+
+        if(e.isControlDown()) {
+            for (Action action : actions) {
+                Integer actionKeyCode = (Integer) action.getValue(Action.MNEMONIC_KEY);
+                if (actionKeyCode != null && actionKeyCode == keyCode) {
+                    action.actionPerformed(null);
+                    break;
+                }
+            }
+        }
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {}
 
     /**
      * <p>

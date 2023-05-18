@@ -25,7 +25,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
  * @author Steven Mills
  * @version 1.0
  */
-public class FileActions {
+public class FileActions  implements KeyListener {
     
     /** A list of actions for the File menu. */
     protected ArrayList<Action> actions;
@@ -41,8 +41,29 @@ public class FileActions {
         actions.add(new FileSaveAction(Andie.getLanguage("save_name"), null, Andie.getLanguage("save_description"), Integer.valueOf(KeyEvent.VK_S)));
         actions.add(new FileSaveAsAction(Andie.getLanguage("save_as_name"), null, Andie.getLanguage("save_as_description"), Integer.valueOf(KeyEvent.VK_A)));
         actions.add(new FileExportAction(Andie.getLanguage("export_name"), null, Andie.getLanguage("export_description"), Integer.valueOf(KeyEvent.VK_E))) ; 
-        actions.add(new FileExitAction(Andie.getLanguage("exit_name"), null, Andie.getLanguage("exit_description"), Integer.valueOf(0)));
+        actions.add(new FileExitAction(Andie.getLanguage("exit_name"), null, Andie.getLanguage("exit_description"), Integer.valueOf(KeyEvent.VK_W)));
     }
+    
+    @Override
+    public void keyTyped(KeyEvent e) {}
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        int keyCode = e.getKeyCode();
+
+        if(e.isControlDown()) {
+            for (Action action : actions) {
+                Integer actionKeyCode = (Integer) action.getValue(Action.MNEMONIC_KEY);
+                if (actionKeyCode != null && actionKeyCode == keyCode) {
+                    action.actionPerformed(null);
+                    break;
+                }
+            }
+        }
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {}
 
     /**
      * <p>
@@ -68,7 +89,7 @@ public class FileActions {
      * 
      * @see EditableImage#open(String)
      */
-    public class FileOpenAction extends ImageAction {
+    public class FileOpenAction extends ImageAction{
 
         /**
          * <p>
@@ -123,6 +144,7 @@ public class FileActions {
             target.repaint();
             target.getParent().revalidate();
         }
+
 
     }
 

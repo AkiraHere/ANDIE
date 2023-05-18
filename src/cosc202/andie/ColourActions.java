@@ -22,7 +22,7 @@ import javax.swing.*;
  * @author Steven Mills
  * @version 1.0
  */
-public class ColourActions {
+public class ColourActions implements KeyListener {
     
     /** A list of actions for the Colour menu. */
     protected ArrayList<Action> actions;
@@ -35,9 +35,30 @@ public class ColourActions {
     public ColourActions() {
         actions = new ArrayList<Action>();
         actions.add(new ConvertToGreyAction(Andie.getLanguage("greyscale_name"), null, Andie.getLanguage("greyscale_description") , Integer.valueOf(KeyEvent.VK_G)));
-        actions.add(new ContrastAdjusterAction(Andie.getLanguage("contrast_name"), null, Andie.getLanguage("contrast_description"), Integer.valueOf(KeyEvent.VK_G)));
-        actions.add(new BrightnessAdjusterAction(Andie.getLanguage("brightness_name"), null, Andie.getLanguage("brightness_description"), Integer.valueOf(KeyEvent.VK_G)));
+        actions.add(new ContrastAdjusterAction(Andie.getLanguage("contrast_name"), null, Andie.getLanguage("contrast_description"), Integer.valueOf(KeyEvent.VK_C)));
+        actions.add(new BrightnessAdjusterAction(Andie.getLanguage("brightness_name"), null, Andie.getLanguage("brightness_description"), Integer.valueOf(KeyEvent.VK_B)));
     }
+
+    @Override
+    public void keyTyped(KeyEvent e) {}
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        int keyCode = e.getKeyCode();
+
+        if(e.isControlDown()) {
+            for (Action action : actions) {
+                Integer actionKeyCode = (Integer) action.getValue(Action.MNEMONIC_KEY);
+                if (actionKeyCode != null && actionKeyCode == keyCode) {
+                    action.actionPerformed(null);
+                    break;
+                }
+            }
+        }
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {}
 
     /**
      * <p>
