@@ -2,7 +2,29 @@ package cosc202.andie;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;
-
+/**
+ * <p>
+ * Image operation used to apply an edge-detection aka sobel filter, achieves the appearance of 
+ * finding horizontal or vertical edges.
+ * </p>
+ * 
+ * <p>
+ * Implemented similarly to the EmbossFilter.
+ * The operation involves first selecting a direction for the effect to take place (e.g. Horizontal or Vertical).
+ * The kernel associated with the chosen direction is then applied to the entire image. Due to the 
+ * implementation of an the edge detection effect, some results are returned as negative. As such, we apply an
+ * offset of the middle colour value in RGB, see the MID_COLOR data field below. Once the final color value
+ * of a pixel is calculated, it is then assigned to the coordinate position in the returned image.
+ * </p>
+ * 
+ * <p> 
+ * <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a>
+ * </p>
+ * 
+ * @author Luke Webb
+ * @version 0.1;
+ * 
+ */
 public class SobelFilter implements ImageOperation, java.io.Serializable{
     private int option;
     private static final int MID_COLOR = 127;

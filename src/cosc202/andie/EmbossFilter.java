@@ -3,6 +3,28 @@ package cosc202.andie;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 
+/**
+ * <p>
+ * Image operation used to apply an embossing filter, achieves the appearance of 
+ * embossing an image into a flat surface, such as paper or metal.
+ * </p>
+ * 
+ * <p>
+ * The operation involves first selecting a direction for the effect to take place (e.g. North-east).
+ * The kernel associated with the direction chosen is then applied to the entire image. Due to the 
+ * implementation of an embossing effect, some results are returned as negative. As such, we apply an
+ * offset of the middle colour value in RGB, see the MID_COLOR data field below. Once the final color value
+ * of a pixel is calculated, it is then assigned to the coordinate position in the returned image.
+ * </p>
+ * 
+ * <p> 
+ * <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a>
+ * </p>
+ * 
+ * @author Luke Webb
+ * @version 0.1;
+ * 
+ */
 public class EmbossFilter implements ImageOperation, java.io.Serializable{
     private int option;
     private static final int MID_COLOR = 127;
