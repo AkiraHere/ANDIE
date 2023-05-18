@@ -90,7 +90,7 @@ public class SobelFilter implements ImageOperation, java.io.Serializable{
                     }
                 }
 
-                int avg = (int)((sumR + sumG + sumB) / 3.0); 
+                int avg = (int)((sumA + sumR + sumG + sumB) / 4.0); 
                 int embossVal = MID_COLOR - avg;
 
                 Color embossColor;

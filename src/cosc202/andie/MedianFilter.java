@@ -84,8 +84,8 @@ public class MedianFilter implements ImageOperation, java.io.Serializable {
                 int [] blueArray = new int[size];
                 int arrCount = 0;
                 //Begin looping through the window of neighboring pixels
-                for(int j = -radius; j < radius ; j++){     
-                    for (int i = -radius; i < radius ; i++){
+                for(int j = -radius; j <= radius ; j++){     
+                    for (int i = -radius; i <= radius ; i++){
                         int xPos = x + j;
                         int yPos = y + i;
                         int argb; 
