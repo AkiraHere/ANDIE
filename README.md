@@ -4,8 +4,38 @@ Welcome to ANDIE!
 
 As the title above suggests, ANDIE is an image editor that allows for reversable changes. 
 This means that you can make changes to the size, colour or apply filters to an image of your choice, while also being able to undo those changes.
-To get started with ANDIE, launch the Andie.java file.
+
+# User Guide:
+
+To get started with ANDIE, compile and run the Andie.java file.
+
 Once running, navigate to the menu item *'File > Open'* to search for the image that you wish to edit.
+
+Now that you have selected an image opened and ready to edit, try making use of the many features available at the top of the window.
+
+## File menu
+    - Has menus that allow you to open, save and export files.
+
+## Edit menu
+    - Has options to undo and redo changes that you've made to an image.
+
+## View menu
+    - This feature allows one to zoom in and out of their image.
+
+## Filter menu
+    - This menu contains all of the filters that modify the image with various convolutions.
+
+## Color menu
+    - Here, you will find ways to modify the color of your image, such as converting to greyscale.
+
+## Transform menu
+    - In this menu, there are features that allow you to modify the shape and orientation of your image.
+
+## Mouse menu
+    - Contains the option to crop and draw on your image.
+
+## Language menu
+    - In this menu, you will find options to select from the languages supported in Andie.
 
 For a more in depth guide on how to use ANDIE, see the User Guide PDF document.
 
