@@ -37,6 +37,10 @@ public class ImagePanel extends JPanel {
     public boolean cropActive = false ;  
     public boolean mouseDragged = false ; 
 
+    BufferedImage cropped = null ;
+
+    public boolean cropSelection = false ; 
+
     int currentMouseX = 0 ; 
     int currentMouseY = 0 ; 
     int currentMouseWidth = 0 ; 
@@ -106,6 +110,17 @@ public class ImagePanel extends JPanel {
 
                     updateSize( e ) ; 
                     mouseDragged = false  ;
+                    int result = JOptionPane.showConfirmDialog( null , "Want to crop the selected area?" , "Crop Selection" , JOptionPane.YES_NO_OPTION , JOptionPane.QUESTION_MESSAGE ) ; 
+                    if ( result == JOptionPane.YES_OPTION ) {
+                        cropActive = false ;
+                        image.apply( new Cropper( outOfBoundsX , outOfBoundsY , outOfBoundsWidth , outOfBoundsHeight) ) ; 
+                    } else if ( result == JOptionPane.NO_OPTION ) {
+                        currentRect = new Rectangle( currentMouseX , currentMouseY , 0 , 0 ) ; 
+                        updateDrawableRect( getWidth() , getHeight() ) ;
+                    } else {
+                        currentRect = new Rectangle( currentMouseX , currentMouseY , 0 , 0 ) ; 
+                        updateDrawableRect( getWidth() , getHeight() ) ;
+                    }
 
                 }
 
@@ -324,8 +339,7 @@ public class ImagePanel extends JPanel {
                     cropped = image.getCurrentImage().getSubimage( x , y , width , height ) ;
                     g2.drawImage( cropped , null , x , y ) ; 
                 } else if ( width != 0 && height != 0 ) {
-                    BufferedImage cropped = null ;
-                    cropped = image.getCurrentImage().getSubimage( outOfBoundsX , outOfBoundsY , outOfBoundsWidth , outOfBoundsHeight ) ; 
+                    BufferedImage cropped = image.getCurrentImage().getSubimage( outOfBoundsX , outOfBoundsY , outOfBoundsWidth , outOfBoundsHeight ) ; 
                     g2.drawImage( cropped , null , outOfBoundsX , outOfBoundsY ) ;  
                 }
                 // //Draw a rectangle on top of the image.

@@ -21,7 +21,7 @@ import javax.swing.*;
  * @author Steven Mills
  * @version 1.0
  */
-public class ViewActions {
+public class ViewActions implements KeyListener {
     
     /**
      * A list of actions for the View menu.
@@ -39,6 +39,27 @@ public class ViewActions {
         actions.add(new ZoomOutAction(Andie.getLanguage("zoom_out_name"), null, Andie.getLanguage("zoom_out_description"), Integer.valueOf(KeyEvent.VK_MINUS)));
         actions.add(new ZoomFullAction(Andie.getLanguage("zoom_full_name"), null, Andie.getLanguage("zoom_full_description"), Integer.valueOf(KeyEvent.VK_1)));
     }
+
+    @Override
+    public void keyTyped(KeyEvent e) {}
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        int keyCode = e.getKeyCode();
+
+        if(e.isControlDown()) {
+            for (Action action : actions) {
+                Integer actionKeyCode = (Integer) action.getValue(Action.MNEMONIC_KEY);
+                if (actionKeyCode != null && actionKeyCode == keyCode) {
+                    action.actionPerformed(null);
+                    break;
+                }
+            }
+        }
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {}
 
     /**
      * <p>
