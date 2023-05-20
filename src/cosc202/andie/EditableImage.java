@@ -49,6 +49,13 @@ class EditableImage {
     /** String of characters which cannot appear in a file name. */
     private String unacceptableCharacters = "#%&{}\"<>*?/ $!\'\\:@+`|=" ; 
 
+    /** Sequence of operations that begin when macro is enabled */
+    private Stack<ImageOperation> macroOps;
+    /** The file where the operation sequence is stored. */
+    private String macroOpsFilename;
+    /** Tracks the status of the macro operation */
+    private boolean macroEnabled;
+
     /**
      * <p>
      * Create a new EditableImage.
@@ -65,6 +72,12 @@ class EditableImage {
         redoOps = new Stack<ImageOperation>();
         imageFilename = null;
         opsFilename = null;
+
+        //Data fields related to macros
+        macroOpsFilename = null;
+        macroOps = new Stack<ImageOperation>();
+        macroEnabled = false; 
+
     }
 
     /**
@@ -299,6 +312,9 @@ class EditableImage {
     public void apply(ImageOperation op) {
         current = op.apply(current);
         ops.add(op);
+        if(macroEnabled){
+            macroOps.add(op);
+        }
     }
 
     /**
@@ -307,7 +323,11 @@ class EditableImage {
      * </p>
      */
     public void undo() {
-        redoOps.push(ops.pop());
+        ImageOperation operation = ops.pop();
+        redoOps.push(operation);
+        if(macroEnabled){
+            macroOps.push(operation);
+        }
         refresh();
     }
 
@@ -317,7 +337,11 @@ class EditableImage {
      * </p>
      */
     public void redo()  {
-        apply(redoOps.pop());
+        ImageOperation operation = redoOps.pop();
+        if(macroEnabled){
+            macroOps.pop();
+        }
+        apply(operation);
     }
 
     /**
@@ -362,5 +386,126 @@ class EditableImage {
         return imageFilename ; 
 
     }
+
+    /**
+     * <p>
+     * Returns the status of the macro operation.
+     * </p>
+     * 
+     * @return true if the macro operation is being recorded.
+     */
+    public boolean getMacroStatus(){
+        return macroEnabled;
+    }
+
+    /**
+     * <p>
+     * Switches the macro recording on or off, depdending on its state.
+     * </p> 
+     */
+    public void toggleMacro(){
+        if(macroEnabled){
+            macroEnabled = false;
+        }else{
+            macroEnabled = true;
+        }
+    }
+
+    /**
+     * <p>
+     * Clears the operations stack stored in macroOps.
+     * </p>
+     */
+    public void clearMacroOps(){
+        macroOps.clear();
+    }
+
+    /**
+     * <p>
+     * Saves the set of recorded operations into a separate <code>_macro.ops</code> file.
+     * </p>
+     * 
+     * <p>
+     * Saves a set of operations from the file with <code>.ops</code> added.
+     * This method will also save the current operations to <code>some/path/to/image.png.ops</code>.
+     * </p>
+     * 
+     * @throws Exception If something goes wrong.
+     */
+    public void saveMacro() throws Exception {
+        if (this.macroOpsFilename == null) {
+            this.macroOpsFilename = this.imageFilename + "_macro.ops";
+        }
+        // Write operations file
+        FileOutputStream fileOut = new FileOutputStream(this.macroOpsFilename);
+        ObjectOutputStream objOut = new ObjectOutputStream(fileOut);
+        objOut.writeObject(this.macroOps);
+        objOut.close();
+        fileOut.close();
+    }
+
+    /**
+     * <p>
+     * Save a macro as a specified name.
+     * </p>
+     * 
+     * <p>
+     * Saves an <code>_macro.ops</code> file provided as a parameter.
+     * </p>
+     * 
+     * @param imageFilename The file location to save the macro to.
+     * @throws Exception If something goes wrong.
+     */
+    public void saveAsMacro(String imageFilename) throws Exception {
+        this.macroOpsFilename = imageFilename + "_macro.ops";
+        saveMacro();
+    }
+
+    /**
+    * <p>
+    * Selects a saved macro operation and applies it to an image.
+    * </p>
+    * 
+    * @param filePath The file to open the image from.
+    * @throws Exception If something goes wrong.
+    */
+   public void openMacro(String filePath) throws Exception {
+       macroOpsFilename = filePath;
+       current = deepCopy(original);
+       
+       try {
+           FileInputStream fileIn = new FileInputStream(this.macroOpsFilename);
+           ObjectInputStream objIn = new ObjectInputStream(fileIn);
+
+           // Silence the Java compiler warning about type casting.
+           // Understanding the cause of the warning is way beyond
+           // the scope of COSC202, but if you're interested, it has
+           // to do with "type erasure" in Java: the compiler cannot
+           // produce code that fails at this point in all cases in
+           // which there is actually a type mismatch for one of the
+           // elements within the Stack, i.e., a non-ImageOperation.
+           @SuppressWarnings("unchecked")
+           Stack<ImageOperation> opsFromFile = (Stack<ImageOperation>) objIn.readObject();
+           ops = opsFromFile;
+           redoOps.clear();
+           objIn.close();
+           fileIn.close();
+       } catch (Exception ex) {
+           // Could be no file or something else. Carry on for now.
+       }
+       this.refresh();
+   }
+    /**
+     * Calling this clears the ops, redoOps and macroOps stacks.
+     * Should only call this when absolutely needed, such as opening a new image.
+     */
+    public void clearOpsStack(){
+        ops.clear();
+        redoOps.clear();
+        if(getMacroStatus() == true){
+            toggleMacro();
+        }
+        clearMacroOps();
+   }
 
 }

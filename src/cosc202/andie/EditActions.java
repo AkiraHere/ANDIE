@@ -2,7 +2,10 @@ package cosc202.andie;
 
 import java.util.*;
 import java.awt.event.*;
+import java.io.File;
+
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
  /**
  * <p>
@@ -36,6 +39,8 @@ public class EditActions implements KeyListener{
         actions = new ArrayList<Action>();
         actions.add(new UndoAction( Andie.getLanguage("undo") , null, Andie.getLanguage("undo") , Integer.valueOf(KeyEvent.VK_Z)));
         actions.add(new RedoAction( Andie.getLanguage("redo") , null, Andie.getLanguage("redo") , Integer.valueOf(KeyEvent.VK_Y)));
+        actions.add(new MacroAction( Andie.getLanguage("record") , null, Andie.getLanguage("record_desc") , Integer.valueOf(KeyEvent.VK_PERIOD)));
+        actions.add(new ApplyMacro( Andie.getLanguage("apply_macro") , null, Andie.getLanguage("apply_macro_desc") , Integer.valueOf(KeyEvent.VK_COMMA)));
     }
 
     @Override
@@ -156,6 +161,134 @@ public class EditActions implements KeyListener{
          */
         public void actionPerformed(ActionEvent e) {
             target.getImage().redo();
+            target.repaint();
+            target.getParent().revalidate();
+        }
+    }
+
+     /**
+     * <p>
+     * Action to start and stop recording macros in an {@link ImageOperation}.
+     * </p>
+     * 
+     * @see EditableImage
+     */
+    public class MacroAction extends ImageAction {
+
+        /**
+         * <p>
+         * Create a new macro action.
+         * </p>
+         * 
+         * @param name The name of the action (ignored if null).
+         * @param icon An icon to use to represent the action (ignored if null).
+         * @param desc A brief description of the action  (ignored if null).
+         * @param mnemonic A mnemonic key to use as a shortcut  (ignored if null).
+         */
+        MacroAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
+            super(name, icon, desc, mnemonic);
+        }
+
+        /**
+         * <p>
+         * Callback for when the macro action is triggered.
+         * </p>
+         * 
+         * <p>
+         * This method is called whenever the MacroAction is triggered.
+         * It will either start or stop recording image operations.
+         * When it stops recording image operations as a macro, it will prompt 
+         * the user to save the new <code>_marcro.ops</code> file.
+         * </p>
+         * 
+         * @param e The event triggering this callback.
+         */
+        public void actionPerformed(ActionEvent e) {
+            target.getImage().toggleMacro();
+            if (target.getImage().getMacroStatus() == false){
+                JFileChooser fileChooser = new JFileChooser();
+                fileChooser.setDialogTitle( Andie.getLanguage("save_as_name"));
+                fileChooser.setLocale(Andie.getInternationalization().getLocale()) ;
+                int result = fileChooser.showSaveDialog(target);
+
+                if (result == JFileChooser.APPROVE_OPTION) {
+                    try {
+                        if(target.getImage().hasImage()){
+                            String imageFilepath = fileChooser.getSelectedFile().getCanonicalPath();
+                            target.getImage().saveAsMacro(imageFilepath);
+                        }else{
+                            JOptionPane.showMessageDialog(null, Andie.getLanguage("error_no_image"), Andie.getLanguage("error_title"), JOptionPane.ERROR_MESSAGE);
+                        }   
+                    } catch (Exception ex) {
+                        System.exit(1);
+                    }
+                }
+                target.getImage().clearMacroOps();
+            }
+            target.repaint();
+            target.getParent().revalidate();
+        }
+    }
+
+         /**
+     * <p>
+     * Action to start and stop recording macros in an {@link ImageOperation}.
+     * </p>
+     * 
+     * @see EditableImage
+     */
+    public class ApplyMacro extends ImageAction {
+
+        /**
+         * <p>
+         * Create a new apply macro action.
+         * </p>
+         * 
+         * @param name The name of the action (ignored if null).
+         * @param icon An icon to use to represent the action (ignored if null).
+         * @param desc A brief description of the action  (ignored if null).
+         * @param mnemonic A mnemonic key to use as a shortcut  (ignored if null).
+         */
+        ApplyMacro(String name, ImageIcon icon, String desc, Integer mnemonic) {
+            super(name, icon, desc, mnemonic);
+        }
+
+        /**
+         * <p>
+         * Callback for when the apply macro action is triggered.
+         * </p>
+         * 
+         * <p>
+         * This method is called whenever the ApplyMacro action is triggered.
+         * It will open a menu to select an ops file.
+         * Once selected, it will apply those operations to an image.
+         * </p>
+         * 
+         * @param e The event triggering this callback.
+         */
+        public void actionPerformed(ActionEvent e) {
+            JFileChooser fileChooser = new JFileChooser();
+            fileChooser.setDialogTitle( Andie.getLanguage("open_name") ) ; 
+            fileChooser.setLocale(Andie.getInternationalization().getLocale()) ; 
+            fileChooser.setApproveButtonText( Andie.getLanguage( "approve_button" ) ) ;
+            FileNameExtensionFilter filter = new FileNameExtensionFilter(Andie.getLanguage("image_files"), "ops");
+            int result = fileChooser.showOpenDialog(target);
+
+            if (result == JFileChooser.APPROVE_OPTION) {
+                try {
+                    File selectedFile = fileChooser.getSelectedFile();
+                    if(!selectedFile.exists()){
+                        JOptionPane.showMessageDialog(null, Andie.getLanguage("error_file_not_found"), Andie.getLanguage("error_title"), JOptionPane.ERROR_MESSAGE);
+                    } else if (!filter.accept(selectedFile)) {
+                        JOptionPane.showMessageDialog(null, Andie.getLanguage("error_invalid_file"), Andie.getLanguage("error_title"), JOptionPane.ERROR_MESSAGE);
+                    } else {
+                        String imageFilepath = fileChooser.getSelectedFile().getCanonicalPath();
+                        target.getImage().openMacro(imageFilepath);
+                    }
+                } catch (Exception ex) {
+                    System.exit(1);
+                }
+            }
             target.repaint();
             target.getParent().revalidate();
         }

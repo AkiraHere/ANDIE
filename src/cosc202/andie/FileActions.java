@@ -134,6 +134,7 @@ public class FileActions  implements KeyListener {
                         JOptionPane.showMessageDialog(null, Andie.getLanguage("error_invalid_file"), Andie.getLanguage("error_title"), JOptionPane.ERROR_MESSAGE);
                     } else {
                         String imageFilepath = fileChooser.getSelectedFile().getCanonicalPath();
+                        target.getImage().clearOpsStack();
                         target.getImage().open(imageFilepath);
                     }
                 } catch (Exception ex) {

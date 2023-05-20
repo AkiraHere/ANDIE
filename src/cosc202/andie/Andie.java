@@ -8,6 +8,7 @@ import javax.swing.*;
 
 import cosc202.andie.ColourActions.BrightnessAdjusterAction;
 import cosc202.andie.ColourActions.ContrastAdjusterAction;
+import cosc202.andie.EditActions.MacroAction;
 import cosc202.andie.EditActions.RedoAction;
 import cosc202.andie.EditActions.UndoAction;
 import cosc202.andie.FileActions.FileSaveAsAction;
@@ -92,6 +93,8 @@ public class Andie {
         BufferedImage cropImage = ImageIO.read(Andie.class.getResourceAsStream("./icons/Crop_Icon.png"));
         BufferedImage contrastImage = ImageIO.read(Andie.class.getResourceAsStream("./icons/Contrast_Icon.png"));
         BufferedImage brightnessImage = ImageIO.read(Andie.class.getResourceAsStream("./icons/Brightness_Icon.png"));
+        BufferedImage recordOffImage = ImageIO.read(Andie.class.getResourceAsStream("./icons/RecordOff_Icon.png"));
+        BufferedImage recordOnImage = ImageIO.read(Andie.class.getResourceAsStream("./icons/RecordOn_Icon.png"));
 
         // Scaling images to appropriate size
         Image saveIcon = saveImage.getScaledInstance(15, 15, Image.SCALE_SMOOTH);
@@ -102,6 +105,9 @@ public class Andie {
         Image cropIcon = cropImage.getScaledInstance(15, 15, Image.SCALE_SMOOTH);
         Image contrastIcon = contrastImage.getScaledInstance(15, 15, Image.SCALE_SMOOTH);
         Image brightnessIcon = brightnessImage.getScaledInstance(15, 15, Image.SCALE_SMOOTH);
+        Image recordOffIcon = recordOffImage.getScaledInstance(15, 15, Image.SCALE_SMOOTH);
+        Image recordOnIcon = recordOnImage.getScaledInstance(15, 15, Image.SCALE_SMOOTH);
+        
 
         // Creating JButtons
         toolbar.setLayout(new FlowLayout(FlowLayout.LEFT));
@@ -113,6 +119,8 @@ public class Andie {
         JButton cropButton = new JButton(new ImageIcon(cropIcon));
         JButton contrastButton = new JButton(new ImageIcon(contrastIcon));
         JButton brightnessButton = new JButton(new ImageIcon(brightnessIcon));
+        JToggleButton recordButton = new JToggleButton(new ImageIcon(recordOffIcon));//Toggle button for macros
+        recordButton.setSelectedIcon(new ImageIcon(recordOnIcon)); //Sets the togged on button to be red record icon
 
         // Adding tooltips to buttons
         saveButton.setToolTipText(Andie.getLanguage("save_description"));
@@ -123,6 +131,7 @@ public class Andie {
         cropButton.setToolTipText(Andie.getLanguage("crop"));
         contrastButton.setToolTipText(Andie.getLanguage("contrast_description"));
         brightnessButton.setToolTipText(Andie.getLanguage("brightness_description"));
+        recordButton.setToolTipText(Andie.getLanguage("record_desc"));
 
         // Hiding borders 
         saveButton.setBorderPainted(false);
@@ -133,6 +142,7 @@ public class Andie {
         cropButton.setBorderPainted(false);
         contrastButton.setBorderPainted(false);
         brightnessButton.setBorderPainted(false);
+        recordButton.setBorderPainted(false);
         
         // Using ActionListener to make buttons call their repsected classes/methods
         saveButton.addActionListener(new ActionListener(){
@@ -191,6 +201,13 @@ public class Andie {
                 brightness.actionPerformed(e);
             }
         });
+        recordButton.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e) {
+                EditActions edit = new EditActions();
+                MacroAction macro = edit.new MacroAction(null, null, null, null);
+                macro.actionPerformed(e);
+            }
+        });
         
         // Adding buttons to toolbar
         toolbar.add(saveButton);
@@ -201,7 +218,7 @@ public class Andie {
         toolbar.add(cropButton);
         toolbar.add(contrastButton);
         toolbar.add(brightnessButton);
-
+        toolbar.add(recordButton);
 
         // Set up the main GUI frame
         frame = new JFrame( getLanguage("title") ) ;
