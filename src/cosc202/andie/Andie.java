@@ -242,17 +242,20 @@ public class Andie {
         FileActions fileActions = new FileActions();
         frame.addKeyListener(fileActions);
         menuBar.add(fileActions.createMenu());
+        frame.getRootPane().addKeyListener(fileActions);
 
 
         // Likewise Edit menus are very common, so should be clear what might go here.
         EditActions editActions = new EditActions();
         frame.addKeyListener(editActions);
         menuBar.add(editActions.createMenu());
+        frame.getRootPane().addKeyListener(editActions);
 
         // View actions control how the image is displayed, but do not alter its actual content
         ViewActions viewActions = new ViewActions();
         frame.addKeyListener(viewActions);
         menuBar.add(viewActions.createMenu());
+        frame.getRootPane().addKeyListener(viewActions);
 
         // Filters apply a per-pixel operation to the image, generally based on a local window
         FilterActions filterActions = new FilterActions();
@@ -263,16 +266,19 @@ public class Andie {
         ColourActions colourActions = new ColourActions();
         frame.addKeyListener(colourActions);
         menuBar.add(colourActions.createMenu());
+        frame.getRootPane().addKeyListener(colourActions);
 
         // Actions that affect orientation of image
         TransformActions transformActions = new TransformActions();
         frame.addKeyListener(transformActions);
         menuBar.add(transformActions.createMenu());
+        frame.getRootPane().addKeyListener(transformActions);
 
         // Actions that revolve around the mouse 
         MouseActions mouseActions = new MouseActions(); 
         frame.addKeyListener(mouseActions);
         menuBar.add(mouseActions.createMenu());
+        frame.getRootPane().addKeyListener(mouseActions);
 
         // Actions that affect language preference in ANDIE
         InternationalizationActions internationalizationActions = new InternationalizationActions() ; 

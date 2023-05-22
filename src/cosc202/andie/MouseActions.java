@@ -14,7 +14,7 @@ public class MouseActions implements KeyListener {
     public MouseActions() {
        
         actions = new ArrayList<Action>();
-        actions.add( new CropAction( "Crop" , null , "Crops Image" , Integer.valueOf( KeyEvent.VK_X ) ) ) ;
+        actions.add( new CropAction( Andie.getLanguage("crop") , null , Andie.getLanguage("crop_description") , Integer.valueOf( KeyEvent.VK_X ) ) ) ;
         actions.add( new StopAction( "Stop" , null , "Stops Crop Image" , Integer.valueOf( 0 ) ) ) ;
 
     }
