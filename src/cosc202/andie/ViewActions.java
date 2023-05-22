@@ -35,7 +35,7 @@ public class ViewActions implements KeyListener {
      */
     public ViewActions() {
         actions = new ArrayList<Action>();
-        actions.add(new ZoomInAction(Andie.getLanguage("zoom_in_name"), null, Andie.getLanguage("zoom_in_description"), Integer.valueOf(KeyEvent.VK_PLUS)));
+        actions.add(new ZoomInAction(Andie.getLanguage("zoom_in_name"), null, Andie.getLanguage("zoom_in_description"), Integer.valueOf(KeyEvent.VK_EQUALS)));
         actions.add(new ZoomOutAction(Andie.getLanguage("zoom_out_name"), null, Andie.getLanguage("zoom_out_description"), Integer.valueOf(KeyEvent.VK_MINUS)));
         actions.add(new ZoomFullAction(Andie.getLanguage("zoom_full_name"), null, Andie.getLanguage("zoom_full_description"), Integer.valueOf(KeyEvent.VK_1)));
     }
