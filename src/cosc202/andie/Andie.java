@@ -85,16 +85,16 @@ public class Andie {
         toolbar.setPreferredSize(new Dimension(0, 35));
 
         // Using Icons for the button image
-        BufferedImage saveImage = ImageIO.read(Andie.class.getResourceAsStream("./icons/Save_Icon.png"));
-        BufferedImage undoImage = ImageIO.read(Andie.class.getResourceAsStream("./icons/Undo_Icon.png"));
-        BufferedImage redoImage = ImageIO.read(Andie.class.getResourceAsStream("./icons/Redo_Icon.png"));
-        BufferedImage zoomInImage = ImageIO.read(Andie.class.getResourceAsStream("./icons/ZoomIn_Icon.png"));
-        BufferedImage zoomOutImage = ImageIO.read(Andie.class.getResourceAsStream("./icons/ZoomOut_Icon.png"));
-        BufferedImage cropImage = ImageIO.read(Andie.class.getResourceAsStream("./icons/Crop_Icon.png"));
-        BufferedImage contrastImage = ImageIO.read(Andie.class.getResourceAsStream("./icons/Contrast_Icon.png"));
-        BufferedImage brightnessImage = ImageIO.read(Andie.class.getResourceAsStream("./icons/Brightness_Icon.png"));
-        BufferedImage recordOffImage = ImageIO.read(Andie.class.getResourceAsStream("./icons/RecordOff_Icon.png"));
-        BufferedImage recordOnImage = ImageIO.read(Andie.class.getResourceAsStream("./icons/RecordOn_Icon.png"));
+        BufferedImage saveImage = ImageIO.read(Andie.class.getResource("/cosc202/andie/icons/Save_Icon.png"));
+        BufferedImage undoImage = ImageIO.read(Andie.class.getResource("/cosc202/andie/icons/Undo_Icon.png"));
+        BufferedImage redoImage = ImageIO.read(Andie.class.getResource("/cosc202/andie/icons/Redo_Icon.png"));
+        BufferedImage zoomInImage = ImageIO.read(Andie.class.getResource("/cosc202/andie/icons/ZoomIn_Icon.png"));
+        BufferedImage zoomOutImage = ImageIO.read(Andie.class.getResource("/cosc202/andie/icons/ZoomOut_Icon.png"));
+        BufferedImage cropImage = ImageIO.read(Andie.class.getResource("/cosc202/andie/icons/Crop_Icon.png"));
+        BufferedImage contrastImage = ImageIO.read(Andie.class.getResource("/cosc202/andie/icons/Contrast_Icon.png"));
+        BufferedImage brightnessImage = ImageIO.read(Andie.class.getResource("/cosc202/andie/icons/Brightness_Icon.png"));
+        BufferedImage recordOffImage = ImageIO.read(Andie.class.getResource("/cosc202/andie/icons/RecordOff_Icon.png"));
+        BufferedImage recordOnImage = ImageIO.read(Andie.class.getResource("/cosc202/andie/icons/RecordOn_Icon.png"));
 
         // Scaling images to appropriate size
         Image saveIcon = saveImage.getScaledInstance(15, 15, Image.SCALE_SMOOTH);
