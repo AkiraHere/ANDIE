@@ -94,7 +94,7 @@ public class Andie {
         BufferedImage contrastImage = ImageIO.read(Andie.class.getResource("/cosc202/andie/icons/Contrast_Icon.png"));
         BufferedImage brightnessImage = ImageIO.read(Andie.class.getResource("/cosc202/andie/icons/Brightness_Icon.png"));
         BufferedImage recordOffImage = ImageIO.read(Andie.class.getResource("/cosc202/andie/icons/RecordOff_Icon.png"));
-        BufferedImage recordOnImage = ImageIO.read(Andie.class.getResource("/cosc202/andie/icons/RecordOn_Icon.png"));
+        //BufferedImage recordOnImage = ImageIO.read(Andie.class.getResource("/cosc202/andie/icons/RecordOn_Icon.png"));
 
         // Scaling images to appropriate size
         Image saveIcon = saveImage.getScaledInstance(15, 15, Image.SCALE_SMOOTH);
@@ -106,7 +106,7 @@ public class Andie {
         Image contrastIcon = contrastImage.getScaledInstance(15, 15, Image.SCALE_SMOOTH);
         Image brightnessIcon = brightnessImage.getScaledInstance(15, 15, Image.SCALE_SMOOTH);
         Image recordOffIcon = recordOffImage.getScaledInstance(15, 15, Image.SCALE_SMOOTH);
-        Image recordOnIcon = recordOnImage.getScaledInstance(15, 15, Image.SCALE_SMOOTH);
+        //Image recordOnIcon = recordOnImage.getScaledInstance(15, 15, Image.SCALE_SMOOTH);
         
 
         // Creating JButtons
@@ -119,8 +119,7 @@ public class Andie {
         JButton cropButton = new JButton(new ImageIcon(cropIcon));
         JButton contrastButton = new JButton(new ImageIcon(contrastIcon));
         JButton brightnessButton = new JButton(new ImageIcon(brightnessIcon));
-        JToggleButton recordButton = new JToggleButton(new ImageIcon(recordOffIcon));//Toggle button for macros
-        recordButton.setSelectedIcon(new ImageIcon(recordOnIcon)); //Sets the togged on button to be red record icon
+        JButton recordButton = new JButton(new ImageIcon(recordOffIcon));
 
         // Adding tooltips to buttons
         saveButton.setToolTipText(Andie.getLanguage("save_description"));

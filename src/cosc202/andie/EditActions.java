@@ -205,6 +205,11 @@ public class EditActions implements KeyListener{
          */
         public void actionPerformed(ActionEvent e) {
             target.getImage().toggleMacro();
+            if(target.getImage().getMacroStatus() == true){
+                JOptionPane.showMessageDialog(null, Andie.getLanguage("macro_started"), Andie.getLanguage("macro_started_title"), JOptionPane.INFORMATION_MESSAGE);
+            }else{
+                JOptionPane.showMessageDialog(null, Andie.getLanguage("macro_stopped"), Andie.getLanguage("macro_stopped_title"), JOptionPane.INFORMATION_MESSAGE);
+            }
             if (target.getImage().getMacroStatus() == false){
                 JFileChooser fileChooser = new JFileChooser();
                 fileChooser.setDialogTitle( Andie.getLanguage("save_as_name"));
