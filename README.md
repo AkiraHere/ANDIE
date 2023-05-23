@@ -57,7 +57,6 @@ Licenced under the creative commons license
     - Cropping to Selection
     - Mouse Selection of region
     - Drawing Functions
-    - Themes
 
 ### Tan (robta083)
     - Image Rotations
@@ -75,7 +74,8 @@ Licenced under the creative commons license
     - Unit Testing
     - Emboss Filter
     - Sobel Filter
-    - Keyboard Macros
+    - Operation Macros
+    - Themes
     - GUI Testing 
     - User Guide
 
