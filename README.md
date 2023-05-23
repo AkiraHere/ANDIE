@@ -8,6 +8,7 @@ This means that you can make changes to the size, colour or apply filters to an 
 # User Guide:
 
 To get started with ANDIE, compile and run the Andie.java file.
+Alternatively, run the Andie.jar program.
 
 Once running, navigate to the menu item *'File > Open'* to search for the image that you wish to edit.
 
@@ -18,6 +19,7 @@ Now that you have selected an image opened and ready to edit, try making use of 
 
 ## Edit menu
     - Has options to undo and redo changes that you've made to an image.
+    - Also contains the feature to record operations, so you can easily apply them across multiple images.
 
 ## View menu
     - This feature allows one to zoom in and out of their image.
@@ -37,7 +39,9 @@ Now that you have selected an image opened and ready to edit, try making use of 
 ## Language menu
     - In this menu, you will find options to select from the languages supported in Andie.
 
-For a more in depth guide on how to use ANDIE, see the User Guide PDF document.
+## Toolbar
+    - The toolbar is host to a few of the most useful features, such as saving, zooming in and out, and cropping.
+
 
 ## License
 Licenced under the creative commons license
@@ -50,6 +54,10 @@ Licenced under the creative commons license
     - Gaussian Blur Filter
     - Image Export
     - Multilingual Support (Enlgish, French & Maori)
+    - Cropping to Selection
+    - Mouse Selection of region
+    - Drawing Functions
+    - Themes
 
 ### Tan (robta083)
     - Image Rotations
@@ -59,10 +67,15 @@ Licenced under the creative commons license
     - Brightness Adjustment
     - Contrast Adjustment
     - Image resize
+    - Keyboard Shortcuts
+    - Toolbar
 
 ### Luke (weblu938)
     - Median Filter
     - Unit Testing
+    - Emboss Filter
+    - Sobel Filter
+    - Keyboard Macros
     - GUI Testing 
     - User Guide
 
