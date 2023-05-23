@@ -39,6 +39,7 @@ public class Andie {
 
     private static Internationalization internationalization ; 
     private static JFrame frame ;
+    private static ThemesManager themesManager ;
 
     /**
      * <p>
@@ -279,12 +280,27 @@ public class Andie {
         menuBar.add(mouseActions.createMenu());
         frame.getRootPane().addKeyListener(mouseActions);
 
+        ThemeActions themeActions = new ThemeActions();
+        menuBar.add(themeActions.createMenu());
+
         // Actions that affect language preference in ANDIE
         InternationalizationActions internationalizationActions = new InternationalizationActions() ; 
         menuBar.add( internationalizationActions.createMenu() ) ; 
-        
+
         frame.setJMenuBar(menuBar);
         frame.pack();
+
+        //Sets the theme / Look and feel
+        themesManager = new ThemesManager();
+        try{
+            UIManager.setLookAndFeel(themesManager.getCurrentThemeClass());
+            SwingUtilities.updateComponentTreeUI(frame);
+        }
+        catch(Exception ex){
+            ex.printStackTrace();
+        }
+
+
         frame.setVisible(true);
 
     }
@@ -348,6 +364,17 @@ public class Andie {
 
     /**
      * <p>
+     * Sets the theme of the program.
+     * </p>
+     * 
+     * @param themeName the key to access a theme in the ThemesManager.
+     */
+    public static void setTheme(String themeName){
+        themesManager.switchTheme(themeName);
+    }
+
+    /**
+     * <p>
      * Main entry point to the ANDIE program.
      * </p>
      * 
@@ -372,12 +399,13 @@ public class Andie {
                         FileActions.FileOpenAction.target.getParent().revalidate() ; 
                         int width = Integer.parseInt( args[1] ) ; 
                         int height = Integer.parseInt( args[2] ) ; 
-                        frame.setSize( width , height ) ; 
+                        frame.setSize( width , height ) ;
                     }
                 } catch (Exception ex) {
                     ex.printStackTrace();
                     System.exit(1);
                 }
+                
             }
         });
     }
