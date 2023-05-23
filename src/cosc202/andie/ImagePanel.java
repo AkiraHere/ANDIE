@@ -35,9 +35,14 @@ public class ImagePanel extends JPanel {
     public Rectangle rectToDraw = null ; 
     public Rectangle previousRectDrawn = new Rectangle() ;
     public boolean cropActive = false ;  
-    public boolean mouseDragged = false ; 
+    public boolean drawLineActive = false ; 
+    public boolean drawCircleActive = false ; 
+    public boolean drawRectangleActive = false ; 
+
+    Color color ; 
 
     BufferedImage cropped = null ;
+    BufferedImage tempDrawn = null ; 
 
     public boolean cropSelection = false ; 
 
@@ -46,10 +51,13 @@ public class ImagePanel extends JPanel {
     int currentMouseWidth = 0 ; 
     int currentMouseHeight = 0 ; 
 
-    int outOfBoundsX = 0 ; 
-    int outOfBoundsY = 0 ; 
-    int outOfBoundsWidth = 0 ; 
-    int outOfBoundsHeight = 0 ;
+    int startMouseX = 0 ; 
+    int startMouseY = 0 ; 
+
+    int withinBoundsX = 0 ; 
+    int withinBoundsY = 0 ; 
+    int withinBoundsWidth = 0 ; 
+    int withinBoundsHeight = 0 ;
 
     /**
      * <p>
@@ -62,6 +70,10 @@ public class ImagePanel extends JPanel {
      * </p>
      */
     private double scale ;
+    private int lockedWithinBoundsX;
+    private int lockedWithinBoundsY;
+    private int lockedWithinBoundsWidth;
+    int lockedWithinBoundsHeight;
 
     /**
      * <p>
@@ -82,12 +94,17 @@ public class ImagePanel extends JPanel {
 
             public void mousePressed( MouseEvent e ) {
 
-                if ( cropActive == true ) {
+                if ( cropActive == true || drawLineActive == true || drawCircleActive == true || drawRectangleActive == true ) {
 
                     currentMouseX = e.getX() ;
                     currentMouseY = e.getY() ; 
-                    currentRect = new Rectangle( currentMouseX , currentMouseY , 0 , 0 ) ; 
-                    updateDrawableRect( getWidth() , getHeight() ) ;
+                    startMouseX = e.getX() ; 
+                    startMouseY = e.getY() ; 
+                    currentRect = new Rectangle( currentMouseX , currentMouseY , 0 , 0 ) ;
+                    
+                    if ( tempDrawn == null ) {
+                        tempDrawn = image.getCurrentImage() ; 
+                    }
 
                 }
                 
@@ -95,10 +112,9 @@ public class ImagePanel extends JPanel {
 
             public void mouseDragged( MouseEvent e ) {
 
-                if ( cropActive == true ) {
+                if ( cropActive == true || drawLineActive == true || drawCircleActive == true || drawRectangleActive == true) {
 
                     updateSize( e ) ; 
-                    mouseDragged = true ; 
 
                 }
 
@@ -109,11 +125,10 @@ public class ImagePanel extends JPanel {
                 if ( cropActive == true ) {
 
                     updateSize( e ) ; 
-                    mouseDragged = false  ;
                     int result = JOptionPane.showConfirmDialog( null , "Want to crop the selected area?" , "Crop Selection" , JOptionPane.YES_NO_OPTION , JOptionPane.QUESTION_MESSAGE ) ; 
                     if ( result == JOptionPane.YES_OPTION ) {
                         cropActive = false ;
-                        image.apply( new Cropper( outOfBoundsX , outOfBoundsY , outOfBoundsWidth , outOfBoundsHeight) ) ; 
+                        image.apply( new Cropper( (int)(withinBoundsX/scale) , (int)(withinBoundsY/scale) , (int)(withinBoundsWidth/scale) , (int)(withinBoundsHeight/scale) ) ) ; 
                     } else if ( result == JOptionPane.NO_OPTION ) {
                         currentRect = new Rectangle( currentMouseX , currentMouseY , 0 , 0 ) ; 
                         updateDrawableRect( getWidth() , getHeight() ) ;
@@ -124,13 +139,35 @@ public class ImagePanel extends JPanel {
 
                 }
 
+                else if ( drawLineActive == true || drawCircleActive == true || drawRectangleActive == true ) {
+                    updateSize(e) ; 
+                    if ( drawLineActive == true ) {
+
+                        image.apply( new DrawLine( (int)(startMouseX/scale) , (int)(startMouseY/scale) , (int)(currentMouseX/scale) , (int)(currentMouseY/scale) , color ) ) ; 
+
+                    } else if ( drawCircleActive == true ) { 
+
+                        image.apply( new DrawOval( (int)(withinBoundsX/scale) , (int)(withinBoundsY/scale) , (int)(withinBoundsWidth/scale) , (int)(withinBoundsHeight/scale) , color ) ) ; 
+
+                    } else if ( drawRectangleActive == true ) {
+
+                        image.apply( new DrawRectangle( (int)(withinBoundsX/scale) , (int)(withinBoundsY/scale) , (int)(withinBoundsWidth/scale) , (int)(withinBoundsHeight/scale) , color ) ) ; 
+
+                    }
+                    
+
+                }
+
             }
 
             public void mouseExited( MouseEvent e ) {
 
-                if ( cropActive == true ) {
+                if ( cropActive == true || drawLineActive == true || drawCircleActive == true || drawRectangleActive == true) {
 
                     cropActive = false ; 
+                    drawLineActive = false ; 
+                    drawCircleActive = false ; 
+                    drawRectangleActive = false ; 
 
                 }
 
@@ -207,13 +244,33 @@ public class ImagePanel extends JPanel {
         repaint() ; 
     }
 
+    public void drawLineActive( boolean status ) {
+        currentRect = null ; 
+        this.drawLineActive = status ; 
+        repaint() ; 
+    }
+
+    public void drawCircleActive( boolean status ) {
+        currentRect = null ; 
+        this.drawCircleActive = status ; 
+        repaint() ; 
+    }
+
+    public void drawRectangleActive( boolean status ) {
+        currentRect = null ; 
+        this.drawRectangleActive = status ; 
+        repaint() ; 
+    }
+
+    public void setColor( Color color ) {
+        this.color = color ; 
+    }
+
     private void clearPreviousDrawing(Graphics g) {
         g.setColor(getBackground());
         g.fillRect(0, 0, getWidth(), getHeight());
         repaint(); 
     }
-
-
 
     /**
      * <p>
@@ -294,17 +351,21 @@ public class ImagePanel extends JPanel {
         super.paintComponent(g);
         clearPreviousDrawing(g);
         Graphics2D g2  = (Graphics2D) g.create() ;
+        g2.setColor( color ) ; 
+        
         if (image.hasImage()) {
-            // Graphics2D g2  = (Graphics2D) g.create();
             g2.scale(scale, scale);
             g2.drawImage(image.getCurrentImage(), null, 0, 0);
         }
-        if (cropActive == true) {
+
+        if (cropActive == true || drawLineActive == true || drawCircleActive == true || drawRectangleActive == true && image.hasImage() ) {
             
-            BufferedImage temp = image.getCurrentImage() ; 
-            RescaleOp op = new RescaleOp(.4f, 0, null); 
-            BufferedImage output = op.filter( temp , null);
-            g2.drawImage(output, null, 0, 0); 
+            if ( cropActive == true ) { 
+                BufferedImage temp = image.getCurrentImage() ; 
+                RescaleOp op = new RescaleOp(.4f, 0, null); 
+                BufferedImage output = op.filter( temp , null);
+                g2.drawImage(output, null, 0, 0); 
+            } 
             
             if (currentRect != null ) {
 
@@ -324,34 +385,101 @@ public class ImagePanel extends JPanel {
                 }
 
                 if( width > image.getCurrentImage().getWidth() - x  ) {
-                    outOfBoundsWidth = image.getCurrentImage().getWidth() - x ; 
+                    withinBoundsWidth = image.getCurrentImage().getWidth() - x ; 
                 }
                 if( height > image.getCurrentImage().getHeight() - y ) {
-                    outOfBoundsHeight = image.getCurrentImage().getHeight() - y ; 
-                }    
+                    withinBoundsHeight = image.getCurrentImage().getHeight() - y ; 
+                }  
 
-                if ( width != 0 && height != 0 && currentMouseX < image.getCurrentImage().getWidth() && currentMouseY < image.getCurrentImage().getHeight() ) {
-                    outOfBoundsX = x ; 
-                    outOfBoundsY = y ; 
-                    outOfBoundsWidth = width ; 
-                    outOfBoundsHeight = height ;
+                // cropping 
+                if ( width != 0 && height != 0 && currentMouseX < (int)(image.getCurrentImage().getWidth()*scale) && currentMouseY < (int)(image.getCurrentImage().getHeight()*scale) && cropActive == true ) {
+                    
+                    withinBoundsX = (int)(x/scale) ; 
+                    withinBoundsY = (int)(y/scale) ; 
+                    withinBoundsWidth = (int)(width/scale) ; 
+                    withinBoundsHeight = (int)(height/scale) ;
+
+                    lockedWithinBoundsX = withinBoundsX ; 
+                    lockedWithinBoundsY = withinBoundsY ; 
+                    lockedWithinBoundsWidth = withinBoundsWidth ; 
+                    lockedWithinBoundsHeight = withinBoundsHeight ; 
+
                     BufferedImage cropped = null ; 
-                    cropped = image.getCurrentImage().getSubimage( x , y , width , height ) ;
-                    g2.drawImage( cropped , null , x , y ) ; 
-                } else if ( width != 0 && height != 0 ) {
-                    BufferedImage cropped = image.getCurrentImage().getSubimage( outOfBoundsX , outOfBoundsY , outOfBoundsWidth , outOfBoundsHeight ) ; 
-                    g2.drawImage( cropped , null , outOfBoundsX , outOfBoundsY ) ;  
+                    cropped = image.getCurrentImage().getSubimage( withinBoundsX , withinBoundsY , withinBoundsWidth , withinBoundsHeight ) ;
+                    g2.drawImage( cropped , null , withinBoundsX , withinBoundsY ) ; 
+                } else if ( width != 0 && height != 0 && cropActive == true ) {
+                    BufferedImage cropped = image.getCurrentImage().getSubimage( lockedWithinBoundsX , lockedWithinBoundsY , lockedWithinBoundsWidth , lockedWithinBoundsHeight ) ; 
+                    g2.drawImage( cropped , null , lockedWithinBoundsX , lockedWithinBoundsY );  
                 }
-                // //Draw a rectangle on top of the image.
-                // float alpha = (float) 0.0 ;
-                // Color color = new Color(1, 0, 0, alpha); //Red 
-                // g2.setPaint(color); 
-                // g2.setXORMode(color); //Color of line varies
-                //                        //depending on image colors
-                // g2.drawRect(rectToDraw.x + 1 , rectToDraw.y + 1 , 
-                //        rectToDraw.width - 2 , rectToDraw.height - 2 ) ;
+
+                // drawing a line 
+                if ( width != 0 && height != 0 && currentMouseX < (int)(image.getCurrentImage().getWidth()*scale) && currentMouseY < (int)(image.getCurrentImage().getHeight()*scale) && drawLineActive == true ) {
+                    
+                    withinBoundsX = (int)(x/scale) ; 
+                    withinBoundsY = (int)(y/scale) ; 
+                    withinBoundsWidth = (int)(width/scale) ; 
+                    withinBoundsHeight = (int)(height/scale) ;
+
+                    lockedWithinBoundsX = withinBoundsX ; 
+                    lockedWithinBoundsY = withinBoundsY ; 
+                    lockedWithinBoundsWidth = withinBoundsWidth ; 
+                    lockedWithinBoundsHeight = withinBoundsHeight ; 
+
+                    if ( startMouseX < currentMouseX && startMouseY < currentMouseY || startMouseX > currentMouseX && startMouseY > currentMouseY ) {
+                        g2.drawLine( withinBoundsX , withinBoundsY , withinBoundsX + withinBoundsWidth , withinBoundsY + withinBoundsHeight ) ; 
+                    } else { 
+                        g2.drawLine( withinBoundsX , withinBoundsY + withinBoundsHeight , withinBoundsX + withinBoundsWidth , withinBoundsY ) ;
+                    }
+                } else if ( width != 0 && height != 0 && drawLineActive == true ) {
+                
+                    g2.drawLine( lockedWithinBoundsX , lockedWithinBoundsY , lockedWithinBoundsX + lockedWithinBoundsWidth , lockedWithinBoundsY + lockedWithinBoundsHeight ) ;  
+                    
+                }
+
+                // drawing a oval
+                if ( width != 0 && height != 0 && currentMouseX < (int)(image.getCurrentImage().getWidth()*scale) && currentMouseY < (int)(image.getCurrentImage().getHeight()*scale) && drawCircleActive == true ) {
+                    
+                    withinBoundsX = (int)(x/scale) ; 
+                    withinBoundsY = (int)(y/scale) ; 
+                    withinBoundsWidth = (int)(width/scale) ; 
+                    withinBoundsHeight = (int)(height/scale) ;
+
+                    lockedWithinBoundsX = withinBoundsX ; 
+                    lockedWithinBoundsY = withinBoundsY ; 
+                    lockedWithinBoundsWidth = withinBoundsWidth ; 
+                    lockedWithinBoundsHeight = withinBoundsHeight ; 
+
+                    g2.drawOval( withinBoundsX , withinBoundsY , withinBoundsWidth , withinBoundsHeight ) ; 
+
+                } else if ( width != 0 && height != 0 && drawCircleActive == true ) {
+
+                    g2.drawOval( lockedWithinBoundsX , lockedWithinBoundsY , lockedWithinBoundsWidth , lockedWithinBoundsHeight );  
+
+                }
+
+                // drawing a rectangle
+                if ( width != 0 && height != 0 && currentMouseX < (int)(image.getCurrentImage().getWidth()*scale) && currentMouseY < (int)(image.getCurrentImage().getHeight()*scale) && drawRectangleActive == true ) {
+                    
+                    withinBoundsX = (int)(x/scale) ; 
+                    withinBoundsY = (int)(y/scale) ; 
+                    withinBoundsWidth = (int)(width/scale) ; 
+                    withinBoundsHeight = (int)(height/scale) ;
+
+                    lockedWithinBoundsX = withinBoundsX ; 
+                    lockedWithinBoundsY = withinBoundsY ; 
+                    lockedWithinBoundsWidth = withinBoundsWidth ; 
+                    lockedWithinBoundsHeight = withinBoundsHeight ; 
+
+                    g2.drawRect( withinBoundsX , withinBoundsY , withinBoundsWidth , withinBoundsHeight ) ; 
+
+                } else if ( width != 0 && height != 0 && drawRectangleActive == true ) {
+
+                    g2.drawRect( lockedWithinBoundsX , lockedWithinBoundsY , lockedWithinBoundsWidth , lockedWithinBoundsHeight );  
+
+                }
             }
-        } 
+
+        }
         g2.dispose();
     }
 }

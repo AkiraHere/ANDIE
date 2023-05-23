@@ -118,6 +118,7 @@ public class EditActions implements KeyListener{
          */
         public void actionPerformed(ActionEvent e) {
             target.getImage().undo();
+            Andie.getFrame().setSize( target.getWidth() , target.getHeight() ) ;
             target.repaint();
             target.getParent().revalidate();
         }
@@ -161,6 +162,7 @@ public class EditActions implements KeyListener{
          */
         public void actionPerformed(ActionEvent e) {
             target.getImage().redo();
+            Andie.getFrame().setSize( target.getWidth() , target.getHeight() ) ;
             target.repaint();
             target.getParent().revalidate();
         }

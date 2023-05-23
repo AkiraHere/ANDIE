@@ -12,7 +12,7 @@ import cosc202.andie.EditActions.MacroAction;
 import cosc202.andie.EditActions.RedoAction;
 import cosc202.andie.EditActions.UndoAction;
 import cosc202.andie.FileActions.FileSaveAsAction;
-import cosc202.andie.MouseActions.CropAction;
+import cosc202.andie.CropActions.CropAction;
 import cosc202.andie.ViewActions.ZoomInAction;
 import cosc202.andie.ViewActions.ZoomOutAction;
 
@@ -108,7 +108,6 @@ public class Andie {
         Image recordOffIcon = recordOffImage.getScaledInstance(15, 15, Image.SCALE_SMOOTH);
         //Image recordOnIcon = recordOnImage.getScaledInstance(15, 15, Image.SCALE_SMOOTH);
         
-
         // Creating JButtons
         toolbar.setLayout(new FlowLayout(FlowLayout.LEFT));
         JButton saveButton = new JButton(new ImageIcon(saveIcon));
@@ -181,9 +180,9 @@ public class Andie {
         });
         cropButton.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e) {
-                MouseActions mouse = new MouseActions();
-                CropAction crop = mouse.new CropAction(null, null, null, null);
-                crop.actionPerformed(e);
+                CropActions crop = new CropActions();
+                CropAction cropper = crop.new CropAction(null, null, null, null);
+                cropper.actionPerformed(e);
             }
         });
         contrastButton.addActionListener(new ActionListener(){
@@ -273,11 +272,17 @@ public class Andie {
         menuBar.add(transformActions.createMenu());
         frame.getRootPane().addKeyListener(transformActions);
 
-        // Actions that revolve around the mouse 
-        MouseActions mouseActions = new MouseActions(); 
+        // Actions that revolve around the mouse and cropping
+        CropActions mouseActions = new CropActions(); 
         frame.addKeyListener(mouseActions);
         menuBar.add(mouseActions.createMenu());
         frame.getRootPane().addKeyListener(mouseActions);
+
+        // Actions that revolve around the mouse and drawing
+        DrawActions drawActions = new DrawActions(); 
+        // frame.addKeyListener(drawActions);
+        menuBar.add(drawActions.createMenu());
+        // frame.getRootPane().addKeyListener(drawActions);
 
         // Actions that affect language preference in ANDIE
         InternationalizationActions internationalizationActions = new InternationalizationActions() ; 

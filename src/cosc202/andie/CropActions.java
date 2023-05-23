@@ -19,7 +19,7 @@ import javax.swing.* ;
  * @author Samuel Goddard
  * @version 1.0
  */
-public class MouseActions implements KeyListener {
+public class CropActions implements KeyListener {
     
     /** A list of actions for the Mouse menu. */
     protected ArrayList<Action> actions ; 
@@ -28,7 +28,7 @@ public class MouseActions implements KeyListener {
      * Create a set of Mouse menu actions.
      * </p>
      */
-    public MouseActions() {
+    public CropActions() {
        
         actions = new ArrayList<Action>();
         actions.add( new CropAction( Andie.getLanguage("crop") , null , Andie.getLanguage("crop_description") , Integer.valueOf( KeyEvent.VK_X ) ) ) ;
@@ -64,7 +64,7 @@ public class MouseActions implements KeyListener {
      */
     public JMenu createMenu() {
         
-        JMenu mouseMenu = new JMenu( "Mouse" ) ;
+        JMenu mouseMenu = new JMenu( Andie.getLanguage("crop_name") ) ;
 
         for ( Action action : actions ) {
 
@@ -108,7 +108,11 @@ public class MouseActions implements KeyListener {
          */
         public void actionPerformed( ActionEvent e ) {
 
+            if ( target.getImage().hasImage() == true ) {  
                 target.cropActive( true ) ; 
+            } else {
+                JOptionPane.showMessageDialog(null, Andie.getLanguage("error_no_image"), Andie.getLanguage("error_title"), JOptionPane.ERROR_MESSAGE);
+            }
             
         }
 

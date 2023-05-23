@@ -176,6 +176,7 @@ class EditableImage {
             // Could be no file or something else. Carry on for now.
         }
         this.refresh();
+        Andie.getFrame().setSize( getCurrentImage().getWidth() , getCurrentImage().getHeight() ) ; 
     }
 
     /**
