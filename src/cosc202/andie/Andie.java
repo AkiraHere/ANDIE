@@ -3,7 +3,11 @@ package cosc202.andie;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
+
+
 import javax.swing.*;
 
 import cosc202.andie.ColourActions.BrightnessAdjusterAction;
@@ -291,6 +295,43 @@ public class Andie {
         // Actions that affect language preference in ANDIE
         InternationalizationActions internationalizationActions = new InternationalizationActions() ; 
         menuBar.add( internationalizationActions.createMenu() ) ; 
+
+        frame.addWindowListener(new WindowAdapter() {
+            @Override
+            /**
+             * <p>
+             * Triggered when the Andie program is exiting.
+             * If the user has an image open, it will prompt them to save their progress.
+             * </p>
+             * 
+             * @param e the callback to the event
+             */
+            public void windowClosing(WindowEvent e) {
+                if(imagePanel.getImage().hasImage()){
+                    boolean changesSaved = imagePanel.getImage().getSaveStatus();
+                    if (!changesSaved) {
+                        int option = JOptionPane.showConfirmDialog(frame, Andie.getLanguage("unsaved_changes"));
+                        if (option == JOptionPane.YES_OPTION) {
+                            try {
+                                imagePanel.getImage().save();
+                            } catch (Exception e1) {
+                                e1.printStackTrace();
+                            }
+                            changesSaved = true;
+                            frame.dispose(); // Close the program
+                        } else if (option == JOptionPane.NO_OPTION) {
+                            changesSaved = true;
+                            frame.dispose(); // Close the program without saving
+                        }else if (option == JOptionPane.CANCEL_OPTION){
+                            return;
+                        }
+                        // If the user chooses cancel, do nothing and the program will continue running
+                    } else {
+                        frame.dispose(); // Close the program
+                    }
+                }
+            }
+        });
 
         frame.setJMenuBar(menuBar);
         frame.pack();
