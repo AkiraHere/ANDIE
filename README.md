@@ -8,11 +8,11 @@ This means that you can make changes to the size, colour or apply filters to an 
 # User Guide:
 
 To get started with ANDIE, compile and run the Andie.java file.
-Alternatively, run the Andie.jar program.
+Alternatively, you can run the andie.jar executable file to get the program running!
 
 Once running, navigate to the menu item *'File > Open'* to search for the image that you wish to edit.
 
-Now that you have selected an image opened and ready to edit, try making use of the many features available at the top of the window.
+Now that you have selected an image and are ready to edit, try making use of the many features available at the top of the program.
 
 ## File menu
     - Has menus that allow you to open, save and export files.
@@ -20,12 +20,13 @@ Now that you have selected an image opened and ready to edit, try making use of 
 ## Edit menu
     - Has options to undo and redo changes that you've made to an image.
     - Also contains the feature to record operations, so you can easily apply them across multiple images.
+        When applying operations, be sure to select on of your other <code>.ops</code> files!
 
 ## View menu
     - This feature allows one to zoom in and out of their image.
 
 ## Filter menu
-    - This menu contains all of the filters that modify the image with various convolutions.
+    - This menu contains all of the filters that modify the image with various blurs and effects.
 
 ## Color menu
     - Here, you will find ways to modify the color of your image, such as converting to greyscale.
@@ -33,8 +34,14 @@ Now that you have selected an image opened and ready to edit, try making use of 
 ## Transform menu
     - In this menu, there are features that allow you to modify the shape and orientation of your image.
 
-## Mouse menu
+## Crop menu
     - Contains the option to crop and draw on your image.
+
+## Drawing menu
+    - Here, you can select some shapes and colours to apply to your image.
+
+## Themes Menu
+    - You are able to change the look and feel of Andie by choosing one of the several themes!
 
 ## Language menu
     - In this menu, you will find options to select from the languages supported in Andie.
@@ -77,7 +84,7 @@ Licenced under the creative commons license
     - Operation Macros
     - Themes
     - GUI Testing 
-    - User Guide
+    - User Guide & README
 
 All contributors responsible for:
     - Other Error avoidance/prevention
