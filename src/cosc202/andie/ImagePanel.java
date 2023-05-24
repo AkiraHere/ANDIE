@@ -83,6 +83,13 @@ public class ImagePanel extends JPanel {
 
     /**
      * <p>
+     * Size of the brush (pixels). 
+     * </p>
+     */
+    private int sliderSize = 1 ;  
+
+    /**
+     * <p>
      * Current mouse position on the screen. 
      * </p>
      */
@@ -286,15 +293,15 @@ public class ImagePanel extends JPanel {
                     // deals with the drawing cases, utilising outside classes to finish the image and put it on the stack
                     if ( drawLineActive == true ) {
 
-                        image.apply( new DrawLine( (int)(startMouseX/scale) , (int)(startMouseY/scale) , (int)(currentMouseX/scale) , (int)(currentMouseY/scale) , color ) ) ; 
+                        image.apply( new DrawLine( (int)(startMouseX/scale) , (int)(startMouseY/scale) , (int)(currentMouseX/scale) , (int)(currentMouseY/scale) , color , sliderSize ) ) ; 
 
                     } else if ( drawCircleActive == true ) { 
 
-                        image.apply( new DrawOval( withinBoundsX , withinBoundsY , withinBoundsWidth , withinBoundsHeight , color ) ) ; 
+                        image.apply( new DrawOval( withinBoundsX , withinBoundsY , withinBoundsWidth , withinBoundsHeight , color , sliderSize ) ) ; 
 
                     } else if ( drawRectangleActive == true ) {
 
-                        image.apply( new DrawRectangle( withinBoundsX , withinBoundsY , withinBoundsWidth , withinBoundsHeight , color ) ) ; 
+                        image.apply( new DrawRectangle( withinBoundsX , withinBoundsY , withinBoundsWidth , withinBoundsHeight , color , sliderSize ) ) ; 
 
                     }
                     
@@ -482,6 +489,18 @@ public class ImagePanel extends JPanel {
 
     /**
      * <p>
+     * Takes user input from a radius wheel and changes the 
+     * size of the brush for drawing. 
+     * </p>
+     * 
+     * @param sliderSize
+     */
+    public void setSlider( int sliderSize ) {
+        this.sliderSize = sliderSize ; 
+    }
+
+    /**
+     * <p>
      * Clears the previous drawings from the background. 
      * </p>
      * 
@@ -586,7 +605,8 @@ public class ImagePanel extends JPanel {
         super.paintComponent(g);
         clearPreviousDrawing(g);
         Graphics2D g2  = (Graphics2D) g.create() ;
-        g2.setColor( color ) ; 
+        g2.setColor( color ) ;
+        g2.setStroke( new BasicStroke( sliderSize ) ) ; 
         
         // checks if an image has been loaded into ANDIE, and if so, draws it on the component
         if (image.hasImage()) {

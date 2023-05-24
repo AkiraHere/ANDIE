@@ -1,5 +1,6 @@
 package cosc202.andie;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
@@ -31,7 +32,7 @@ public class DrawRectangle implements ImageOperation , java.io.Serializable {
      * newHeight - height of crop rectangle
      * </p>
      */
-    private int xPos , yPos , newWidth , newHeight ;
+    private int xPos , yPos , newWidth , newHeight , slider ;
     private Color color ;  
     
     /**
@@ -40,13 +41,14 @@ public class DrawRectangle implements ImageOperation , java.io.Serializable {
      * @param newWidth width of rectangle
      * @param newHeight height of rectangle
      */
-    public DrawRectangle ( int xPos , int yPos , int newWidth , int newHeight , Color color ) {
+    public DrawRectangle ( int xPos , int yPos , int newWidth , int newHeight , Color color , int slider ) {
 
         this.xPos = xPos ; 
         this.yPos = yPos ; 
         this.newWidth = newWidth ; 
         this.newHeight = newHeight ; 
         this.color = color ; 
+        this.slider = slider ; 
 
     }
 
@@ -60,6 +62,7 @@ public class DrawRectangle implements ImageOperation , java.io.Serializable {
         this.newHeight = 0 ; 
         this.newWidth = 0 ; 
         this.color = Color.WHITE ; 
+        this.slider = 1 ; 
 
     }
    /**
@@ -85,6 +88,7 @@ public class DrawRectangle implements ImageOperation , java.io.Serializable {
         BufferedImage filteredImage = new BufferedImage( input.getColorModel() , input.copyData(null) , input.isAlphaPremultiplied() , null ) ;
         Graphics2D g2d = filteredImage.createGraphics() ; 
         g2d.setColor( color ) ; 
+        g2d.setStroke( new BasicStroke( slider ) ) ;
         g2d.drawRect( xPos , yPos , newWidth , newHeight ) ; 
         BufferedImage output = new BufferedImage( filteredImage.getColorModel() , filteredImage.copyData( filteredImage.getRaster().createCompatibleWritableRaster() ) , filteredImage.isAlphaPremultiplied() , null ) ; 
         return output ; 
