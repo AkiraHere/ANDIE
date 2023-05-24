@@ -7,12 +7,12 @@ import java.awt.image.BufferedImage;
 
 /**
  * <p>
- * ImageOperation to crop an image. 
+ * ImageOperation to draw a line.  
  * </p>
  * 
  * <p>
- * Takes an input coordinates of an image and crops to 
- * new x and y values
+ * Takes a series of values and uses it to draw a line 
+ * on the worked image. 
  * </p>
  * 
  * @author Samuel Goddard
@@ -26,11 +26,11 @@ public class DrawLine implements ImageOperation , java.io.Serializable {
      * </p>
      * 
      * <p>
-     * xPos - x coordinate of the upper-left corner of specified crop rectangle
-     * yPos - y coordinate of the upper-left corner of specified crop rectangle
-     * newWidth - width of crop rectangle
-     * newHeight - height of crop rectangle
-     * </p>
+     * xPos - x coordinate of the upper-left corner of line
+     * yPos - y coordinate of the upper-left corner of line
+     * newWidth - width of line
+     * newHeight - height of line
+     * color - color of the line
      */
     private int xPos , yPos , newWidth , newHeight , slider ; 
     private Color color ; 
@@ -38,8 +38,9 @@ public class DrawLine implements ImageOperation , java.io.Serializable {
     /**
      * @param xPos x coordinate value
      * @param yPos y coordinate value
-     * @param newWidth width of rectangle
-     * @param newHeight height of rectangle
+     * @param newWidth width of line
+     * @param newHeight height of line
+     * @param color color of the line
      */
     public DrawLine ( int xPos , int yPos , int newWidth , int newHeight , Color color , int slider ) {
 
@@ -67,21 +68,17 @@ public class DrawLine implements ImageOperation , java.io.Serializable {
     }
    /**
      * <p>
-     * Applies the gaussian blur filter to the image.
+     * Applies a line to the image. 
      * </p>
      * 
      * <p>
-     * Works via convolution, where a larger radius input will result in a
-     * strong blurring. Graphics are used to resolve the issue of black pixels around 
-     * the border of the filtered image. A scaled BufferedImage is created, with 
-     * the input image overlayed in the middle. This way, the blurring more closely 
-     * resembles the outside edge of the image, and the increased size means the 
-     * black pixels can be discarded without affecting the original size and 
-     * appearance of the image. 
+     * Takes the input values and applies the line correspondingly. 
+     * Brush size and and line placement are done here, alongwith the raster 
+     * checking to make sure the bufferedImage matches the previous version. 
      * </p>
      * 
-     * @param input the image to be cropped
-     * @return the cropped image 
+     * @param input the image to be drawn on
+     * @return the drawn on image 
      */
     public BufferedImage apply ( BufferedImage input ) {
         

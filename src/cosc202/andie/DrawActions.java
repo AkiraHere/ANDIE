@@ -93,8 +93,11 @@ public class DrawActions implements KeyListener {
          * @param e The event triggering this callback. 
          */
         public void actionPerformed( ActionEvent e ) {
-
-            target.drawLineActive( true ) ; 
+            if ( target.getImage().hasImage() == true ) {
+                target.drawLineActive( true ) ; 
+            } else {
+                JOptionPane.showMessageDialog(null, Andie.getLanguage("error_no_image_operations"), Andie.getLanguage("error_title"), JOptionPane.ERROR_MESSAGE);
+            }
             
         }
 
@@ -132,8 +135,11 @@ public class DrawActions implements KeyListener {
          * @param e The event triggering this callback. 
          */
         public void actionPerformed( ActionEvent e ) {
-
-            target.drawCircleActive( true ) ; 
+            if ( target.getImage().hasImage() == true ){ 
+                target.drawCircleActive( true ) ; 
+            } else { 
+                JOptionPane.showMessageDialog(null, Andie.getLanguage("error_no_image_operations"), Andie.getLanguage("error_title"), JOptionPane.ERROR_MESSAGE);
+            }
             
         }
 
@@ -171,8 +177,11 @@ public class DrawActions implements KeyListener {
          * @param e The event triggering this callback. 
          */
         public void actionPerformed( ActionEvent e ) {
-
-            target.drawRectangleActive( true ) ; 
+            if ( target.getImage().hasImage() == true ) {
+                target.drawRectangleActive( true ) ; 
+            } else {
+                JOptionPane.showMessageDialog(null, Andie.getLanguage("error_no_image_operations"), Andie.getLanguage("error_title"), JOptionPane.ERROR_MESSAGE);
+            }
             
         }
 

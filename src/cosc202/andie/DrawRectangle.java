@@ -7,12 +7,13 @@ import java.awt.image.BufferedImage;
 
 /**
  * <p>
- * ImageOperation to crop an image. 
+ * ImageOperation to draw a rectangle. 
  * </p>
  * 
  * <p>
- * Takes an input coordinates of an image and crops to 
- * new x and y values
+ * Takes a series of inputs and uses them to draw a rectangle, potentially
+ * with different outputs. Brush size and whether the rectangle is filled can 
+ * all be altered. 
  * </p>
  * 
  * @author Samuel Goddard
@@ -30,6 +31,8 @@ public class DrawRectangle implements ImageOperation , java.io.Serializable {
      * yPos - y coordinate of the upper-left corner of specified crop rectangle
      * newWidth - width of crop rectangle
      * newHeight - height of crop rectangle
+     * color - color of the rectangle 
+     * fill - whether the rectangle will be filled 
      * </p>
      */
     private int xPos , yPos , newWidth , newHeight , slider ;
@@ -41,6 +44,8 @@ public class DrawRectangle implements ImageOperation , java.io.Serializable {
      * @param yPos y coordinate value
      * @param newWidth width of rectangle
      * @param newHeight height of rectangle
+     * @param color the color of the rectangle
+     * @param fill whether the rectangle will be filled
      */
     public DrawRectangle ( int xPos , int yPos , int newWidth , int newHeight , Color color , int slider , boolean fill ) {
 
@@ -70,21 +75,18 @@ public class DrawRectangle implements ImageOperation , java.io.Serializable {
     }
    /**
      * <p>
-     * Applies the gaussian blur filter to the image.
+     * Applies a rectangle to the image. 
      * </p>
      * 
      * <p>
-     * Works via convolution, where a larger radius input will result in a
-     * strong blurring. Graphics are used to resolve the issue of black pixels around 
-     * the border of the filtered image. A scaled BufferedImage is created, with 
-     * the input image overlayed in the middle. This way, the blurring more closely 
-     * resembles the outside edge of the image, and the increased size means the 
-     * black pixels can be discarded without affecting the original size and 
-     * appearance of the image. 
+     * Rectangle output depends on states of the parameters passed. Rectangle can
+     * have its line thickness changed via the slider int, and color can also be 
+     * changed by user input. The rectangle image is also put through a series 
+     * of bufferedImages to make sure the raster and other aspects match the working image. 
      * </p>
      * 
-     * @param input the image to be cropped
-     * @return the cropped image 
+     * @param input the image to be drawn
+     * @return the drawn image
      */
     public BufferedImage apply ( BufferedImage input ) {
         
