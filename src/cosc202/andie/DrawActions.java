@@ -38,7 +38,7 @@ public class DrawActions implements KeyListener {
         actions.add( new DrawRectangleAction( Andie.getLanguage("draw_rectangle") , null , Andie.getLanguage("draw_rectangle_description") , Integer.valueOf( KeyEvent.VK_D ) ) ) ;
         actions.add( new ColorAction( Andie.getLanguage("color") , null , Andie.getLanguage("color_description") , Integer.valueOf( KeyEvent.VK_D ) ) ) ;
         actions.add( new BrushAction( Andie.getLanguage("brush") , null , Andie.getLanguage("brush_description") , Integer.valueOf( KeyEvent.VK_D ) ) ) ;
-
+        actions.add( new FillAction( Andie.getLanguage("fill") , null , Andie.getLanguage("fill_description") , Integer.valueOf( KeyEvent.VK_D ) ) ) ;
     }
 
     /**
@@ -249,6 +249,43 @@ public class DrawActions implements KeyListener {
             }
 
             target.setSlider( sliderSize ) ; 
+            
+        }
+
+    }
+
+    public class FillAction extends ImageAction {
+        /**
+         * <p>
+         * Chooses color for lines
+         * </p>
+         * 
+         * @param name The name of the action (ignored if null).
+         * @param icon An icon to use to represent the action (ignored if null).
+         * @param desc A brief description of the action  (ignored if null).
+         * @param mnemonic A mnemonic key to use as a shortcut  (ignored if null).
+         */
+        FillAction( String name , ImageIcon icon , String desc , Integer mnemonic ) {
+
+            super( name , icon , desc , mnemonic ) ;
+
+
+        }
+        /**
+         * <p>
+         * Callback for when draw is selected
+         * </p>
+         * 
+         * @param e The event triggering this callback. 
+         */
+        public void actionPerformed( ActionEvent e ) {
+
+            int reply = JOptionPane.showConfirmDialog(null, Andie.getLanguage("fill_question"), Andie.getLanguage("fill"), JOptionPane.YES_NO_OPTION);
+            if (reply == JOptionPane.YES_OPTION) {
+                target.setFill( true ) ; 
+            } else {
+                target.setFill( false ) ; 
+            }
             
         }
 

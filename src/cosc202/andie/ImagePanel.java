@@ -83,10 +83,12 @@ public class ImagePanel extends JPanel {
 
     /**
      * <p>
-     * Size of the brush (pixels). 
+     * Size of the brush (pixels) and if drawings are filled. 
      * </p>
      */
     private int sliderSize = 1 ;  
+    private boolean fill = false ; 
+
 
     /**
      * <p>
@@ -297,11 +299,11 @@ public class ImagePanel extends JPanel {
 
                     } else if ( drawCircleActive == true ) { 
 
-                        image.apply( new DrawOval( withinBoundsX , withinBoundsY , withinBoundsWidth , withinBoundsHeight , color , sliderSize ) ) ; 
+                        image.apply( new DrawOval( withinBoundsX , withinBoundsY , withinBoundsWidth , withinBoundsHeight , color , sliderSize , fill ) ) ; 
 
                     } else if ( drawRectangleActive == true ) {
 
-                        image.apply( new DrawRectangle( withinBoundsX , withinBoundsY , withinBoundsWidth , withinBoundsHeight , color , sliderSize ) ) ; 
+                        image.apply( new DrawRectangle( withinBoundsX , withinBoundsY , withinBoundsWidth , withinBoundsHeight , color , sliderSize , fill ) ) ; 
 
                     }
                     
@@ -497,6 +499,10 @@ public class ImagePanel extends JPanel {
      */
     public void setSlider( int sliderSize ) {
         this.sliderSize = sliderSize ; 
+    }
+
+    public void setFill ( boolean fill ) {
+        this.fill = fill ; 
     }
 
     /**

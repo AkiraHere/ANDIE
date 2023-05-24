@@ -34,6 +34,7 @@ public class DrawRectangle implements ImageOperation , java.io.Serializable {
      */
     private int xPos , yPos , newWidth , newHeight , slider ;
     private Color color ;  
+    private boolean fill ; 
     
     /**
      * @param xPos x coordinate value
@@ -41,7 +42,7 @@ public class DrawRectangle implements ImageOperation , java.io.Serializable {
      * @param newWidth width of rectangle
      * @param newHeight height of rectangle
      */
-    public DrawRectangle ( int xPos , int yPos , int newWidth , int newHeight , Color color , int slider ) {
+    public DrawRectangle ( int xPos , int yPos , int newWidth , int newHeight , Color color , int slider , boolean fill ) {
 
         this.xPos = xPos ; 
         this.yPos = yPos ; 
@@ -49,6 +50,7 @@ public class DrawRectangle implements ImageOperation , java.io.Serializable {
         this.newHeight = newHeight ; 
         this.color = color ; 
         this.slider = slider ; 
+        this.fill = fill ; 
 
     }
 
@@ -63,6 +65,7 @@ public class DrawRectangle implements ImageOperation , java.io.Serializable {
         this.newWidth = 0 ; 
         this.color = Color.WHITE ; 
         this.slider = 1 ; 
+        this.fill = false ; 
 
     }
    /**
@@ -89,7 +92,11 @@ public class DrawRectangle implements ImageOperation , java.io.Serializable {
         Graphics2D g2d = filteredImage.createGraphics() ; 
         g2d.setColor( color ) ; 
         g2d.setStroke( new BasicStroke( slider ) ) ;
-        g2d.drawRect( xPos , yPos , newWidth , newHeight ) ; 
+        if ( fill == false ) { 
+            g2d.drawRect( xPos , yPos , newWidth , newHeight ) ; 
+        } else {
+            g2d.fillRect( xPos , yPos , newWidth , newHeight ) ; 
+        }
         BufferedImage output = new BufferedImage( filteredImage.getColorModel() , filteredImage.copyData( filteredImage.getRaster().createCompatibleWritableRaster() ) , filteredImage.isAlphaPremultiplied() , null ) ; 
         return output ; 
 
