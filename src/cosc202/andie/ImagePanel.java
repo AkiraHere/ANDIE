@@ -441,7 +441,7 @@ public class ImagePanel extends JPanel {
     /**
      * <p>
      * Sets draw line to active and refreshes the GUI. 
-     * </p?
+     * </p>
      * 
      * @param status whether draw line is active or not
      */
