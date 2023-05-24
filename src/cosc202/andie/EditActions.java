@@ -117,10 +117,14 @@ public class EditActions implements KeyListener{
          * @param e The event triggering this callback.
          */
         public void actionPerformed(ActionEvent e) {
-            target.getImage().undo();
-            Andie.getFrame().setSize( target.getWidth() , target.getHeight() ) ;
-            target.repaint();
-            target.getParent().revalidate();
+            try {             
+                target.getImage().undo();
+                Andie.getFrame().setSize( target.getWidth() , target.getHeight() ) ;
+                target.repaint();
+                target.getParent().revalidate();
+            } catch ( EmptyStackException a ) {
+                System.out.println( "sucks" ) ; 
+            }
         }
     }
 

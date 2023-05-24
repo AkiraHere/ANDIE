@@ -111,7 +111,7 @@ public class CropActions implements KeyListener {
             if ( target.getImage().hasImage() == true ) {  
                 target.cropActive( true ) ; 
             } else {
-                JOptionPane.showMessageDialog(null, Andie.getLanguage("error_no_image"), Andie.getLanguage("error_title"), JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, Andie.getLanguage("error_no_image_operations"), Andie.getLanguage("error_title"), JOptionPane.ERROR_MESSAGE);
             }
             
         }
