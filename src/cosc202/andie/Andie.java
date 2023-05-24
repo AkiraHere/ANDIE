@@ -285,9 +285,9 @@ public class Andie {
 
         // Actions that revolve around the mouse and drawing
         DrawActions drawActions = new DrawActions(); 
-        // frame.addKeyListener(drawActions);
+        frame.addKeyListener(drawActions);
         menuBar.add(drawActions.createMenu());
-        // frame.getRootPane().addKeyListener(drawActions);
+        frame.getRootPane().addKeyListener(drawActions);
 
         ThemeActions themeActions = new ThemeActions();
         menuBar.add(themeActions.createMenu());

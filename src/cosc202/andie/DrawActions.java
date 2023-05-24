@@ -37,9 +37,30 @@ public class DrawActions implements KeyListener {
         actions.add( new DrawCircleAction( Andie.getLanguage("draw_oval") , null , Andie.getLanguage("draw_oval_description") , Integer.valueOf( KeyEvent.VK_8 ) ) ) ;
         actions.add( new DrawRectangleAction( Andie.getLanguage("draw_rectangle") , null , Andie.getLanguage("draw_rectangle_description") , Integer.valueOf( KeyEvent.VK_7 ) ) ) ;
         actions.add( new ColorAction( Andie.getLanguage("color") , null , Andie.getLanguage("color_description") , Integer.valueOf( KeyEvent.VK_P ) ) ) ;
-        actions.add( new BrushAction( Andie.getLanguage("brush") , null , Andie.getLanguage("brush_description") , Integer.valueOf( KeyEvent.VK_I ) ) ) ;
+        actions.add( new BrushAction( Andie.getLanguage("brush") , null , Andie.getLanguage("brush_description") , Integer.valueOf( KeyEvent.VK_6 ) ) ) ;
         actions.add( new FillAction( Andie.getLanguage("fill") , null , Andie.getLanguage("fill_description") , Integer.valueOf( KeyEvent.VK_H ) ) ) ;
     }
+    
+    @Override
+    public void keyTyped(KeyEvent e) {}
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        int keyCode = e.getKeyCode();
+
+        if(e.isControlDown()) {
+            for (Action action : actions) {
+                Integer actionKeyCode = (Integer) action.getValue(Action.MNEMONIC_KEY);
+                if (actionKeyCode != null && actionKeyCode == keyCode) {
+                    action.actionPerformed(null);
+                    break;
+                }
+            }
+        }
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {}
 
     /**
      * <p>
@@ -300,25 +321,5 @@ public class DrawActions implements KeyListener {
 
     }
 
-    @Override
-    public void keyTyped(KeyEvent e) {}
-
-    @Override
-    public void keyPressed(KeyEvent e) {
-        int keyCode = e.getKeyCode();
-
-        if(e.isControlDown()) {
-            for (Action action : actions) {
-                Integer actionKeyCode = (Integer) action.getValue(Action.MNEMONIC_KEY);
-                if (actionKeyCode != null && actionKeyCode == keyCode) {
-                    action.actionPerformed(null);
-                    break;
-                }
-            }
-        }
-    }
-
-    @Override
-    public void keyReleased(KeyEvent e) {}
 
 }
