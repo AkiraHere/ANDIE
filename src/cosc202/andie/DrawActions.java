@@ -40,6 +40,27 @@ public class DrawActions implements KeyListener {
         actions.add( new BrushAction( Andie.getLanguage("brush") , null , Andie.getLanguage("brush_description") , Integer.valueOf( KeyEvent.VK_I ) ) ) ;
         actions.add( new FillAction( Andie.getLanguage("fill") , null , Andie.getLanguage("fill_description") , Integer.valueOf( KeyEvent.VK_H ) ) ) ;
     }
+    
+    @Override
+    public void keyTyped(KeyEvent e) {}
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        int keyCode = e.getKeyCode();
+
+        if(e.isControlDown()) {
+            for (Action action : actions) {
+                Integer actionKeyCode = (Integer) action.getValue(Action.MNEMONIC_KEY);
+                if (actionKeyCode != null && actionKeyCode == keyCode) {
+                    action.actionPerformed(null);
+                    break;
+                }
+            }
+        }
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {}
 
     /**
      * <p>
@@ -300,25 +321,5 @@ public class DrawActions implements KeyListener {
 
     }
 
-    @Override
-    public void keyTyped(KeyEvent e) {}
-
-    @Override
-    public void keyPressed(KeyEvent e) {
-        int keyCode = e.getKeyCode();
-
-        if(e.isControlDown()) {
-            for (Action action : actions) {
-                Integer actionKeyCode = (Integer) action.getValue(Action.MNEMONIC_KEY);
-                if (actionKeyCode != null && actionKeyCode == keyCode) {
-                    action.actionPerformed(null);
-                    break;
-                }
-            }
-        }
-    }
-
-    @Override
-    public void keyReleased(KeyEvent e) {}
 
 }
