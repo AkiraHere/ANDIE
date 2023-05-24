@@ -274,7 +274,7 @@ public class ImagePanel extends JPanel {
                     // either applies the new image to the ImageOperation and EditableImage stack, or closes the current crop attempt
                     if ( result == JOptionPane.YES_OPTION ) {
                         cropActive = false ;
-                        image.apply( new Cropper( (int)(withinBoundsX/scale) , (int)(withinBoundsY/scale) , (int)(withinBoundsWidth/scale) , (int)(withinBoundsHeight/scale) ) ) ; 
+                        image.apply( new Cropper( (int)(withinBoundsX) , (int)(withinBoundsY) , (int)(withinBoundsWidth) , (int)(withinBoundsHeight) ) ) ; 
 
                     // both options here clear the rectangles back to default, or having zero depth, width, or height. 
                     } else if ( result == JOptionPane.NO_OPTION ) {
