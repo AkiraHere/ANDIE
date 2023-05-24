@@ -508,5 +508,40 @@ class EditableImage {
         }
         clearMacroOps();
    }
+   
+   /**
+    * <p>
+    * Method checks that the saved ops stack matches the current one.
+    * </p>
+    * @return true if the two stacks match.
+    */
+   public boolean getSaveStatus(){
+    Stack<ImageOperation> savedOps = new Stack<ImageOperation>();
+    if(this.opsFilename == null){
+        this.opsFilename = this.imageFilename + ".ops";
+    }
+    try{
+        FileInputStream fileIn = new FileInputStream(this.opsFilename);
+        ObjectInputStream objIn = new ObjectInputStream(fileIn);
+        @SuppressWarnings("unchecked")
+        Stack<ImageOperation> opsFromFile = (Stack<ImageOperation>) objIn.readObject();
+        savedOps = opsFromFile;
+        objIn.close();
+        fileIn.close(); 
+    }catch(FileNotFoundException e){
+        System.out.println("File not found");
+        //Some exception, such as file not found.
+    }catch(IOException e){
+        System.out.println("Issues with getting that file.");
+    }catch(ClassNotFoundException e){
+        System.out.println("Class not found");
+        e.printStackTrace();
+    }
+
+    if(ops.equals(savedOps)){
+        return true;
+    }
+    return false;
+   }
 
 }
