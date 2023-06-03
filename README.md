@@ -5,6 +5,8 @@ Welcome to ANDIE!
 As the title above suggests, ANDIE is an image editor that allows for reversable changes. 
 This means that you can make changes to the size, colour or apply filters to an image of your choice, while also being able to undo those changes.
 
+ANDIE was developed as an assessed project for COSC202, a second year software development paper at the University of Otago.
+
 # User Guide:
 
 To get started with ANDIE, compile and run the Andie.java file.
